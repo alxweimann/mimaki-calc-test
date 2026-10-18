@@ -233,6 +233,13 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 .pilot-head .model{font-size:10px;font-weight:400;letter-spacing:.055em;color:#9cb2bc;line-height:1.3;margin-top:4px}
 .top .badge{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:10px;font-weight:600;letter-spacing:.07em;border-radius:6px;padding:5px 9px;background:#123b49;color:#6ad6eb;border:1px solid #2c7186;box-shadow:none}
 @media(max-width:650px){.top{padding:10px 12px!important}.pilot-head{gap:9px;min-height:34px}.pilot-logo{font-size:19px}.pilot-head .brand{font-size:14px;padding-left:9px}.pilot-head .model{font-size:9px;letter-spacing:.015em}.top .badge{font-size:9px;padding:4px 6px}}
+
+/* PrintPilot v17: align both module text lines and full-height separator */
+.pilot-head{display:flex;align-items:center}
+.pilot-head>div{display:flex;flex-direction:column;justify-content:center;min-width:0;border-left:1px solid #536d7b;padding-left:17px}
+.pilot-head .brand{border-left:0!important;padding-left:0!important;margin-left:0!important}
+.pilot-head .model{padding-left:0!important;margin-left:0!important;text-indent:0!important}
+@media(max-width:650px){.pilot-head>div{padding-left:9px}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
