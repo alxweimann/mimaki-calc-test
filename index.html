@@ -397,7 +397,7 @@ function renderEye(){
  visual.replaceChildren();
  const w=Number(document.getElementById('w')?.value)||500,h=Number(document.getElementById('h')?.value)||300;
  visual.style.aspectRatio=w+'/'+h;
- positions.forEach((p,i)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=chosen.includes(i)?'●':'+';btn.title='Position '+(i+1);btn.setAttribute('aria-label','Öse Position '+(i+1));btn.style.cssText='position:absolute;left:'+(5+p.x*90)+'%;top:'+(8+p.y*84)+'%;transform:translate(-50%,-50%);width:24px;height:24px;padding:0;border-radius:50%;border:2px solid #fff;background:'+(chosen.includes(i)?'#31594b':'#a8b9aa')+';color:white;font-size:14px;z-index:1';btn.addEventListener('click',()=>{chosen=chosen.includes(i)?chosen.filter(n=>n!==i):[...chosen,i];applyCustom()});visual.appendChild(btn)});
+ positions.forEach((p,i)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=chosen.includes(i)?'●':'+';btn.title='Position '+(i+1);btn.setAttribute('aria-label','Öse Position '+(i+1));btn.style.cssText='position:absolute;left:'+(5+eyeInsetPoint(p).x*90)+'%;top:'+(8+eyeInsetPoint(p).y*84)+'%;transform:translate(-50%,-50%);width:24px;height:24px;padding:0;border-radius:50%;border:2px solid #fff;background:'+(chosen.includes(i)?'#31594b':'#a8b9aa')+';color:white;font-size:14px;z-index:1';btn.addEventListener('click',()=>{chosen=chosen.includes(i)?chosen.filter(n=>n!==i):[...chosen,i];applyCustom()});visual.appendChild(btn)});
  window.pilotEyePositions=chosen.map(i=>positions[i]).filter(Boolean).map(eyeInsetPoint);window.pilotRefreshFormat?.();
  document.getElementById('eyeVisualInfo').textContent=chosen.length+' Ösen pro Stück · '+(chosen.length*(Number(document.getElementById('qty')?.value)||0))+' Ösen insgesamt';
 }
@@ -419,7 +419,7 @@ function autoEye(){
 document.getElementById('eyeAuto').addEventListener('click',autoEye);
 for(const id of ['eyeSpacing','eyeInset'])document.getElementById(id).addEventListener('change',()=>{if(document.getElementById('eyePosition')?.value==='50cm'){autoEye();document.getElementById('eyePosition').value='50cm';syncEye()}});
 
-window.getEyePlanSVG=()=>{const w=Number(document.getElementById('w')?.value)||500,h=Number(document.getElementById('h')?.value)||300;return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" style="width:100%;max-height:52mm"><rect x="26" y="26" width="268" height="148" fill="#e3e9e0" stroke="#52755a" stroke-width="2"/>'+chosen.map(i=>'<circle cx="'+(36+positions[i].x*248)+'" cy="'+(36+positions[i].y*128)+'" r="6" fill="#31594b" stroke="white" stroke-width="2"/>').join('')+'<text x="160" y="105" text-anchor="middle" font-size="12" fill="#607868">'+w+' × '+h+' mm</text></svg>'};
+window.getEyePlanSVG=()=>{const w=Number(document.getElementById('w')?.value)||500,h=Number(document.getElementById('h')?.value)||300;return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" style="width:100%;max-height:52mm"><rect x="26" y="26" width="268" height="148" fill="#e3e9e0" stroke="#52755a" stroke-width="2"/>'+chosen.map(i=>'<circle cx="'+(26+eyeInsetPoint(positions[i]).x*268)+'" cy="'+(26+eyeInsetPoint(positions[i]).y*148)+'" r="6" fill="#31594b" stroke="white" stroke-width="2"/>').join('')+'<text x="160" y="105" text-anchor="middle" font-size="12" fill="#607868">'+w+' × '+h+' mm</text></svg>'};
 const extra=document.getElementById('extras');
 function syncEye(){
  const mode=document.getElementById('eyePosition'),q=document.getElementById('eyeq');
