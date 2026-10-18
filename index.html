@@ -813,7 +813,7 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v40">
+<script id="pilot-dtf-calculator-v41">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
  const ns='http://www.w3.org/2000/svg';
@@ -875,9 +875,28 @@ renderEye();
    }
    return {items:placed,length:placed.reduce((m,p)=>Math.max(m,p.y+p.h),0)};
   }
+  // v41: compare free-rectangle packing with width-efficient grouped rows.
+  // This prevents tall motifs from being stacked when two fit side by side.
+  function packRows(){
+   const groups=new Map();
+   for(const piece of pieces){const key=piece.name+'|'+piece.w+'|'+piece.h;if(!groups.has(key))groups.set(key,{piece,count:0});groups.get(key).count++}
+   const ordered=[...groups.values()].sort((a,b)=>b.piece.w*b.piece.h-a.piece.w*a.piece.h);
+   const placed=[];let y=0;
+   for(const {piece,count} of ordered){
+    const opts=[{w:piece.w,h:piece.h,rot:false}];
+    if(piece.w!==piece.h)opts.push({w:piece.h,h:piece.w,rot:true});
+    const feasible=opts.map(o=>({...o,across:Math.floor((width+gap)/(o.w+gap))})).filter(o=>o.across>=1);
+    if(!feasible.length)return null;
+    feasible.sort((a,b)=>Math.ceil(count/a.across)*a.h+(Math.ceil(count/a.across)-1)*gap-(Math.ceil(count/b.across)*b.h+(Math.ceil(count/b.across)-1)*gap));
+    const o=feasible[0],rows=Math.ceil(count/o.across);
+    for(let i=0;i<count;i++)placed.push({name:piece.name,x:(i%o.across)*(o.w+gap),y:y+Math.floor(i/o.across)*(o.h+gap),w:o.w,h:o.h,rot:o.rot});
+    y+=rows*o.h+(rows-1)*gap+gap;
+   }
+   return {items:placed,length:placed.reduce((m,p)=>Math.max(m,p.y+p.h),0)};
+  }
   const byArea=[...pieces].sort((a,b)=>b.w*b.h-a.w*a.h||Math.max(b.w,b.h)-Math.max(a.w,a.h));
   const byLongSide=[...pieces].sort((a,b)=>Math.max(b.w,b.h)-Math.max(a.w,a.h)||b.w*b.h-a.w*a.h);
-  const candidates=[pack(byArea),pack(byLongSide)].filter(Boolean);
+  const candidates=[pack(byArea),pack(byLongSide),packRows()].filter(Boolean);
   const solution=candidates.sort((a,b)=>a.length-b.length)[0];
   if(!solution){el('dtfWarning').textContent='Keine gültige Platzierung gefunden.';return}
   const placed=solution.items,length=solution.length,count=pieces.length,meters=Math.ceil(length/10)/10;
