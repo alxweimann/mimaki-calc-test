@@ -455,6 +455,34 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 #pilotDocumentPage .doc-ticket .doc-v2-sign b{font-size:10px}
 #pilotDocumentPage .doc-ticket .doc-v2-sign span,#pilotDocumentPage .doc-ticket .doc-v2-ref{font-size:8px;color:#647982}
 @media print{#pilotDocumentPage .doc-ticket .doc-v2-head,#pilotDocumentPage .doc-ticket .doc-v2-summary,#pilotDocumentPage .doc-ticket .doc-v2-diagrams,#pilotDocumentPage .doc-ticket .doc-v2-sign{break-inside:avoid;page-break-inside:avoid}}
+</style><style id="pilot-documents-v80">
+#pilotDocumentPage .doc-ticket .doc-v2-head{padding-bottom:12px!important;min-height:26px}
+#pilotDocumentPage .doc-ticket .doc-v2-head>div:first-child{gap:15px!important;align-items:center!important}
+#pilotDocumentPage .doc-ticket .doc-v2-head>div:first-child>strong{display:inline-flex!important;gap:4px!important;white-space:nowrap}
+#pilotDocumentPage .doc-ticket .doc-v2-head>div:first-child>small{white-space:nowrap}
+#pilotDocumentPage .doc-ticket .doc-v2-summary{margin:14px 0!important;padding:13px 9px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-summary span{font-size:10px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-summary strong{font-size:12px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-data{gap:18px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-data th,#pilotDocumentPage .doc-ticket .doc-v2-data td{font-size:10.5px!important;padding:7px 4px!important;vertical-align:top}
+#pilotDocumentPage .doc-ticket .doc-v2-data td{overflow-wrap:anywhere}
+#pilotDocumentPage .doc-ticket h2{font-size:12px!important;margin:8px 0 8px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-diagrams{margin-top:17px!important}
+#pilotDocumentPage .doc-ticket .doc-nest{max-height:88mm!important;padding:9px!important;min-height:54mm!important;display:flex;align-items:center;justify-content:center}
+#pilotDocumentPage .doc-ticket .doc-nest svg{max-height:83mm!important;max-width:100%!important}
+#pilotDocumentPage .doc-ticket .doc-v2-diagrams:has(.doc-v2-eye) .doc-nest{min-height:43mm!important;max-height:65mm!important}
+#pilotDocumentPage .doc-ticket .doc-v2-diagrams:has(.doc-v2-eye) .doc-nest svg{max-height:60mm!important}
+#pilotDocumentPage .doc-ticket .doc-v2-diagrams:has(.doc-v2-eye) .doc-eye{max-height:65mm!important;min-height:43mm!important;display:flex;align-items:center}
+#pilotDocumentPage .doc-ticket .doc-v2-bottom{margin-top:18px!important;gap:20px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-notes .doc-note{min-height:45px!important;padding:12px!important;font-size:11px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-checks .doc-checks{gap:8px 12px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-checks .doc-task{font-size:10.5px!important;align-items:center;min-height:18px}
+#pilotDocumentPage .doc-ticket .doc-v2-checks .doc-box{width:13px!important;height:13px!important;flex:0 0 13px!important;border:1.3px solid #27434f!important}
+#pilotDocumentPage .doc-ticket .doc-v2-sign{margin-top:36px!important;grid-template-columns:1fr 1fr!important;gap:28px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-sign>div{padding-top:8px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-sign b{font-size:11px!important}
+#pilotDocumentPage .doc-ticket .doc-v2-sign span{font-size:9.5px!important}
+@media print{#pilotDocumentPage .doc-ticket .doc-v2-checks .doc-box{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
@@ -1187,7 +1215,7 @@ function create(kind){
 get('dtfOfferPdf').addEventListener('click',()=>create('offer'));
 get('dtfJobPdf').addEventListener('click',()=>create('job'));
 })();
-</script><script id="pilot-global-documents-v79">
+</script><script id="pilot-global-documents-v80">
 (function(){
 const $=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),val=id=>$(id)?.value?.trim()||'',num=id=>Number($(id)?.value)||0;
 const euro=n=>n.toLocaleString('de-DE',{style:'currency',currency:'EUR'});
@@ -1245,12 +1273,12 @@ function show(type){
  ].join('');
  const note=val('woNotes');
  content=compactDetails+
- '<div class="doc-v2-data"><section><h2>Produktionsdaten</h2><table>'+row('Material',material)+row('Beschnitt je Seite',num('gap')+' mm')+row('Zwischenschnitt',num('cut')+' mm')+row('Ausrichtung',$('nestorientation')?.textContent||'—')+'</table></section><section><h2>&nbsp;</h2><table>'+row('Nutzen / Reihen',$('layout')?.textContent||'—')+row('Rollenverbrauch',$('lfm')?.textContent||'—')+row('Liefertermin',dueFormatted)+row('Vorgang',number)+'</table></section></div>'+
+ '<div class="doc-v2-data"><section><h2>Produktionsdaten</h2><table>'+row('Material',material)+row('Beschnitt je Seite',num('gap')+' mm')+row('Zwischenschnitt',num('cut')+' mm')+row('Ausrichtung',$('nestorientation')?.textContent||'—')+'</table></section><section><h2>&nbsp;</h2><table>'+row('Nutzen / Reihen',($('layout')?.textContent||'—').replace(/\\s*\/\/\\s*/g,' · ').replace(/\\s*ROTATE\\s*/gi,'').trim())+row('Rollenverbrauch',$('lfm')?.textContent||'—')+row('Liefertermin',dueFormatted)+row('Rollenbreite',($('material')?.selectedOptions?.[0]?.textContent||'').match(/\\d{3,4}\\s*MM/i)?.[0]||'—')+'</table></section></div>'+
  '<div class="doc-v2-diagrams"><section><h2>Nutzenplan / Bahnvorschau</h2><div class="doc-nest">'+nesting+'</div></section>'+
  (enabled('eye')?'<section class="doc-v2-eye"><h2>Ösenplan · '+eyeCount+' je Stück</h2><div class="doc-eye">'+eyeSketch()+'</div></section>':'')+'</div>'+
  '<div class="doc-v2-bottom"><section class="doc-v2-notes"><h2>Arbeitsanweisungen</h2><div class="doc-note">'+esc(note||'Keine besonderen Arbeitsanweisungen.')+'</div></section>'+
  '<section class="doc-v2-checks"><h2>Produktionskontrolle</h2><div class="doc-checks">'+checks+'</div></section></div>'+
- '<div class="doc-v2-sign"><div><b>Produktion</b><span>Datum / Unterschrift</span></div><div><b>Kontrolle</b><span>Datum / Unterschrift</span></div><div class="doc-v2-ref">WP · '+esc(number)+'</div></div>';
+ '<div class="doc-v2-sign"><div><b>Produktion</b><span>Datum / Unterschrift</span></div><div><b>Kontrolle</b><span>Datum / Unterschrift</span></div></div>';
  }
 
  $('pilotDocumentPage').innerHTML='<div id="pilotDocFit" class="'+(type==='ticket'?'doc-ticket':'doc-offer')+'">'+(type==='ticket'?'<div class="doc-v2-head"><div><strong>WEIMANN<span>PRINT</span></strong><small>AUFTRAGSTASCHE</small></div><div class="doc-v2-number"><strong>'+esc(number)+'</strong><small>'+esc(format(date))+'</small></div></div>':'<div class="doc-head"><div class="doc-brand">Print<span>Pilot</span></div><div class="doc-head-right">WEIMANN PRINT<br>'+esc(format(date))+'</div></div>')+content+'</div>';
