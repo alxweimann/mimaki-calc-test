@@ -300,6 +300,24 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 .mc .field input:not([type="checkbox"]):not([type="radio"]),.mc .field select{height:48px;min-height:48px}
 .mc .field small,.mc .field .hint{margin-top:5px}
 @media(max-width:390px){.mc .inputs,.mc .pilot-inputs .inputs,.mc .settings,.mc .extras,.mc .extra-fields{row-gap:9px!important;column-gap:9px!important}}
+</style><style id="pilot-uniform-compact-v35">
+/* One consistent 42px control height and 8px row rhythm in every form section. */
+.mc .inputs,.mc .pilot-inputs .inputs,.mc .settings,.mc .extras,.mc .extra-fields,
+.mc #workOrderPanel .inputs,.mc #pilotFinishingPanel .inputs,.mc #rollupPanel .inputs,.mc #shippingPanel .inputs{
+ row-gap:8px!important;column-gap:10px!important;align-items:start!important
+}
+.mc .field{margin:0!important;min-width:0;box-sizing:border-box}
+.mc .field label{margin:0 0 4px!important;min-height:0!important;line-height:1.2!important}
+.mc .field input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.mc .field select,.mc .field textarea:not(#woNotes){
+ box-sizing:border-box!important;width:100%!important;min-width:0!important;
+ height:42px!important;min-height:42px!important;max-width:100%!important;
+ padding-top:6px!important;padding-bottom:6px!important;
+ font-size:15px!important;line-height:1.25!important
+}
+.mc .field select{padding-right:28px!important}
+.mc .field textarea,.mc #woNotes{height:auto!important;min-height:72px!important}
+.mc .field .hint,.mc .field small{margin-top:4px!important}
 </style></style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
