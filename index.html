@@ -159,6 +159,14 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
  .pilot-calc .title,.pilot-preview .title{font-size:14px}
  .lcd .price{font-size:28px}
 }
+
+/* PrintPilot format detail — separate from the real nesting preview */
+.pilot-format{background:#fff;border:1px solid #dce5e9;border-radius:9px;margin-top:10px;padding:12px}
+.pilot-format .title{font-size:15px;color:#1c303a}
+#pilotFormatSvg{width:100%;height:auto;display:block;background:white}
+.pilot-format .pilot-note{font:11px/1.5 Arial,sans-serif;color:#5d7180;margin-top:5px}
+.pilot-preview .nestlcd{background:white}
+@media(max-width:650px){.pilot-format{padding:9px}.pilot-format .title{font-size:13px}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">MIMAKI CALC</div><div class="model">CJV150-130 // COST COMPUTER</div></div><span class="badge">READY</span></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
@@ -282,6 +290,7 @@ function renderEye(){
  const w=Number(document.getElementById('w')?.value)||500,h=Number(document.getElementById('h')?.value)||300;
  visual.style.aspectRatio=w+'/'+h;
  positions.forEach((p,i)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=chosen.includes(i)?'●':'+';btn.title='Position '+(i+1);btn.setAttribute('aria-label','Öse Position '+(i+1));btn.style.cssText='position:absolute;left:'+(5+p.x*90)+'%;top:'+(8+p.y*84)+'%;transform:translate(-50%,-50%);width:24px;height:24px;padding:0;border-radius:50%;border:2px solid #fff;background:'+(chosen.includes(i)?'#31594b':'#a8b9aa')+';color:white;font-size:14px;z-index:1';btn.addEventListener('click',()=>{chosen=chosen.includes(i)?chosen.filter(n=>n!==i):[...chosen,i];applyCustom()});visual.appendChild(btn)});
+ window.pilotEyePositions=chosen.map(i=>positions[i]).filter(Boolean);window.pilotRefreshFormat?.();
  document.getElementById('eyeVisualInfo').textContent=chosen.length+' Ösen pro Stück · '+(chosen.length*(Number(document.getElementById('qty')?.value)||0))+' Ösen insgesamt';
 }
 function applyCustom(){const mode=document.getElementById('eyePosition'),q=document.getElementById('eyeq');if(mode)mode.value='custom';if(q){q.readOnly=false;q.value=String(chosen.length);q.dispatchEvent(new Event('input',{bubbles:true}))}renderEye()}
@@ -348,6 +357,47 @@ renderEye();
  }));
  const sync=()=>{const active=document.querySelector('.pilot-tab.active');if(active?.dataset.enable==='eye'&&document.getElementById('eyeVisualPanel').style.display==='none')tabs[0].click()};
  document.querySelector('.key[data-key="eye"]')?.addEventListener('click',()=>setTimeout(sync,0));
+})();
+</script>
+
+<script>
+/* Dedicated dimensioned final-size preview. The original nesting and pricing are untouched. */
+(function(){
+ const nest=document.getElementById('pilotNest');if(!nest)return;
+ const panel=document.createElement('section');panel.className='pilot-format';
+ panel.innerHTML='<div class="title">FORMATVORSCHAU // ENDFORMAT · BESCHNITT · ÖSEN</div><svg id="pilotFormatSvg" viewBox="0 0 640 385" role="img" aria-label="Maßstäbliche Formatvorschau mit Beschnitt und Ösen"></svg><div class="pilot-note">Cyan: Endformat und Maßlinien · Magenta: Beschnittzugabe · Ösen: aktuelle Auswahl. Der Nutzenplan darunter zeigt die tatsächliche Bahnaufteilung.</div>';
+ nest.before(panel);
+ const svg=panel.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+ const add=(tag,attrs,txt)=>{const el=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));if(txt!==undefined)el.textContent=txt;svg.append(el);return el};
+ const fmt=v=>new Intl.NumberFormat('de-DE',{maximumFractionDigits:2}).format(v);
+ function draw(){
+  const w=Number(document.getElementById('w').value),h=Number(document.getElementById('h').value),b=Math.max(0,Number(document.getElementById('gap').value)||0);
+  if(!(w>0&&h>0)){svg.replaceChildren();return}
+  svg.replaceChildren();
+  const box={x:72,y:65,w:500,h:250},sc=Math.min(box.w/(w+2*b),box.h/(h+2*b));
+  const ow=(w+2*b)*sc,oh=(h+2*b)*sc,x=box.x+(box.w-ow)/2,y=box.y+(box.h-oh)/2;
+  const bx=x+b*sc,by=y+b*sc,bw=w*sc,bh=h*sc;
+  const line=(x1,y1,x2,y2,color,dash)=>add('line',{x1,y1,x2,y2,stroke:color,'stroke-width':1.5,...(dash?{'stroke-dasharray':dash}:{})});
+  const text=(xx,yy,t,color,size=14,rotate)=>add('text',{x:xx,y:yy,'text-anchor':'middle','font-family':'Arial, sans-serif','font-size':size,'font-weight':'700',fill:color,...(rotate?{transform:'rotate(-90 '+xx+' '+yy+')'}:{})},t);
+  add('rect',{x,y,width:ow,height:oh,fill:'#fff',stroke:'#ec008c','stroke-width':2,'stroke-dasharray':'7 5'});
+  add('rect',{x:bx,y:by,width:bw,height:bh,fill:'#fff',stroke:'#152e3b','stroke-width':1.5});
+  add('rect',{x:bx+Math.min(5,bw/8),y:by+Math.min(5,bh/8),width:Math.max(0,bw-2*Math.min(5,bw/8)),height:Math.max(0,bh-2*Math.min(5,bh/8)),fill:'none',stroke:'#00b9e8','stroke-width':1,'stroke-dasharray':'6 4'});
+  const cy='#00aeda',mg='#ec008c';
+  const ay=Math.max(38,y-16);line(x,ay,x+ow,ay,mg,'5 4');text(x+ow/2,ay-9,fmt(w+2*b)+' mm · inkl. Beschnitt',mg,13);
+  const ax=Math.max(22,x-17);line(ax,y,ax,y+oh,mg,'5 4');text(ax-9,y+oh/2,fmt(h+2*b)+' mm',mg,12,true);
+  const dimY=Math.min(347,by+bh+24);line(bx,dimY,bx+bw,dimY,cy);text(bx+bw/2,dimY-6,fmt(w)+' mm',cy,14);
+  const dimX=bx+Math.min(19,bw/6);line(dimX,by,dimX,by+bh,cy);text(dimX+12,by+bh/2,fmt(h)+' mm',cy,12,true);
+  text(bx+bw/2,by+bh/2+5,fmt(w)+' × '+fmt(h)+' mm',cy,Math.min(19,Math.max(10,bw/13)));
+  if(document.querySelector('.key[data-key="eye"]')?.classList.contains('on')&&Array.isArray(window.pilotEyePositions)){
+   for(const p of window.pilotEyePositions){
+    add('circle',{cx:bx+p.x*bw,cy:by+p.y*bh,r:5.5,fill:'#00b9e8',stroke:'#102b37','stroke-width':2});
+   }
+  }
+ }
+ window.pilotRefreshFormat=draw;
+ for(const id of ['w','h','gap','eyeInset','eyeSpacing','qty']){const el=document.getElementById(id);if(el){el.addEventListener('input',draw);el.addEventListener('change',draw)}}
+ document.querySelector('.key[data-key="eye"]')?.addEventListener('click',()=>setTimeout(draw,0));
+ draw();
 })();
 </script>
 </body></html>
