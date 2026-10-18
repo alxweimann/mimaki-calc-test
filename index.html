@@ -318,7 +318,7 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 .mc .field select{padding-right:28px!important}
 .mc .field textarea,.mc #woNotes{height:auto!important;min-height:72px!important}
 .mc .field .hint,.mc .field small{margin-top:4px!important}
-</style></style><style id="pilot-finish-dynamic-v36">#pilotFinishingPanel .field[hidden]{display:none!important}#pilotFinishingPanel .inputs{grid-auto-flow:row!important}#pilotFinishingPanel .field:not(.wide){grid-column:auto!important}</style></head><body><main class="mc">
+</style></style><style id="pilot-finish-dynamic-v36">#pilotFinishingPanel .field[hidden]{display:none!important}#pilotFinishingPanel .inputs{grid-auto-flow:row!important}#pilotFinishingPanel .field:not(.wide){grid-column:auto!important}</style><style id="pilot-dtf-v37">#pilotDtfPanel[hidden]{display:none!important}main.mc.pilot-dtf > :not(.top):not(#pilotProductStart):not(#pilotDtfPanel):not(#pilotProductBar):not(#pilotProductHint){display:none!important}#pilotDtfPanel .dtf-result{background:#edf7f9;border:1px solid #b7dce4;border-radius:8px;padding:12px;margin:12px 0}#pilotDtfPanel table{width:100%;border-collapse:collapse;font-size:13px}#pilotDtfPanel td{padding:7px 2px;border-bottom:1px solid #cbdde2}#pilotDtfPanel td:last-child{text-align:right}</style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
 <button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
@@ -326,8 +326,9 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 <button type="button" data-product="rollup"><span>▤</span><strong>Roll-up</strong><small>Kassette · Montage</small></button>
 <button type="button" data-product="sticker"><span>▣</span><strong>Aufkleber &amp; Etiketten</strong><small>Konturschnitt · Nutzen</small></button>
 <button type="button" data-product="film"><span>▥</span><strong>Folien &amp; Beschriftung</strong><small>Klebefolie · Laminat</small></button>
+<button type="button" data-product="dtf"><span>♨</span><strong>Textildruck / DTF</strong><small>Gang Sheets · Transferpresse</small></button>
 <button type="button" data-product="other"><span>⚙</span><strong>Sonstiges</strong><small>Freie Kalkulation</small></button>
-</div></section><div id="pilotProductBar" class="pilot-product-bar" hidden><div><small>PRODUKT</small><strong id="pilotProductName">—</strong></div><button type="button" id="pilotChangeProduct">PRODUKT WECHSELN</button></div>
+</div></section><section class="plate" id="pilotDtfPanel" hidden><div class="title">DTF / GANG-SHEET-KALKULATION</div><p class="hint">Fertige DTF-Transfers zukaufen und mit 40 × 50 cm Transferpresse verarbeiten.</p><div class="inputs"><div class="field"><label>TEXTILHERKUNFT</label><select id="dtfTextileMode"><option value="own">EIGENE TEXTILIEN</option><option value="customer">KUNDENEIGENE TEXTILIEN</option></select></div><div class="field"><label>TEXTILIEN (STK)</label><input id="dtfQty" type="number" min="0" step="any" value="20"></div><div class="field"><label>TEXTIL-EK EUR/STK</label><input id="dtfTextilePrice" type="number" min="0" step="any" value="4.5"></div><div class="field"><label>GANG-SHEET-BREITE (CM)</label><input id="dtfSheetWidth" type="number" min="0" step="any" value="57"></div><div class="field"><label>GANG-SHEET-EK EUR/LFM</label><input id="dtfSheetPrice" type="number" min="0" step="any" value="12"></div><div class="field"><label>MOTIVABSTAND (MM)</label><input id="dtfGap" type="number" min="0" step="any" value="5"></div><div class="field"><label>BRUST BREITE (CM)</label><input id="dtfFrontW" type="number" min="0" step="any" value="10"></div><div class="field"><label>BRUST HÖHE (CM)</label><input id="dtfFrontH" type="number" min="0" step="any" value="10"></div><div class="field"><label>BRUSTMOTIVE JE TEXTIL</label><input id="dtfFrontCount" type="number" min="0" step="any" value="1"></div><div class="field"><label>RÜCKEN BREITE (CM)</label><input id="dtfBackW" type="number" min="0" step="any" value="28"></div><div class="field"><label>RÜCKEN HÖHE (CM)</label><input id="dtfBackH" type="number" min="0" step="any" value="30"></div><div class="field"><label>RÜCKENMOTIVE JE TEXTIL</label><input id="dtfBackCount" type="number" min="0" step="any" value="1"></div><div class="field"><label>RÜSTZEIT GESAMT (MIN)</label><input id="dtfSetup" type="number" min="0" step="any" value="15"></div><div class="field"><label>ZEIT JE PRESSUNG (SEK)</label><input id="dtfPressSeconds" type="number" min="0" step="any" value="45"></div><div class="field"><label>ZUSCHNITT JE MOTIV (SEK)</label><input id="dtfCutSeconds" type="number" min="0" step="any" value="15"></div><div class="field"><label>ARBEITSKOSTEN EUR/STD</label><input id="dtfHourly" type="number" min="0" step="any" value="30"></div><div class="field"><label>WEITERE KOSTEN EUR</label><input id="dtfOther" type="number" min="0" step="any" value="0"></div><div class="field"><label>KALKULATIONSFAKTOR</label><input id="dtfFactor" type="number" min="0" step="any" value="2"></div></div><p id="dtfWarning" class="hint" role="status"></p><div id="dtfResult" class="dtf-result" aria-live="polite"></div><p class="hint">Konservative Berechnung: Brust- und Rückenmotiv werden getrennt auf dem Gang Sheet angeordnet. Bestelllängen und Pressparameter des Lieferanten prüfen. Bei kundeneigenen Textilien Verarbeitungsrisiko vereinbaren.</p></section><div id="pilotProductBar" class="pilot-product-bar" hidden><div><small>PRODUKT</small><strong id="pilotProductName">—</strong></div><button type="button" id="pilotChangeProduct">PRODUKT WECHSELN</button></div>
 <p id="pilotProductHint" class="pilot-product-hint" hidden></p><nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button><button type="button" class="pilot-tab" data-jump="rollupPanel">Roll-up</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
 <div class="plate"><div class="title">JOB INPUT</div><div class="inputs"><div class="field"><label>BREITE (MM)</label><input id="w" type="number" min="1" value="500"></div><div class="field"><label>HÖHE (MM)</label><input id="h" type="number" min="1" value="300"></div><div class="field"><label>MENGE STK</label><input id="qty" type="number" min="1" value="10"></div></div><div class="field wide"><label>MATERIAL</label><select id="material"></select></div><div class="field wide"><label>AUSRICHTUNG</label><select id="orientation"><option value="auto">AUTO // MATERIAL SPAREN</option><option value="0">0° FIX // NICHT DREHEN</option><option value="90">90° FIX // DREHEN</option></select></div></div>
 <section class="pilot-format" id="pilotFormatPanel"><div class="title">FORMATVORSCHAU // ENDFORMAT · BESCHNITT · ÖSEN</div><svg id="pilotFormatSvg" viewBox="0 0 640 385" role="img" aria-label="Maßstäbliche Formatvorschau mit Beschnitt und Ösen"></svg><div class="pilot-note">Cyan: Endformat · Magenta: Beschnittzugabe · Ösen: aktuelle Auswahl. Die reale Nutzenaufteilung steht darunter.</div></section>
@@ -722,7 +723,7 @@ renderEye();
 <script>
 (function(){
  const main=document.querySelector('main.mc'),start=document.getElementById('pilotProductStart'),bar=document.getElementById('pilotProductBar'),material=document.getElementById('material'),roll=document.getElementById('rollupPanel');
- const names={poster:'Poster & Plakate',banner:'Banner',rollup:'Roll-up',sticker:'Aufkleber & Etiketten',film:'Folien & Beschriftung',other:'Sonstiges'};
+ const names={poster:'Poster & Plakate',banner:'Banner',rollup:'Roll-up',sticker:'Aufkleber & Etiketten',film:'Folien & Beschriftung',dtf:'Textildruck / DTF',other:'Sonstiges'};
  const patterns={poster:/poster|plakat|affichen|papier|photo|foto/i,banner:/banner|pvc|mesh/i,rollup:/roll.?up|display.?film|blockout|pet.?film/i,sticker:/ora|klebe|sticker|etikett|folie|vinyl/i,film:/ora|folie|vinyl|klebe/i};
  let selected=null,originalOptions=[];
  function syncOptions(product){
@@ -743,6 +744,8 @@ renderEye();
  function setProduct(product){
   if(!names[product])return;
   selected=product;
+  main.classList.toggle('pilot-dtf',product==='dtf');
+  document.getElementById('pilotDtfPanel').hidden=product!=='dtf';
   main.classList.remove('pilot-awaiting-product');start.hidden=true;bar.hidden=false;document.getElementById("pilotProductHint").hidden=false;
   document.getElementById('pilotProductName').textContent=names[product];
   roll.hidden=product!=='rollup';
@@ -753,7 +756,7 @@ renderEye();
   }else if(rollMode.value!=='off'){
    rollMode.value='off';rollMode.dispatchEvent(new Event('change',{bubbles:true}));
   }
-  syncOptions(product);
+  if(product!=='dtf')syncOptions(product);
   if(product==='rollup')rollMode.dispatchEvent(new Event('change',{bubbles:true}));
   // Product-specific optional production controls, without deleting any user-entered values.
   const key=type=>document.querySelector('.key[data-key="'+type+'"]');
@@ -761,12 +764,12 @@ renderEye();
   if(product==='banner')enable('eye');
   if(product==='sticker')enable('contour');
   if(product==='film')enable('lam');
-  const hints={poster:'Papier auswählen, Endformat und Auflage eingeben.',banner:'PVC-Material, Format und Ösenplan prüfen; Saum nach Bedarf ergänzen.',rollup:'Kassettensystem und Roll-up-Druckmaterial im Roll-up-Bereich wählen. Die Druckhöhe enthält die Einzugslänge.',sticker:'Konturschnitt und Nutzenplan prüfen; Laminat optional zuschalten.',film:'Folienmaterial und Laminat prüfen; Zuschnitt bei Bedarf ergänzen.',other:'Alle Materialien und Weiterverarbeitungen stehen zur Verfügung.'};
+  const hints={poster:'Papier auswählen, Endformat und Auflage eingeben.',banner:'PVC-Material, Format und Ösenplan prüfen; Saum nach Bedarf ergänzen.',rollup:'Kassettensystem und Roll-up-Druckmaterial im Roll-up-Bereich wählen. Die Druckhöhe enthält die Einzugslänge.',sticker:'Konturschnitt und Nutzenplan prüfen; Laminat optional zuschalten.',film:'Folienmaterial und Laminat prüfen; Zuschnitt bei Bedarf ergänzen.',dtf:'Gang Sheet, Motivgrößen und Pressarbeit kalkulieren.',other:'Alle Materialien und Weiterverarbeitungen stehen zur Verfügung.'};
   document.getElementById('pilotProductHint').textContent=hints[product];
-  document.getElementById('pilotInput')?.scrollIntoView({block:'start',behavior:'smooth'});
+  document.getElementById(product==='dtf'?'pilotDtfPanel':'pilotInput')?.scrollIntoView({block:'start',behavior:'smooth'});
  }
  start.querySelectorAll('[data-product]').forEach(button=>button.addEventListener('click',()=>setProduct(button.dataset.product)));
- document.getElementById('pilotChangeProduct').addEventListener('click',()=>{start.hidden=false;bar.hidden=true;document.getElementById("pilotProductHint").hidden=true;main.classList.add('pilot-awaiting-product');window.scrollTo({top:0,behavior:'smooth'})});
+ document.getElementById('pilotChangeProduct').addEventListener('click',()=>{start.hidden=false;bar.hidden=true;document.getElementById("pilotProductHint").hidden=true;main.classList.remove('pilot-dtf');document.getElementById('pilotDtfPanel').hidden=true;main.classList.add('pilot-awaiting-product');window.scrollTo({top:0,behavior:'smooth'})});
  main.classList.add('pilot-awaiting-product');
  start.hidden=false;bar.hidden=true;document.getElementById("pilotProductHint").hidden=true;roll.hidden=true;
 })();
@@ -810,4 +813,34 @@ renderEye();
  });
 })();
 </script>
-</body></html>
+<script id="pilot-dtf-calculator-v37">
+(function(){
+ const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+ function update(){
+ const qty=Math.floor(n('dtfQty')),width=n('dtfSheetWidth'),gap=n('dtfGap')/10;
+ const types=[['Brust',n('dtfFrontW'),n('dtfFrontH'),Math.floor(n('dtfFrontCount'))],['Rücken',n('dtfBackW'),n('dtfBackH'),Math.floor(n('dtfBackCount'))]];
+ let len=0,count=0,notes=[],errors=[];
+ if(qty<1||width<=0)errors.push('Stückzahl und Gang-Sheet-Breite müssen größer als null sein.');
+ for(const [name,w,h,per] of types){
+ if(per===0)continue;
+ if(!w||!h){errors.push(name+': Motivgröße fehlt.');continue}
+ if(!((w<=40&&h<=50)||(h<=40&&w<=50)))errors.push(name+': Motiv passt nicht auf die 40 × 50 cm Transferpresse.');
+ const a=Math.floor((width+gap)/(w+gap)),b=Math.floor((width+gap)/(h+gap)),total=qty*per;
+ const la=a>0?Math.ceil(total/a)*h:Infinity,lb=b>0?Math.ceil(total/b)*w:Infinity,rot=lb<la,across=rot?b:a,depth=rot?w:h;
+ if(across<1){errors.push(name+': Motiv passt nicht auf das Gang Sheet.');continue}
+ const rows=Math.ceil(total/across),used=rows*depth+Math.max(0,rows-1)*gap;
+ len+=used;count+=total;notes.push(name+': '+total+' Motive, '+across+' nebeneinander, '+rows+' Reihen, '+fmt(used)+' cm'+(rot?' (90°)':''));
+ }
+ if(!count)errors.push('Mindestens eine Motivposition auswählen.');
+ el('dtfWarning').textContent=errors.join(' ');
+ const box=el('dtfResult');box.replaceChildren();if(errors.length)return;
+ const meters=Math.ceil(len/10)/10,material=meters*n('dtfSheetPrice'),textile=el('dtfTextileMode').value==='own'?qty*n('dtfTextilePrice'):0;
+ const labor=(n('dtfSetup')/60+count*(n('dtfPressSeconds')+n('dtfCutSeconds'))/3600)*n('dtfHourly');
+ const costs=material+textile+labor+n('dtfOther'),price=costs*Math.max(1,n('dtfFactor'));
+ const p=document.createElement('p');p.textContent=notes.join(' | ');box.append(p);
+ const table=document.createElement('table');
+ for(const [a,b] of [['Gang Sheet ('+fmt(meters)+' lfm)',eur(material)],['Textilien',eur(textile)],['Rüsten / Pressen / Zuschneiden',eur(labor)],['Weitere Kosten',eur(n('dtfOther'))],['Selbstkosten',eur(costs)],['Verkaufspreis gesamt',eur(price)],['Verkaufspreis je Textil',eur(price/qty)]]){const tr=document.createElement('tr');for(const t of [a,b]){const td=document.createElement('td');td.textContent=t;tr.append(td)}table.append(tr)}box.append(table);
+ }
+ root.addEventListener('input',update);root.addEventListener('change',()=>{el('dtfTextilePrice').closest('.field').hidden=el('dtfTextileMode').value==='customer';update()});update();
+})();
+</script></body></html>
