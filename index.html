@@ -209,12 +209,9 @@ const extra=document.getElementById('extras');
 function syncEye(){
  const mode=document.getElementById('eyePosition'),q=document.getElementById('eyeq');
  if(!mode||!q)return;
- const fixed=mode.value!=='custom';
- q.readOnly=fixed;
- if(!fixed)return;
- const w=Number(document.getElementById('w')?.value)||0,h=Number(document.getElementById('h')?.value)||0;
- const count=mode.value==='corners'?4:(w>0&&h>0?positions.length:0);
- if(count>0&&Number(q.value)!==count){q.value=String(count);q.dispatchEvent(new Event('input',{bubbles:true}));}
+ q.readOnly=mode.value!=='custom';
+ const count=mode.value==='corners'?4:mode.value==='50cm'?chosen.length:null;
+ if(count!==null&&Number(q.value)!==count){q.value=String(count);q.dispatchEvent(new Event('input',{bubbles:true}));}
 }
 extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){syncEye();setTimeout(syncEye,100)}});
 extra.addEventListener('input',e=>{if(e.target.id==='eyePosition')syncEye()});
@@ -222,7 +219,7 @@ extra.addEventListener('click',e=>{if(e.target.id==='eyePosition')setTimeout(syn
 for(const id of ['w','h'])document.getElementById(id)?.addEventListener('change',()=>{if(document.getElementById('eyePosition')?.value==='50cm')autoEye();else syncEye()});
 new MutationObserver(()=>{syncEye();renderEye()}).observe(extra,{childList:true});
 document.getElementById('qty')?.addEventListener('input',renderEye);
-extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){if(e.target.value==='corners')chosen=[0,3,6,9];if(e.target.value==='50cm'){autoEye();document.getElementById('eyePosition').value='50cm';syncEye()}renderEye()}});
+extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){if(e.target.value==='corners')chosen=[0,3,6,9];if(e.target.value==='50cm'){autoEye()}syncEye();renderEye()}});
 renderEye();
 })();
 </script>
