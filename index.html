@@ -483,6 +483,93 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 #pilotDocumentPage .doc-ticket .doc-v2-sign b{font-size:11px!important}
 #pilotDocumentPage .doc-ticket .doc-v2-sign span{font-size:9.5px!important}
 @media print{#pilotDocumentPage .doc-ticket .doc-v2-checks .doc-box{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+<style id="printpilot-design-system-v81">
+/* PrintPilot / Unified production UI. Screen-only: no interference with A4 exports. */
+@media screen {
+:root{color-scheme:light;--pp-ink:#19313d;--pp-text:#294653;--pp-muted:#637b86;--pp-cyan:#05a9c9;--pp-cyan-dark:#087e99;--pp-line:#d8e4e9;--pp-canvas:#edf3f6;--pp-surface:#fff;--pp-subtle:#f5f9fb;--pp-radius:10px}
+html{background:var(--pp-canvas);scroll-behavior:smooth}
+body{background:var(--pp-canvas)!important;color:var(--pp-ink)!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;line-height:1.45;-webkit-font-smoothing:antialiased;padding:20px 12px!important}
+.mc{max-width:1080px!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;color:var(--pp-ink)!important}
+.mc .top{background:#182f3b!important;color:white!important;border:0!important;border-radius:12px 12px 0 0!important;padding:22px 25px!important;min-height:88px;box-shadow:none!important}
+.mc .top .brand{font:800 clamp(23px,3.5vw,30px)/1.1 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:#fff!important;letter-spacing:-.035em!important}
+.mc .top .model{font:500 12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:#a9c2cd!important;letter-spacing:.02em!important}
+.mc .top .badge{width:auto!important;height:auto!important;border:1px solid #3d6d7c!important;border-radius:6px!important;padding:7px 11px!important;background:#244957!important;color:#a6e6f1!important;box-shadow:none!important;font:700 10px/1.2 inherit!important;letter-spacing:.1em}
+.mc .plate,.mc .pilot-product-start,.mc .pilot-doc-panel,.mc .dtf-group,.mc .extra-group{background:var(--pp-surface)!important;color:var(--pp-ink)!important;border:1px solid var(--pp-line)!important;border-radius:var(--pp-radius)!important;box-shadow:0 2px 10px rgba(21,52,67,.035)!important}
+.mc .plate{padding:20px!important;margin-top:14px!important}
+.mc .title,.mc .extra-title,.mc .dtf-group-title{font:800 13px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:var(--pp-ink)!important;letter-spacing:.055em!important;text-transform:uppercase;margin:0 0 15px!important}
+.mc .hint,.mc .status,.mc .field small,.mc .pilot-start-head p,.mc .pilot-product-grid button small{font:400 12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:var(--pp-muted)!important;letter-spacing:0!important}
+.mc .field label,.mc .pd-field label,.mc .dtf-group label{color:#4b6571!important;font:700 11px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;letter-spacing:.035em!important;text-transform:uppercase}
+.mc .field label{min-height:0!important;margin:0 0 6px!important;align-items:center!important}
+.mc .field input:not([type=checkbox]):not([type=radio]),.mc .field select,.mc .field textarea,.mc .pd-field input,.mc .pd-field select,.mc .pd-field textarea,.mc .dbrow input,.mc .dtf-group input,.mc .dtf-group select{background:#f8fbfc!important;color:var(--pp-ink)!important;border:1px solid #c8d9e0!important;border-radius:7px!important;box-shadow:none!important;font:600 14px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;letter-spacing:0!important;min-height:44px!important;height:44px!important;padding:9px 12px!important}
+.mc .field textarea,.mc .pd-field textarea,.mc textarea{height:auto!important;min-height:76px!important;resize:vertical}
+.mc input::placeholder,.mc textarea::placeholder{color:#91a2aa!important;font-weight:400!important;opacity:1}
+.mc input:focus,.mc select:focus,.mc textarea:focus{outline:2px solid rgba(5,169,201,.32)!important;outline-offset:1px!important;border-color:var(--pp-cyan)!important}
+.mc button,.mc .btn,.mc .key{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;letter-spacing:0!important;text-shadow:none!important;box-shadow:none!important;transition:background-color .12s,border-color .12s,transform .12s}
+.mc button:focus-visible,.mc summary:focus-visible,.mc a:focus-visible{outline:3px solid var(--pp-cyan)!important;outline-offset:2px!important}
+.mc button:active{transform:translateY(1px)}
+.mc .btn,.mc .save,.mc .production-action,#workOrderPanel .pilot-doc-actions button{background:var(--pp-cyan)!important;color:#073646!important;border:1px solid #0597b4!important;border-radius:7px!important;min-height:44px!important;font-size:12px!important;font-weight:800!important}
+.mc .btn:hover,.mc .save:hover,.mc .production-action:hover,#workOrderPanel .pilot-doc-actions button:hover{background:#30c3dc!important}
+.mc .key{min-height:55px!important;border:1px solid #cbdde3!important;border-radius:7px!important;background:#f4f8fa!important;color:#294957!important;font-size:12px!important;font-weight:700!important}
+.mc .key.on{background:#d8f3f8!important;border-color:var(--pp-cyan)!important;color:#086e86!important}
+.mc .key small{color:inherit!important;font-size:10px!important}
+.mc .keys{gap:8px!important;margin:14px 0!important}
+.mc .pilot-product-start{padding:23px!important;margin:0 0 16px!important;border-radius:0 0 12px 12px!important}
+.mc .pilot-start-kicker,.mc .pilot-doc-kicker{font:800 10px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:var(--pp-cyan-dark)!important;letter-spacing:.14em!important}
+.mc .pilot-start-head h2{font-size:23px!important;letter-spacing:-.025em!important;margin:6px 0!important}
+.mc .pilot-product-grid{gap:12px!important}
+.mc .pilot-product-grid button{min-height:116px!important;border:1px solid var(--pp-line)!important;border-radius:9px!important;background:#fff!important;color:var(--pp-ink)!important;padding:17px!important;gap:7px!important}
+.mc .pilot-product-grid button:hover{border-color:var(--pp-cyan)!important;background:#f2fbfd!important}
+.mc .pilot-product-grid button strong{font-size:15px!important;line-height:1.3!important}
+.mc .pilot-product-grid button span{font-size:24px!important;color:var(--pp-cyan-dark)!important}
+.mc .pilot-product-bar{background:#e8f7fa!important;border:1px solid #b3e0e9!important;border-radius:8px!important;padding:13px 16px!important}
+.mc #pilotChangeProduct{min-height:42px!important;border:1px solid #81c7d5!important;border-radius:6px!important;font-size:11px!important;background:white!important}
+.mc .pilot-tabs{background:#f0f5f7!important;border:1px solid var(--pp-line)!important;border-radius:8px!important;gap:0!important}
+.mc .pilot-tab{background:transparent!important;color:#4a6672!important;min-height:45px!important;font:700 12px/1.25 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;border-right:1px solid var(--pp-line)!important}
+.mc .pilot-tab.active,.mc .pilot-tab[aria-selected=true]{background:#fff!important;color:#067e99!important;box-shadow:inset 0 -3px var(--pp-cyan)!important}
+.mc .lcd,.mc .nestlcd{background:#e9f7fa!important;color:var(--pp-ink)!important;border:1px solid #b7e1e9!important;outline:0!important;border-radius:9px!important;box-shadow:none!important}
+.mc .lcd{padding:17px 19px!important;margin:14px 0!important}
+.mc .lcd .price{font:800 clamp(29px,6vw,43px)/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:#093c4b!important;letter-spacing:-.035em!important}
+.mc .lcdsub{border-color:#b4d9e1!important;color:#4a6874!important;font-family:inherit!important}
+.mc .nesthead,.mc .nestfoot{color:#4d6874!important;font-family:inherit!important}
+.mc .calc,.mc .costrow,.mc .box{color:var(--pp-text)!important;font-family:inherit!important}
+.mc .box{background:var(--pp-subtle)!important;border:1px solid var(--pp-line)!important;border-radius:8px!important}
+.mc .dbrow{border-color:var(--pp-line)!important}
+.mc .dbrow button.del{background:#f0f5f7!important;border:1px solid var(--pp-line)!important;border-radius:6px!important}
+.mc .service{background:white!important}
+.mc .service summary{font:800 12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:var(--pp-ink)!important;letter-spacing:.04em!important;padding:6px 0}
+.mc .pilot-product-hint{background:#f0f9fb!important;color:#375b6b!important;border-left-color:var(--pp-cyan)!important;border-radius:0 6px 6px 0!important;font-size:12px!important}
+.mc #workOrderPanel{padding:21px!important;border:1px solid var(--pp-line)!important;border-radius:10px!important}
+.mc #workOrderPanel .pilot-doc-header h2{font-size:19px!important;letter-spacing:-.015em!important}
+.mc #workOrderPanel .pd-field input,.mc #workOrderPanel .pd-field select{height:44px!important;max-height:44px!important}
+.mc #workOrderPanel .pd-field textarea{height:76px!important;max-height:180px!important}
+.mc #workOrderPanel .pilot-doc-actions button{height:64px!important;line-height:1.3!important}
+.mc #workOrderPanel .pilot-doc-status{font:500 12px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;color:#617c88!important}
+.mc #pilotDtfPanel .dtf-scroll{background:white!important;border:1px solid var(--pp-line)!important;border-radius:7px!important}
+.mc #pilotDtfPanel .dtf-view-toggle{background:#e7f7fa!important;border:1px solid #a9dbe5!important;border-radius:7px!important;color:#12667c!important}
+.mc #productionPanel{border-color:var(--pp-line)!important}
+.mc #productionPanel .title{color:var(--pp-ink)!important}
+.mc .pilot-utilities{gap:10px!important}
+.mc .pilot-utilities button{min-height:42px!important}
+}
+@media screen and (max-width:680px){
+body{padding:0!important}
+.mc .top{border-radius:0!important;padding:18px 17px!important;min-height:76px!important}
+.mc .plate{margin:10px 10px 0!important;padding:15px!important}
+.mc .pilot-product-start{border-radius:0 0 10px 10px!important;padding:16px!important;margin:0 10px 10px!important}
+.mc .pilot-product-bar{margin:10px!important}
+.mc .pilot-product-grid{gap:9px!important}
+.mc .pilot-product-grid button{padding:13px!important;min-height:110px!important}
+.mc .pilot-product-grid button strong{font-size:13px!important}
+.mc .pilot-tabs{overflow-x:auto!important;display:flex!important;scrollbar-width:thin}
+.mc .pilot-tab{flex:0 0 auto!important;min-width:112px!important;padding:10px!important}
+.mc .pilot-inputs{grid-template-columns:1fr!important}
+.mc .pilot-inputs .plate{margin:0 0 10px!important}
+.mc .inputs,.mc .settings,.mc .extras,.mc .extra-fields{column-gap:10px!important;row-gap:12px!important}
+.mc #workOrderPanel{margin:10px!important;padding:15px!important}
+.mc #workOrderPanel .pilot-doc-form{gap:12px!important}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.mc button{transition:none!important}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
