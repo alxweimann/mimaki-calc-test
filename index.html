@@ -813,7 +813,7 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v61">
+<script id="pilot-dtf-calculator-v62">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
  const ns='http://www.w3.org/2000/svg';
@@ -969,16 +969,27 @@ renderEye();
   info.textContent='Gemischte Anordnung · '+fmt(width)+' cm breit × '+fmt(length)+' cm belegt · '+count+' Motive · '+solution.method;
   preview.append(info);
   const legend=document.createElement('div');legend.className='dtf-legend';legend.textContent=types.filter(t=>t.per).map(t=>t.name+' '+fmt(t.w)+' × '+fmt(t.h)+' cm ('+(t.absolute?t.per:qty*t.per)+'+ '+Math.floor(n('dtfSparePerType'))+' Ersatz)').join(' · ');preview.append(legend);
-  const scale=5,px=width*scale,py=Math.max(1,length*scale);
+  // Render long sheets in bounded SVG segments instead of one extremely tall SVG.
+  // The same 5 px/cm scale is retained; segments do not change the layout.
+  const scale=5,px=width*scale,segmentCm=count>500?800:Math.max(1,length);
   const scroll=document.createElement('div');scroll.className='dtf-scroll';
-  const svg=make('svg',{viewBox:'0 0 '+(px+20)+' '+(py+20),width:px+20,height:py+20,role:'img','aria-label':'Optimierte Gang-Sheet-Anordnung: '+count+' Motive auf '+fmt(length)+' Zentimetern'});
-  svg.append(make('rect',{x:10,y:10,width:px,height:py,fill:'#fff',stroke:'#607f89','stroke-width':1.2}));
-  for(const p of placed){
-   const x=10+p.x*scale,y=10+p.y*scale,w=p.w*scale,h=p.h*scale;
-   const rect=make('rect',{x,y,width:w,height:h,rx:1,fill:p.name==='Brust'?'#9be1e7':p.name==='Zusatz'?'#c9c5f2':'#f6c48f',stroke:p.name==='Brust'?'#147b8c':p.name==='Zusatz'?'#6d60a8':'#b46d28','stroke-width':.7});svg.append(rect);
-   if(w>=36&&h>=20)svg.append(make('text',{x:x+w/2,y:y+h/2,'text-anchor':'middle','dominant-baseline':'middle','font-size':Math.min(10,w/5,h/2.5),fill:'#27434b'},p.name));
+  const segmentCount=Math.max(1,Math.ceil(length/segmentCm));
+  const segments=[];
+  for(let i=0;i<segmentCount;i++){
+   const from=i*segmentCm,to=Math.min(length,(i+1)*segmentCm);
+   const svg=make('svg',{viewBox:'0 0 '+(px+20)+' '+((to-from)*scale+20),width:px+20,height:(to-from)*scale+20,role:'img','aria-label':'Gang Sheet Abschnitt '+(i+1)+' von '+segmentCount+': '+fmt(from)+' bis '+fmt(to)+' cm'});
+   svg.append(make('rect',{x:10,y:10,width:px,height:(to-from)*scale,fill:'#fff',stroke:'#607f89','stroke-width':1.2}));
+   segments.push(svg);scroll.append(svg);
   }
-  scroll.append(svg);preview.append(scroll);
+  for(const p of placed){
+   const first=Math.floor(p.y/segmentCm),last=Math.min(segmentCount-1,Math.floor((p.y+p.h-1e-9)/segmentCm));
+   for(let i=first;i<=last;i++){
+    const x=10+p.x*scale,y=10+(p.y-i*segmentCm)*scale,w=p.w*scale,h=p.h*scale;
+    segments[i].append(make('rect',{x,y,width:w,height:h,rx:1,fill:p.name==='Brust'?'#9be1e7':p.name==='Zusatz'?'#c9c5f2':'#f6c48f',stroke:p.name==='Brust'?'#147b8c':p.name==='Zusatz'?'#6d60a8':'#b46d28','stroke-width':.7}));
+    if(count<=500&&w>=36&&h>=20)segments[i].append(make('text',{x:x+w/2,y:y+h/2,'text-anchor':'middle','dominant-baseline':'middle','font-size':Math.min(10,w/5,h/2.5),fill:'#27434b'},p.name));
+   }
+  }
+  preview.append(scroll);
   const motifArea=pieces.reduce((sum,p)=>sum+p.w*p.h,0);
   const usedArea=width*length,orderedArea=width*meters*100;
   const utilization=usedArea>0?100*motifArea/usedArea:0;
