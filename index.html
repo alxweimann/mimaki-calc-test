@@ -195,7 +195,7 @@ function autoEye(){
  const inset=Number(document.getElementById('eyeInset').value),spacing=Number(document.getElementById('eyeSpacing').value);
  if(!Number.isFinite(w)||!Number.isFinite(h)||w<=0||h<=0||!Number.isFinite(inset)||inset<0||inset*2>=Math.min(w,h)||!Number.isFinite(spacing)||spacing<=0){alert('Bitte gültiges Endformat, Randabstand und Ösenabstand eingeben.');return}
  const next=[];
- function edge(x1,y1,x2,y2){const len=Math.hypot(x2-x1,y2-y1),segments=Math.max(1,Math.ceil(len/spacing));for(let j=0;j<=segments;j++){const t=j/segments;const x=x1+(x2-x1)*t,y=y1+(y2-y1)*t;if(!next.some(p=>Math.abs(p.x-x)<1e-6&&Math.abs(p.y-y)<1e-6))next.push({x,y})}}
+ function edge(x1,y1,x2,y2){const len=Math.hypot((x2-x1)*w,(y2-y1)*h),segments=Math.max(1,Math.ceil(len/spacing));for(let j=0;j<=segments;j++){const t=j/segments;const x=x1+(x2-x1)*t,y=y1+(y2-y1)*t;if(!next.some(p=>Math.abs(p.x-x)<1e-6&&Math.abs(p.y-y)<1e-6))next.push({x,y})}}
  const l=inset/w,r=1-inset/w,t=inset/h,b=1-inset/h;
  edge(l,t,r,t);edge(r,t,r,b);edge(r,b,l,b);edge(l,b,l,t);
  positions.splice(0,positions.length,...next);
