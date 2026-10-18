@@ -199,7 +199,7 @@ function autoEye(){
  const l=inset/w,r=1-inset/w,t=inset/h,b=1-inset/h;
  edge(l,t,r,t);edge(r,t,r,b);edge(r,b,l,b);edge(l,b,l,t);
  positions.splice(0,positions.length,...next);
- chosen=positions.map((_,i)=>i);applyCustom();
+ chosen=positions.map((_,i)=>i);applyCustom();document.getElementById('eyePosition').value='50cm';syncEye();
 }
 document.getElementById('eyeAuto').addEventListener('click',autoEye);
 for(const id of ['eyeSpacing','eyeInset'])document.getElementById(id).addEventListener('change',()=>{if(document.getElementById('eyePosition')?.value==='50cm'){autoEye();document.getElementById('eyePosition').value='50cm';syncEye()}});
@@ -219,7 +219,7 @@ function syncEye(){
 extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){syncEye();setTimeout(syncEye,100)}});
 extra.addEventListener('input',e=>{if(e.target.id==='eyePosition')syncEye()});
 extra.addEventListener('click',e=>{if(e.target.id==='eyePosition')setTimeout(syncEye,300)});
-for(const id of ['w','h'])document.getElementById(id)?.addEventListener('input',syncEye);
+for(const id of ['w','h'])document.getElementById(id)?.addEventListener('change',()=>{if(document.getElementById('eyePosition')?.value==='50cm')autoEye();else syncEye()});
 new MutationObserver(()=>{syncEye();renderEye()}).observe(extra,{childList:true});
 document.getElementById('qty')?.addEventListener('input',renderEye);
 extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){if(e.target.value==='corners')chosen=[0,3,6,9];if(e.target.value==='50cm'){autoEye();document.getElementById('eyePosition').value='50cm';syncEye()}renderEye()}});
