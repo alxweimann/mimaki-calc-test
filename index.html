@@ -108,7 +108,7 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 /* PRINTPILOT REFERENCE LAYOUT v1: desktop, tablet, mobile */
 .mc{max-width:1050px;padding:12px;background:#f6f8fa}
 .top{min-height:72px;margin:-12px -12px 12px;border-radius:12px 12px 0 0;padding:14px 22px;background:#192a34}
-.top::before{content:"Print";font-weight:900;font-size:23px;color:white;margin-right:-8px}
+.top::before{content:none}
 .top::after{content:"Pilot";font-weight:900;font-size:23px;color:#00bde9;order:-1;display:none}
 .top .brand{font-size:24px;color:#fff}
 .top .brand::first-letter{color:#fff}
@@ -192,7 +192,7 @@ function drawNest(p,m,qty,gap,cut,bleed){
  const rect=(x,y,w,h,fill,stroke='#43533d')=>'<rect x="'+x.toFixed(2)+'" y="'+y.toFixed(2)+'" width="'+Math.max(0,w).toFixed(2)+'" height="'+Math.max(0,h).toFixed(2)+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1"/>';
  let out='<svg class="nestsvg" viewBox="0 0 '+W+' '+(H+25)+'" role="img" aria-label="Maßstabsgetreue Nutzenanordnung auf Druckbahn">';
  out+=rect(pad,12,inner,shownHeight*scale+10,'#ffffff','#d9e2e7');
- for(let r=0;r<show;r++){let count=Math.min(p.across,qty-r*p.across);for(let j=0;j<count;j++){let fullRowWidth=p.across*p.pieceW+Math.max(0,p.across-1)*gap,x=pad+((m.width-fullRowWidth)/2+j*(p.pieceW+gap))*scale,y=17+r*step*scale,rw=p.pieceW*scale,rh=p.pieceH*scale;out+=rect(x,y,rw,rh,'#ffffff','#1d3440');let inset=bleed*scale;if(inset>0&&rw>2*inset&&rh>2*inset)out+='<rect x="'+(x+inset).toFixed(2)+'" y="'+(y+inset).toFixed(2)+'" width="'+(rw-2*inset).toFixed(2)+'" height="'+(rh-2*inset).toFixed(2)+'" fill="none" stroke="#00bde9" stroke-width="1.5" stroke-dasharray="5 3"/>';if(rw>30&&rh>17)out+='<text x="'+(x+rw/2)+'" y="'+(y+rh/2+3)+'" text-anchor="middle" font-size="10" fill="#00a7d4">'+(r*p.across+j+1)+'</text>'}}
+ for(let r=0;r<show;r++){let count=Math.min(p.across,qty-r*p.across);for(let j=0;j<count;j++){let fullRowWidth=p.across*p.pieceW+Math.max(0,p.across-1)*gap,x=pad+((m.width-fullRowWidth)/2+j*(p.pieceW+gap))*scale,y=17+r*step*scale,rw=p.pieceW*scale,rh=p.pieceH*scale;out+=rect(x,y,rw,rh,'#ffffff','#ec008c');let inset=bleed*scale;if(inset>0&&rw>2*inset&&rh>2*inset)out+='<rect x="'+(x+inset).toFixed(2)+'" y="'+(y+inset).toFixed(2)+'" width="'+(rw-2*inset).toFixed(2)+'" height="'+(rh-2*inset).toFixed(2)+'" fill="none" stroke="#00bde9" stroke-width="1.5" stroke-dasharray="5 3"/>';if(rw>30&&rh>17)out+='<text x="'+(x+rw/2)+'" y="'+(y+rh/2+3)+'" text-anchor="middle" font-size="10" fill="#00a7d4">'+(r*p.across+j+1)+'</text>'}}
  if(gap>0&&p.across>1){const full=p.across*p.pieceW+(p.across-1)*gap,first=pad+(m.width-full)/2*scale,mid=first+p.pieceW*scale+gap*scale/2;
  out+='<rect x="'+(mid-53).toFixed(2)+'" y="1" width="106" height="25" rx="5" fill="#00bde9" stroke="#ffffff" stroke-width="1"/>';
  out+='<text x="'+mid.toFixed(2)+'" y="18" text-anchor="middle" font-family="monospace" font-size="14" font-weight="bold" fill="#073846">↔ '+f(gap)+' MM</text>';
