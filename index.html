@@ -218,6 +218,12 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
  .pilot-tab{min-height:38px;padding:7px 3px 9px;font-size:clamp(9px,2.3vw,11px);font-weight:520;line-height:1.12;white-space:normal}
  .pilot-tab.active::after{left:6px;right:6px;height:2px}
 }
+
+/* PrintPilot v15 — quiet headings and fully readable material selector */
+.pilot-format .title{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:12px;font-weight:650;letter-spacing:.025em;line-height:1.35;text-transform:none;color:#294452;margin-bottom:6px}
+#pilotInput .field:has(#material){grid-column:1/-1}
+#pilotInput #material{width:100%;min-width:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0;text-overflow:ellipsis;padding-right:24px}
+@media(max-width:650px){.pilot-format .title{font-size:12px}#pilotInput .field:has(#material){grid-column:1/-1}#pilotInput #material{font-size:13px}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">MIMAKI CALC</div><div class="model">CJV150-130 // COST COMPUTER</div></div><span class="badge">READY</span></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
@@ -405,10 +411,13 @@ renderEye();
  nest.querySelector('.title').textContent='NUTZENPLAN  //  BAHNVORSCHAU (1 VON 1)';
  calc.querySelector('.title').textContent='KALKULATION';
  const tabs=[...document.querySelectorAll('.pilot-tab')];
+ // The initial screen shows the input section, irrespective of any stale visual tab state.
+ const markInput=()=>tabs.forEach((t,i)=>{t.classList.toggle('active',i===0);if(i===0)t.setAttribute('aria-current','true');else t.removeAttribute('aria-current')});
+ markInput();
  tabs.forEach(tab=>tab.addEventListener('click',()=>{
   const target=document.getElementById(tab.dataset.jump);
   if(tab.dataset.enable){const key=document.querySelector('.key[data-key="'+tab.dataset.enable+'"]');if(key&&!key.classList.contains('on'))key.click()}
-  tabs.forEach(t=>t.classList.toggle('active',t===tab));
+  tabs.forEach(t=>{const selected=t===tab;t.classList.toggle('active',selected);if(selected)t.setAttribute('aria-current','true');else t.removeAttribute('aria-current')});
   target?.scrollIntoView({behavior:'smooth',block:'start'});
  }));
  const sync=()=>{const active=document.querySelector('.pilot-tab.active');if(active?.dataset.enable==='eye'&&document.getElementById('eyeVisualPanel').style.display==='none')tabs[0].click()};
