@@ -395,7 +395,7 @@ function restoreManualGrid(){
  if(wasAuto){positions.splice(0,positions.length,...defaultEyePositions.map(p=>({...p})));chosen=[0,3,6,9]}
 }
 function toggleEyeIndex(i){
- if(!Number.isInteger(i)||i<0||i>=positions.length)return;
+ if(eyeMode!=='custom'||!Number.isInteger(i)||i<0||i>=positions.length)return;
  const clicked={...positions[i]};
  const wasAuto=positions.length!==defaultEyePositions.length||positions.some((p,j)=>Math.abs(p.x-defaultEyePositions[j].x)>1e-8||Math.abs(p.y-defaultEyePositions[j].y)>1e-8);
  restoreManualGrid();
@@ -406,7 +406,7 @@ function toggleEyeIndex(i){
  applyCustom();
 }
 window.pilotEyeToggle=toggleEyeIndex;
-window.pilotEyeCandidates=()=>positions.map((p,i)=>({i,...eyeInsetPoint(p),selected:chosen.includes(i)}));
+window.pilotEyeCandidates=()=>positions.filter((p,i)=>eyeMode==='custom'||chosen.includes(i)).map((p)=>({i:positions.indexOf(p),...eyeInsetPoint(p),selected:chosen.includes(positions.indexOf(p)),editable:eyeMode==='custom'}));
 function refreshEyeCount(){const q=document.getElementById('eyeq');if(!q)return;const count=chosen.filter(i=>Number.isInteger(i)&&i>=0&&i<positions.length).length;q.readOnly=true;if(Number(q.value)!==count){q.value=String(count);q.dispatchEvent(new Event('input',{bubbles:true}))}}
 function renderEye(){
  refreshEyeCount();
@@ -415,7 +415,7 @@ function renderEye(){
  visual.replaceChildren();
  const w=Number(document.getElementById('w')?.value)||500,h=Number(document.getElementById('h')?.value)||300;
  visual.style.aspectRatio=w+'/'+h;
- positions.forEach((p,i)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=chosen.includes(i)?'●':'+';btn.title='Position '+(i+1);btn.setAttribute('aria-label','Öse Position '+(i+1));btn.style.cssText='position:absolute;left:'+(5+eyeInsetPoint(p).x*90)+'%;top:'+(8+eyeInsetPoint(p).y*84)+'%;transform:translate(-50%,-50%);width:24px;height:24px;padding:0;border-radius:50%;border:2px solid #fff;background:'+(chosen.includes(i)?'#31594b':'#a8b9aa')+';color:white;font-size:14px;z-index:1';btn.addEventListener('click',()=>toggleEyeIndex(i));visual.appendChild(btn)});
+ positions.forEach((p,i)=>{if(eyeMode!=='custom'&&!chosen.includes(i))return;const btn=document.createElement('button');btn.type='button';btn.textContent=chosen.includes(i)?'●':'+';btn.disabled=eyeMode!=='custom';btn.title='Position '+(i+1);btn.setAttribute('aria-label','Öse Position '+(i+1));btn.style.cssText='position:absolute;left:'+(5+eyeInsetPoint(p).x*90)+'%;top:'+(8+eyeInsetPoint(p).y*84)+'%;transform:translate(-50%,-50%);width:24px;height:24px;padding:0;border-radius:50%;border:2px solid #fff;background:'+(chosen.includes(i)?'#31594b':'#a8b9aa')+';color:white;font-size:14px;z-index:1';btn.addEventListener('click',()=>toggleEyeIndex(i));visual.appendChild(btn)});
  window.pilotEyePositions=chosen.map(i=>positions[i]).filter(Boolean).map(eyeInsetPoint);window.pilotRefreshFormat?.();
  document.getElementById('eyeVisualInfo').textContent=chosen.length+' Ösen pro Stück · '+(chosen.length*(Number(document.getElementById('qty')?.value)||0))+' Ösen insgesamt';
 }
@@ -539,9 +539,9 @@ renderEye();
   if(b>0)label(320,375,'Beschnitt: '+fmt(b)+' mm je Seite',mg,12);
   if(document.querySelector('.key[data-key="eye"]')?.classList.contains('on')&&window.pilotEyeCandidates){
    for(const p of window.pilotEyeCandidates()){
-    const circle=add('circle',{cx:bx+p.x*bw,cy:by+p.y*bh,r:p.selected?7:6,fill:p.selected?'#00b9e8':'#fff',stroke:p.selected?'#123d4e':'#00b9e8','stroke-width':2.2,role:'button',tabindex:0,'aria-label':'Öse Position '+(p.i+1)+(p.selected?' entfernen':' setzen'),style:'cursor:pointer;pointer-events:all'});
-    circle.addEventListener('click',()=>window.pilotEyeToggle?.(p.i));
-    circle.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.pilotEyeToggle?.(p.i)}});
+    const circle=add('circle',{cx:bx+p.x*bw,cy:by+p.y*bh,r:p.selected?7:6,fill:p.selected?'#00b9e8':'#fff',stroke:p.selected?'#123d4e':'#00b9e8','stroke-width':2.2,role:'button',tabindex:0,'aria-label':'Öse Position '+(p.i+1)+(p.selected?' entfernen':' setzen'),style:p.editable?'cursor:pointer;pointer-events:all':'pointer-events:none'});
+    if(p.editable)circle.addEventListener('click',()=>window.pilotEyeToggle?.(p.i));
+    if(p.editable)circle.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.pilotEyeToggle?.(p.i)}});
    }
   }
  }
