@@ -167,6 +167,25 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 .pilot-format .pilot-note{font:11px/1.5 Arial,sans-serif;color:#5d7180;margin-top:5px}
 .pilot-preview .nestlcd{background:white;padding:6px}.pilot-preview #nestpreview{max-height:205px;overflow:hidden}.pilot-preview .nestsvg{max-height:205px;width:100%;display:block}.pilot-preview .nesthead{margin-bottom:5px}.pilot-format .pilot-note{margin-top:2px}
 @media(max-width:650px){.pilot-format{padding:9px}.pilot-format .title{font-size:13px}#pilotFormatSvg{max-height:255px}.pilot-preview #nestpreview,.pilot-preview .nestsvg{max-height:170px}}
+
+/* PrintPilot calculation and control refinement — presentation only */
+.pilot-calc{border:1px solid #cfdfe6;background:#fff}
+.pilot-calc .title{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.pilot-calc .title::before{content:"";width:4px;height:18px;background:#00b9e8;border-radius:3px}
+.pilot-calc #layout{font:700 11px/1.6 Arial,sans-serif;letter-spacing:.025em;color:#54717e;background:#eff6f8;border:1px solid #dbe8ed;border-radius:6px;padding:8px 11px;margin-bottom:11px}
+.pilot-calc #costs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}
+.pilot-calc #costs .costrow{display:flex;justify-content:space-between;align-items:center;min-width:0;gap:8px;border-bottom:1px solid #e4ecef;padding:9px 4px;color:#415865;font:12px/1.3 Arial,sans-serif}
+.pilot-calc #costs .costrow strong{font:700 13px/1.3 Arial,sans-serif;color:#193541;white-space:nowrap}
+.pilot-calc #costs .costrow:nth-last-child(3){border-top:1px solid #e4ecef;margin:0;padding:9px 4px}
+.pilot-calc #costs .costrow:nth-last-child(2){background:#edf8fb;border:1px solid #b9e8f3;border-radius:7px;margin-top:10px;padding:11px}
+.pilot-calc #costs .costrow:last-child{background:#d6f4fb;border:1px solid #6ad1e9;border-radius:7px;margin-top:10px;padding:11px}
+.pilot-calc #costs .costrow:nth-last-child(2) strong,.pilot-calc #costs .costrow:last-child strong{font-size:17px;color:#06465b}
+.keys{grid-template-columns:repeat(4,minmax(0,1fr))}
+.key,.key[data-key="lam"],.key[data-key="eye"]{border:1px solid #c7d7df;border-radius:7px;min-height:49px;background:#eef3f6;color:#294350;box-shadow:none}
+.key.on,.key[data-key="lam"].on,.key[data-key="eye"].on{background:#d1f3fb;border:1px solid #00b9e8;box-shadow:inset 0 0 0 1px #00b9e8;color:#075168}
+#workOrderPanel,#productionPanel{background:#fff;border:1px solid #dce6eb}
+#workOrderPanel .title,#productionPanel .title{color:#1b3542}
+@media(max-width:650px){.pilot-calc #costs{grid-template-columns:1fr}.pilot-calc #costs .costrow{padding:8px 3px}.pilot-calc #costs .costrow:last-child{margin-top:7px}.key{min-height:47px}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">MIMAKI CALC</div><div class="model">CJV150-130 // COST COMPUTER</div></div><span class="badge">READY</span></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
