@@ -813,7 +813,7 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v55">
+<script id="pilot-dtf-calculator-v56">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
  const ns='http://www.w3.org/2000/svg';
@@ -824,6 +824,9 @@ renderEye();
   const box=el('dtfResult'),preview=el('dtfPreview');box.replaceChildren();preview.replaceChildren();
   const errors=[],pieces=[];
   if(qty<1||width<=0)errors.push('Stückzahl und Gang-Sheet-Breite müssen größer als null sein.');
+  for(const id of ['dtfQty','dtfFrontCount','dtfBackCount','dtfExtraCount']){const v=Number(el(id).value);if(!Number.isFinite(v)||v<0||!Number.isInteger(v))errors.push('Stückzahlen müssen ganze, nichtnegative Zahlen sein.');}
+  for(const id of ['dtfSheetWidth','dtfSheetPrice','dtfGap','dtfMinLength','dtfLengthStep','dtfFrontW','dtfFrontH','dtfBackW','dtfBackH','dtfExtraW','dtfExtraH','dtfSetup','dtfPressSeconds','dtfCutSeconds','dtfHourly','dtfOther','dtfTextilePrice','dtfFactor']){const v=Number(el(id).value);if(!Number.isFinite(v)||v<0)errors.push('Bitte nur gültige, nichtnegative Zahlen eingeben.');}
+  if(!(Number(el('dtfLengthStep').value)>0))errors.push('Bestellschritt muss größer als 0 cm sein.');
   for(const t of types){
    if(!t.per)continue;
    if(!t.w||!t.h){errors.push(t.name+': Motivgröße fehlt.');continue}
@@ -954,7 +957,7 @@ renderEye();
   const solution=candidates.sort((a,b)=>a.length-b.length)[0];
   if(!solution){el('dtfWarning').textContent='Keine gültige Platzierung gefunden.';return}
   const placed=solution.items,length=solution.length,count=pieces.length,minLength=n("dtfMinLength"),lengthStep=n("dtfLengthStep");
-  const orderStep=lengthStep>0?lengthStep:10;
+  const orderStep=lengthStep;
   const orderedCm=Math.ceil((Math.max(length,minLength)-1e-9)/orderStep)*orderStep;
   const meters=orderedCm/100;
   // Independent geometric verification: sheet bounds and minimum spacing between all artwork.
