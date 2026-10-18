@@ -162,7 +162,7 @@ function syncEye(){
  const count=mode.value==='corners'?4:(w>0&&h>0?2*(Math.ceil(w/500)+Math.ceil(h/500)):0);
  if(count>0&&Number(q.value)!==count){const chosen=mode.value;q.value=count;q.dispatchEvent(new Event('input',{bubbles:true}));mode.value=chosen;}
 }
-extra.addEventListener('change',e=>{if(e.target.id==='eyePosition')syncEye()});
+extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){syncEye();setTimeout(syncEye,0)}});extra.addEventListener('input',e=>{if(e.target.id==='eyePosition')setTimeout(syncEye,0)});
 extra.addEventListener('input',e=>{if(e.target.id==='eyeq'){const mode=document.getElementById('eyePosition');if(mode&&mode.value!=='custom'&&Number(e.target.value)!== (mode.value==='corners'?4:2*(Math.ceil((Number(document.getElementById('w')?.value)||0)/500)+Math.ceil((Number(document.getElementById('h')?.value)||0)/500))))mode.value='custom'}});
 for(const id of ['w','h'])document.getElementById(id)?.addEventListener('input',syncEye);
 })();
