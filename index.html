@@ -813,7 +813,7 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v56">
+<script id="pilot-dtf-calculator-v57">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
  const ns='http://www.w3.org/2000/svg';
@@ -953,7 +953,9 @@ renderEye();
   }
   const byArea=[...pieces].sort((a,b)=>b.w*b.h-a.w*a.h||Math.max(b.w,b.h)-Math.max(a.w,a.h));
   const byLongSide=[...pieces].sort((a,b)=>Math.max(b.w,b.h)-Math.max(a.w,a.h)||b.w*b.h-a.w*a.h);
-  const candidates=[pack(byArea),pack(byLongSide),packRows(),packMixed(byArea),packMixed(byLongSide),packRowVariants()].filter(Boolean);
+  // Validate each candidate before selecting the shortest: some heuristics can violate spacing.
+  const validPlacement=items=>items.every((p,i)=>p.x>=-1e-7&&p.y>=-1e-7&&p.x+p.w<=width+1e-7&&items.slice(i+1).every(q=>!(p.x<q.x+q.w+gap-1e-7&&p.x+p.w+gap>q.x+1e-7&&p.y<q.y+q.h+gap-1e-7&&p.y+p.h+gap>q.y+1e-7)));
+  const candidates=[pack(byArea),pack(byLongSide),packRows(),packMixed(byArea),packMixed(byLongSide),packRowVariants()].filter(c=>c&&validPlacement(c.items));
   const solution=candidates.sort((a,b)=>a.length-b.length)[0];
   if(!solution){el('dtfWarning').textContent='Keine gültige Platzierung gefunden.';return}
   const placed=solution.items,length=solution.length,count=pieces.length,minLength=n("dtfMinLength"),lengthStep=n("dtfLengthStep");
