@@ -373,20 +373,29 @@ renderEye();
   const w=Number(document.getElementById('w').value),h=Number(document.getElementById('h').value),b=Math.max(0,Number(document.getElementById('gap').value)||0);
   if(!(w>0&&h>0)){svg.replaceChildren();return}
   svg.replaceChildren();
-  const box={x:72,y:65,w:500,h:250},sc=Math.min(box.w/(w+2*b),box.h/(h+2*b));
+  // Reserve independent dimension gutters; never draw a dimension through the motif.
+  const box={x:105,y:75,w:465,h:215},sc=Math.min(box.w/(w+2*b),box.h/(h+2*b));
   const ow=(w+2*b)*sc,oh=(h+2*b)*sc,x=box.x+(box.w-ow)/2,y=box.y+(box.h-oh)/2;
   const bx=x+b*sc,by=y+b*sc,bw=w*sc,bh=h*sc;
-  const line=(x1,y1,x2,y2,color,dash)=>add('line',{x1,y1,x2,y2,stroke:color,'stroke-width':1.5,...(dash?{'stroke-dasharray':dash}:{})});
-  const text=(xx,yy,t,color,size=14,rotate)=>add('text',{x:xx,y:yy,'text-anchor':'middle','font-family':'Arial, sans-serif','font-size':size,'font-weight':'700',fill:color,...(rotate?{transform:'rotate(-90 '+xx+' '+yy+')'}:{})},t);
-  add('rect',{x,y,width:ow,height:oh,fill:'#fff',stroke:'#ec008c','stroke-width':2,'stroke-dasharray':'7 5'});
-  add('rect',{x:bx,y:by,width:bw,height:bh,fill:'#fff',stroke:'#152e3b','stroke-width':1.5});
-  add('rect',{x:bx+Math.min(5,bw/8),y:by+Math.min(5,bh/8),width:Math.max(0,bw-2*Math.min(5,bw/8)),height:Math.max(0,bh-2*Math.min(5,bh/8)),fill:'none',stroke:'#00b9e8','stroke-width':1,'stroke-dasharray':'6 4'});
-  const cy='#00aeda',mg='#ec008c';
-  const ay=Math.max(38,y-16);line(x,ay,x+ow,ay,mg,'5 4');text(x+ow/2,ay-9,fmt(w+2*b)+' mm · inkl. Beschnitt',mg,13);
-  const ax=Math.max(22,x-17);line(ax,y,ax,y+oh,mg,'5 4');text(ax-9,y+oh/2,fmt(h+2*b)+' mm',mg,12,true);
-  const dimY=Math.min(347,by+bh+24);line(bx,dimY,bx+bw,dimY,cy);text(bx+bw/2,dimY-6,fmt(w)+' mm',cy,14);
-  const dimX=bx+Math.min(19,bw/6);line(dimX,by,dimX,by+bh,cy);text(dimX+12,by+bh/2,fmt(h)+' mm',cy,12,true);
-  text(bx+bw/2,by+bh/2+5,fmt(w)+' × '+fmt(h)+' mm',cy,Math.min(19,Math.max(10,bw/13)));
+  const cy='#00aeda',mg='#ec008c',ink='#183542';
+  const line=(x1,y1,x2,y2,color,dash,width=1.4)=>add('line',{x1,y1,x2,y2,stroke:color,'stroke-width':width,...(dash?{'stroke-dasharray':dash}:{})});
+  const label=(xx,yy,t,color,size=13,rotate=false)=>add('text',{x:xx,y:yy,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Arial, sans-serif','font-size':size,'font-weight':'700',fill:color,...(rotate?{transform:'rotate(-90 '+xx+' '+yy+')'}:{})},t);
+  const tick=(xx,yy,color,vertical=false)=>vertical?line(xx-5,yy,xx+5,yy,color):line(xx,yy-5,xx,yy+5,color);
+  add('rect',{x,y,width:ow,height:oh,fill:'#fff',stroke:mg,'stroke-width':2,'stroke-dasharray':'6 4'});
+  add('rect',{x:bx,y:by,width:bw,height:bh,fill:'#fff',stroke:cy,'stroke-width':2});
+  // Magenta dimension is the total including bleed, not a cutting instruction.
+  const magY=42;line(x,magY,x+ow,magY,mg,'4 3');tick(x,magY,mg);tick(x+ow,magY,mg);
+  label(x+ow/2,24,fmt(w+2*b)+' mm inkl. Beschnitt',mg,12);
+  const magX=44;line(magX,y,magX,y+oh,mg,'4 3');tick(magX,y,mg,true);tick(magX,y+oh,mg,true);
+  label(24,y+oh/2,fmt(h+2*b)+' mm',mg,12,true);
+  // Cyan dimension arrows sit outside the finished-size rectangle.
+  const cyanY=330;line(bx,cyanY,bx+bw,cyanY,cy);tick(bx,cyanY,cy);tick(bx+bw,cyanY,cy);
+  label(bx+bw/2,350,fmt(w)+' mm Endformat',cy,13);
+  const cyanX=83;line(cyanX,by,cyanX,by+bh,cy);tick(cyanX,by,cy,true);tick(cyanX,by+bh,cy,true);
+  label(67,by+bh/2,fmt(h)+' mm',cy,12,true);
+  const fontSize=Math.min(19,Math.max(10,bw/13),Math.max(10,bh/3));
+  label(bx+bw/2,by+bh/2,fmt(w)+' × '+fmt(h)+' mm',ink,fontSize);
+  if(b>0)label(320,375,'Beschnitt: '+fmt(b)+' mm je Seite',mg,12);
   if(document.querySelector('.key[data-key="eye"]')?.classList.contains('on')&&Array.isArray(window.pilotEyePositions)){
    for(const p of window.pilotEyePositions){
     add('circle',{cx:bx+p.x*bw,cy:by+p.y*bh,r:5.5,fill:'#00b9e8',stroke:'#102b37','stroke-width':2});
