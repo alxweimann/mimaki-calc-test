@@ -318,7 +318,7 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 .mc .field select{padding-right:28px!important}
 .mc .field textarea,.mc #woNotes{height:auto!important;min-height:72px!important}
 .mc .field .hint,.mc .field small{margin-top:4px!important}
-</style></style></head><body><main class="mc">
+</style></style><style id="pilot-finish-dynamic-v36">#pilotFinishingPanel .field[hidden]{display:none!important}#pilotFinishingPanel .inputs{grid-auto-flow:row!important}#pilotFinishingPanel .field:not(.wide){grid-column:auto!important}</style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
 <button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
@@ -334,7 +334,7 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 <div class="plate nestpanel"><div class="title">NUTZENPLAN // LIVE PREVIEW</div><div class="nestlcd"><div class="nesthead"><span>NUTZEN / BAHNVORSCHAU</span><span id="nestorientation"></span></div><div id="nestpreview"></div><div class="nestfoot" id="nestdetail"></div></div></div>
 <div class="keys"><button class="key" data-key="lam">LAMINAT<small>OFF</small></button><button class="key" data-key="contour">KONTUR<small>OFF</small></button><button class="key" data-key="eye">ÖSEN<small>OFF</small></button><button class="key" data-key="trim">HANDSCHNITT<small>OFF</small></button></div>
 <div id="extras" class="extras"></div><section id="eyeVisualPanel" class="plate" style="display:none"><div class="title">ÖSENPLAN // POSITIONEN</div><p class="hint">Punkte am Bannerrand antippen. Grün = Öse gesetzt.</p><div id="eyeVisual" style="position:relative;max-width:480px;margin:12px auto;aspect-ratio:5/3;background:#dce5da;border:2px solid #64806b"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><button type="button" id="eyeTopTwo">2 OBEN</button><button type="button" id="eyeFour">4 ECKEN</button><button type="button" id="eyeClear">LEEREN</button></div><div class="inputs"><div class="field"><label>ABSTAND VOM RAND (MM)</label><input id="eyeInset" type="number" min="0" step="1" value="25"></div><div class="field"><label>MAX. ÖSENABSTAND (MM)</label><input id="eyeSpacing" type="number" min="1" step="1" value="500"></div></div><button type="button" id="eyeAuto">UMLAUFEND VERTEILEN</button><p class="hint">Die Verteilung wird anhand des Endformats berechnet. Die Ösen sitzen ausschließlich entlang der Außenkanten.</p><p id="eyeVisualInfo" class="hint"></p></section>
-<section class="plate" id="pilotFinishingPanel" hidden><div class="title">PRODUKTSPEZIFISCHE WEITERVERARBEITUNG</div><div class="inputs">
+<section class="plate" id="pilotFinishingPanel" hidden><div class="title">BANNER-KONFEKTIONIERUNG</div><div class="inputs">
 <div class="field wide"><label>VERARBEITUNGSART</label><select id="finishType"><option value="none">KEINE ZUSÄTZLICHE VERARBEITUNG</option><option value="hem">SAUM / RANDVERSTÄRKUNG</option><option value="tape">VERSTÄRKUNGSBAND</option><option value="both">SAUM + VERSTÄRKUNGSBAND</option></select></div>
 <div class="field"><label>SEITEN</label><select id="finishSides"><option value="4">ALLE 4 SEITEN</option><option value="2">OBEN + UNTEN</option><option value="1">NUR OBEN</option></select></div>
 <div class="field"><label>VERARBEITUNG EUR/LFM</label><input id="finishMeter" type="number" min="0" step=".01" value="1.50"></div>
@@ -783,17 +783,25 @@ renderEye();
   const meters=Math.max(0,edgeMm)/1000*units;
   const hem=(type==='hem'||type==='both')?meters*num('finishMeter'):0;
   const tape=(type==='tape'||type==='both')?meters*num('finishTape'):0;
-  const setup=num('finishSetup')/60*num('finishHourly');
-  const unitsCost=units*num('finishUnit');
+  const active=type!=='none';
+  const setup=active?num('finishSetup')/60*num('finishHourly'):0;
+  const unitsCost=active?units*num('finishUnit'):0;
   const desc=(type==='none'?'Keine Saum-/Bandverarbeitung':type==='hem'?'Saum':type==='tape'?'Verstärkungsband':'Saum + Verstärkungsband')+' · '+(type==='none'?'':meters.toLocaleString('de-DE',{maximumFractionDigits:2})+' lfm · ')+units+' Stück';
   return {cost:hem+tape+setup+unitsCost,description:desc};
  }
+ function updateFields(){
+  const type=el('finishType').value,active=type!=='none';
+  const visible={finishSides:active,finishMeter:type==='hem'||type==='both',finishTape:type==='tape'||type==='both',finishSetup:active,finishHourly:active,finishUnit:active};
+  Object.entries(visible).forEach(([id,show])=>{const field=el(id)?.closest('.field');if(field)field.hidden=!show});
+ }
  window.pilotFinishingCost=calcFinishing;
  function refresh(){
+  updateFields();
   const result=calcFinishing(num('w'),num('h'),num('qty'));
   el('finishInfo').textContent=result.description+' · Zusatzkosten '+result.cost.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' € (vor Kalkulationsfaktor). Ösen separat im Ösenplan.';
   el('qty').dispatchEvent(new Event('input',{bubbles:true}));
  }
+ updateFields();
  el('pilotFinishingPanel').addEventListener('input',refresh);
  el('pilotFinishingPanel').addEventListener('change',refresh);
  for(const id of ['w','h','qty'])el(id).addEventListener('input',()=>{
