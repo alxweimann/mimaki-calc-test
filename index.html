@@ -240,6 +240,12 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 .pilot-head .brand{border-left:0!important;padding-left:0!important;margin-left:0!important}
 .pilot-head .model{padding-left:0!important;margin-left:0!important;text-indent:0!important}
 @media(max-width:650px){.pilot-head>div{padding-left:9px}}
+
+/* v18: explicit module grid fixes subtitle indentation at the source */
+.pilot-head .pilot-module{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto;align-content:center;justify-items:start;row-gap:3px;min-width:0;margin:0!important;padding:0 0 0 16px!important;border:0!important;border-left:1px solid #607b89!important}
+.pilot-head .pilot-module>.brand,.pilot-head .pilot-module>.model{display:block!important;position:static!important;float:none!important;transform:none!important;box-sizing:border-box!important;width:auto!important;margin:0!important;padding:0!important;border:0!important;text-indent:0!important;text-align:left!important;justify-self:start!important}
+.pilot-head .pilot-module>.model{line-height:1.3!important}
+@media(max-width:650px){.pilot-head .pilot-module{padding-left:9px!important}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
@@ -416,7 +422,7 @@ renderEye();
  const brand=top.querySelector('.brand'),model=top.querySelector('.model');
  const head=document.createElement('div');head.className='pilot-head';
  const logo=document.createElement('span');logo.className='pilot-logo';logo.innerHTML='Print<em>Pilot</em>';
- head.append(logo,brand.parentElement);top.insertBefore(head,top.firstChild);
+ const moduleBlock=brand.parentElement;moduleBlock.classList.add('pilot-module');head.append(logo,moduleBlock);top.insertBefore(head,top.firstChild);
  const input=main.querySelector('.plate:has(#w)'),nest=main.querySelector('.nestpanel'),calc=main.querySelector('.plate:has(#costs)');
  input.id='pilotInput';nest.id='pilotNest';nest.classList.add('pilot-preview');calc.classList.add('pilot-calc');
  const group=document.createElement('div');group.className='pilot-inputs';input.before(group);group.append(input);
