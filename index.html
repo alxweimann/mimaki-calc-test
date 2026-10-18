@@ -281,7 +281,18 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none!important}
 #rollupPanel[hidden],#pilotFinishingPanel[hidden]{display:none!important}
 @media(max-width:420px){.pilot-product-start{padding:12px}.pilot-product-grid{gap:7px}.pilot-product-grid button{padding:12px;min-height:110px}.pilot-product-grid button strong{font-size:12px}}
-.pilot-product-hint{background:#fff;border-left:3px solid #00a9ca;padding:9px 12px;font-size:12px;color:#365564;margin:5px 0 12px}.pilot-product-hint[hidden]{display:none!important}</style></head><body><main class="mc">
+.pilot-product-hint{background:#fff;border-left:3px solid #00a9ca;padding:9px 12px;font-size:12px;color:#365564;margin:5px 0 12px}.pilot-product-hint[hidden]{display:none!important}</style><style id="pilot-global-field-alignment">
+/* Consistent form geometry across every PrintPilot tab, panel and dynamically inserted field. */
+.mc .inputs,.mc .pilot-inputs .inputs,.mc .settings,.mc .extras,.mc .extra-fields{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px;row-gap:14px;align-items:start}
+.mc .field{min-width:0;width:100%;margin:0;box-sizing:border-box}
+.mc .field.wide,.mc .inputs>.wide,.mc .extra-fields>.wide{grid-column:1/-1;margin:0}
+.mc .field label{display:flex;align-items:flex-end;min-height:32px;line-height:1.25;margin:0 0 6px;overflow-wrap:anywhere}
+.mc .field input:not([type="checkbox"]):not([type="radio"]),.mc .field select,.mc .field textarea{display:block;box-sizing:border-box;width:100%;min-width:0;max-width:100%;height:48px;min-height:48px;margin:0;border-radius:8px;padding:9px 12px;font-size:15px;line-height:1.3}
+.mc .field select{padding-right:30px;text-overflow:ellipsis;white-space:nowrap}
+.mc .field textarea{height:auto;min-height:80px}
+.mc .field small,.mc .field .hint{margin-top:6px}
+@media(max-width:390px){.mc .inputs,.mc .pilot-inputs .inputs,.mc .settings,.mc .extras,.mc .extra-fields{column-gap:8px;row-gap:12px}.mc .field input:not([type="checkbox"]):not([type="radio"]),.mc .field select{font-size:14px;padding-left:9px}.mc .field select{padding-right:24px}}
+</style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
 <button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
