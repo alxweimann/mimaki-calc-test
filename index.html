@@ -386,7 +386,30 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 #pilotDocumentPage .doc-sign{margin-top:70px;gap:35px}
 @media(max-width:440px){#pilotDocumentPage .doc-meta{gap:10px 12px}#pilotDocumentPage .doc-checks{gap:10px}}
 @media print{#pilotDocumentPage .doc-head,#pilotDocumentPage .doc-meta,#pilotDocumentPage .doc-positions,#pilotDocumentPage .doc-total,#pilotDocumentPage .doc-note,#pilotDocumentPage .doc-checks,#pilotDocumentPage .doc-sign{break-inside:avoid}}
-</style><style id="pilot-documents-v72">#workOrderPanel .pilot-doc-actions button{background:#06b5d4!important;border-color:#069cba!important;color:#103844!important}#productionPanel #productionSave{background:#edf5f7!important;color:#245665!important;border:1px solid #a9cbd4!important;box-shadow:none!important;min-height:42px!important;font:700 12px Arial,sans-serif!important;letter-spacing:.025em!important}</style><style id="pilot-documents-v73">#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye{border:1px solid #d3e2e7;padding:8px;background:#f8fbfc;max-height:56mm;overflow:hidden}#pilotDocumentPage .doc-nest svg,#pilotDocumentPage .doc-eye svg{display:block;width:100%;height:auto;max-height:52mm}#pilotDocumentPage .doc-eye{max-height:45mm}#pilotDocumentPage .doc-eye svg{max-height:41mm}#pilotDocumentPage .doc-task{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #e4ecef}#pilotDocumentPage .doc-task small{margin-left:auto;color:#5e7780;text-align:right;max-width:55%}#pilotDocumentPage .doc-box{display:inline-block;width:12px;height:12px;flex:0 0 12px;border:1px solid #49636c;margin-top:1px}@media print{#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye,#pilotDocumentPage .doc-task{break-inside:avoid}}</style><style id="pilot-documents-v75">#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye{max-height:none!important;overflow:visible!important}#pilotDocumentPage .doc-nest svg{max-height:70mm!important;width:100%!important;height:auto!important}#pilotDocumentPage .doc-eye svg{max-height:55mm!important}@media print{#pilotDocumentPage{min-height:0!important}#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye,#pilotDocumentPage .doc-task{break-inside:avoid;page-break-inside:avoid}#pilotDocumentPage .doc-checks{break-inside:auto!important}}</style></head><body><main class="mc">
+</style><style id="pilot-documents-v72">#workOrderPanel .pilot-doc-actions button{background:#06b5d4!important;border-color:#069cba!important;color:#103844!important}#productionPanel #productionSave{background:#edf5f7!important;color:#245665!important;border:1px solid #a9cbd4!important;box-shadow:none!important;min-height:42px!important;font:700 12px Arial,sans-serif!important;letter-spacing:.025em!important}</style><style id="pilot-documents-v73">#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye{border:1px solid #d3e2e7;padding:8px;background:#f8fbfc;max-height:56mm;overflow:hidden}#pilotDocumentPage .doc-nest svg,#pilotDocumentPage .doc-eye svg{display:block;width:100%;height:auto;max-height:52mm}#pilotDocumentPage .doc-eye{max-height:45mm}#pilotDocumentPage .doc-eye svg{max-height:41mm}#pilotDocumentPage .doc-task{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #e4ecef}#pilotDocumentPage .doc-task small{margin-left:auto;color:#5e7780;text-align:right;max-width:55%}#pilotDocumentPage .doc-box{display:inline-block;width:12px;height:12px;flex:0 0 12px;border:1px solid #49636c;margin-top:1px}@media print{#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye,#pilotDocumentPage .doc-task{break-inside:avoid}}</style><style id="pilot-documents-v75">#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye{max-height:none!important;overflow:visible!important}#pilotDocumentPage .doc-nest svg{max-height:70mm!important;width:100%!important;height:auto!important}#pilotDocumentPage .doc-eye svg{max-height:55mm!important}@media print{#pilotDocumentPage{min-height:0!important}#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye,#pilotDocumentPage .doc-task{break-inside:avoid;page-break-inside:avoid}#pilotDocumentPage .doc-checks{break-inside:auto!important}}</style><style id="pilot-documents-v76">
+/* Fixed A4 page. Keep complete document; scale contents proportionally instead of clipping sections. */
+#pilotDocumentPage{height:297mm!important;min-height:0!important;max-height:297mm!important;overflow:hidden!important;padding:11mm 12mm!important}
+#pilotDocFit{width:100%;transform-origin:top left}
+#pilotDocumentPage .doc-head{padding-bottom:7px!important}
+#pilotDocumentPage .doc-brand{font-size:21px!important}
+#pilotDocumentPage .doc-label{margin-top:12px!important}
+#pilotDocumentPage h1{font-size:23px!important;margin:4px 0 12px!important}
+#pilotDocumentPage h2{margin:12px 0 6px!important;font-size:12px!important}
+#pilotDocumentPage .doc-meta{gap:7px 16px!important;padding:9px 0 11px!important}
+#pilotDocumentPage .doc-meta span{margin-bottom:2px!important}
+#pilotDocumentPage table td,#pilotDocumentPage table th{padding:5px 5px!important;font-size:10.5px!important}
+#pilotDocumentPage .doc-nest{padding:5px!important}
+#pilotDocumentPage .doc-nest svg{max-height:60mm!important}
+#pilotDocumentPage .doc-eye{padding:5px!important}
+#pilotDocumentPage .doc-eye svg{max-height:35mm!important}
+#pilotDocumentPage .doc-note{padding:8px 10px!important;min-height:20px!important}
+#pilotDocumentPage .doc-checks{gap:4px 12px!important;padding:4px 0!important}
+#pilotDocumentPage .doc-task{padding:3px 0!important;font-size:10px!important}
+#pilotDocumentPage .doc-sign{margin-top:28px!important;gap:20px!important;font-size:10px!important}
+#pilotDocumentPage .doc-total{margin:12px 0!important;padding:9px 0!important}
+#pilotDocumentPage .doc-muted{font-size:10px!important}
+@media print{@page{size:A4 portrait;margin:0}#pilotDocumentPage{box-sizing:border-box!important;width:210mm!important;height:297mm!important;max-height:297mm!important;min-height:297mm!important;padding:11mm 12mm!important;overflow:hidden!important}#pilotDocFit{transform-origin:top left!important}#pilotDocumentOverlay{overflow:visible!important}}
+</style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
 <button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
@@ -1118,7 +1141,7 @@ function create(kind){
 get('dtfOfferPdf').addEventListener('click',()=>create('offer'));
 get('dtfJobPdf').addEventListener('click',()=>create('job'));
 })();
-</script><script id="pilot-global-documents-v75">
+</script><script id="pilot-global-documents-v76">
 (function(){
 const $=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),val=id=>$(id)?.value?.trim()||'',num=id=>Number($(id)?.value)||0;
 const euro=n=>n.toLocaleString('de-DE',{style:'currency',currency:'EUR'});
@@ -1133,6 +1156,17 @@ function enabled(key){const btn=document.querySelector('[data-key="'+key+'"]');r
 function nestSketch(){const svg=document.querySelector('#nestpreview svg');if(!svg)return null;const copy=svg.cloneNode(true);copy.removeAttribute('width');copy.removeAttribute('height');copy.removeAttribute('style');copy.setAttribute('preserveAspectRatio','xMidYMid meet');return copy.outerHTML}
 function eyeSketch(){if(!enabled('eye'))return '';const points=typeof window.pilotEyeCandidates==='function'?window.pilotEyeCandidates().filter(p=>p.selected):[];const circles=points.map(p=>'<circle cx="'+(10+380*p.x).toFixed(2)+'" cy="'+(10+210*p.y).toFixed(2)+'" r="5" fill="#008eaa" stroke="#fff" stroke-width="1.5"/>').join('');return '<svg viewBox="0 0 400 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ösenpositionen"><rect x="10" y="10" width="380" height="210" fill="#e7f4f6" stroke="#416b76" stroke-width="2"/>'+circles+'</svg>'}
 function task(label,detail){return '<div class="doc-task"><span class="doc-box"></span><span>'+esc(label)+'</span><small>'+esc(detail||'')+'</small></div>'}
+function fitDocument(){
+ const page=$('pilotDocumentPage'),inner=$('pilotDocFit');if(!page||!inner)return;
+ inner.style.transform='none';inner.style.width='100%';page.style.height='297mm';page.style.minHeight='0';page.style.overflow='hidden';
+ const available=page.clientHeight-parseFloat(getComputedStyle(page).paddingTop)-parseFloat(getComputedStyle(page).paddingBottom);
+ const actual=inner.scrollHeight;const scale=actual>available?available/actual:1;
+ inner.style.transformOrigin='top left';inner.style.transform='scale('+scale+')';inner.style.width=(100/scale)+'%';
+ const adjusted=inner.scrollHeight*scale;
+ if(adjusted>available+2){inner.style.width='100%';const fallback=available/inner.scrollHeight;inner.style.transform='scale('+Math.min(scale,fallback)+')';}
+}
+window.addEventListener('beforeprint',fitDocument);
+window.addEventListener('resize',()=>{if(!$('pilotDocumentOverlay').hidden)fitDocument()});
 function show(type){
  const qty=num('qty'),w=num('w'),h=num('h'),raw=$('price')?.textContent||'';
  const total=Number(raw.replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'));
@@ -1170,11 +1204,11 @@ function show(type){
  '<div class="doc-sign"><div>Produktion · Datum / Unterschrift</div><div>Kontrolle · Datum / Unterschrift</div></div>';
  }
 
- $('pilotDocumentPage').innerHTML='<div class="doc-head"><div class="doc-brand">Print<span>Pilot</span></div><div class="doc-head-right">WEIMANN PRINT<br>'+esc(format(date))+'</div></div>'+content;
+ $('pilotDocumentPage').innerHTML='<div id="pilotDocFit"><div class="doc-head"><div class="doc-brand">Print<span>Pilot</span></div><div class="doc-head-right">WEIMANN PRINT<br>'+esc(format(date))+'</div></div>'+content+'</div>';
  $('pilotDocPreviewTitle').textContent=type==='offer'?'Angebot · '+number:'Auftragstasche · '+number;
  const match=number.match(/^WP-(\d{4})-(\d+)$/);
  if(match&&match[1]===String(today.getFullYear())){try{const current=Number(localStorage.getItem(seqKey))||0;const chosen=Number(match[2]);if(chosen>current)localStorage.setItem(seqKey,String(chosen))}catch(e){}}
- $('pilotDocumentOverlay').hidden=false;document.body.style.overflow='hidden';$('woStatus').textContent='Dokumentvorschau geöffnet.';
+ $('pilotDocumentOverlay').hidden=false;document.body.style.overflow='hidden';fitDocument();$('woStatus').textContent='Dokumentvorschau geöffnet.';
 }
 $('pilotOfferPrint').addEventListener('click',()=>show('offer'));
 $('pilotTicketPrint').addEventListener('click',()=>show('ticket'));
