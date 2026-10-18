@@ -813,7 +813,7 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v53">
+<script id="pilot-dtf-calculator-v54">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
  const ns='http://www.w3.org/2000/svg';
@@ -976,7 +976,12 @@ renderEye();
   const utilization=usedArea>0?100*motifArea/usedArea:0;
   const wasteArea=Math.max(0,usedArea-motifArea),orderedWaste=Math.max(0,orderedArea-motifArea);
   const material=meters*n('dtfSheetPrice'),textile=el('dtfTextileMode').value==='own'?qty*n('dtfTextilePrice'):0;
-  const labor=(n('dtfSetup')/60+count*(n('dtfPressSeconds')+n('dtfCutSeconds'))/3600)*n('dtfHourly');
+  // Each separate transfer motif requires one press cycle; additional motifs are absolute pieces.
+  const presses=types.reduce((sum,t)=>sum+(t.absolute?t.per:qty*t.per),0);
+  const setupCost=n('dtfSetup')/60*n('dtfHourly');
+  const pressCost=presses*n('dtfPressSeconds')/3600*n('dtfHourly');
+  const cutCost=count*n('dtfCutSeconds')/3600*n('dtfHourly');
+  const labor=setupCost+pressCost+cutCost;
   const costs=material+textile+labor+n('dtfOther'),price=costs*Math.max(1,n('dtfFactor'));
   const kpis=document.createElement('div');kpis.className='dtf-kpis';
   const addKpi=(label,value,sub)=>{const card=document.createElement('div');card.className='dtf-kpi';for(const [cls,txt] of [['dtf-kpi-label',label],['dtf-kpi-value',value],['dtf-kpi-sub',sub]]){const d=document.createElement('div');d.className=cls;d.textContent=txt;card.append(d)}kpis.append(card)};
@@ -984,11 +989,12 @@ renderEye();
   addKpi('Ausnutzung',fmt(100*motifArea/orderedArea)+' %','bezogen auf bestellte Bahn');
   addKpi('Verschnitt',fmt(orderedWaste)+' cm²',fmt(100-100*motifArea/orderedArea)+' % inkl. Aufrundung');
   addKpi('Gang-Sheet-Kosten',eur(material),fmt(n('dtfSheetPrice'))+' €/lfm Einkauf');
+  addKpi('Pressvorgänge',fmt(presses),fmt(presses*n('dtfPressSeconds')/60)+' min reine Presszeit');
   box.append(kpis);
   const note=document.createElement('p');note.className='dtf-result-note';note.textContent=solution.method+' · '+fmt(utilization)+' % Ausnutzung innerhalb der belegten Bahn · Motivabstände geometrisch geprüft. Keine Garantie für mathematisch optimale Ausnutzung.';box.append(note);
   const heading=document.createElement('div');heading.className='dtf-cost-title';heading.textContent='Kostenkalkulation';box.append(heading);
   const table=document.createElement('table');
-  for(const [a,b] of [['Gang Sheet ('+fmt(meters)+' lfm)',eur(material)],['Textilien',eur(textile)],['Rüsten / Pressen / Zuschneiden',eur(labor)],['Weitere Kosten',eur(n('dtfOther'))],['Selbstkosten',eur(costs)],['Verkaufspreis gesamt',eur(price)],['Verkaufspreis je Textil',eur(price/qty)]]){const tr=document.createElement('tr');for(const t of [a,b]){const td=document.createElement('td');td.textContent=t;tr.append(td)}table.append(tr)}box.append(table);
+  for(const [a,b] of [['Gang Sheet ('+fmt(meters)+' lfm)',eur(material)],['Textilien',eur(textile)],['Rüsten',eur(setupCost)],['Pressen ('+fmt(presses)+' Vorgänge)',eur(pressCost)],['Motivzuschnitt ('+fmt(count)+' Stück)',eur(cutCost)],['Weitere Kosten',eur(n('dtfOther'))],['Selbstkosten',eur(costs)],['Verkaufspreis gesamt',eur(price)],['Verkaufspreis je Textil',eur(price/qty)]]){const tr=document.createElement('tr');for(const t of [a,b]){const td=document.createElement('td');td.textContent=t;tr.append(td)}table.append(tr)}box.append(table);
  }
  root.addEventListener('input',update);root.addEventListener('change',()=>{el('dtfTextilePrice').closest('.field').hidden=el('dtfTextileMode').value==='customer';update()});update();
 })();
