@@ -292,7 +292,15 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 .mc .field textarea{height:auto;min-height:80px}
 .mc .field small,.mc .field .hint{margin-top:6px}
 @media(max-width:390px){.mc .inputs,.mc .pilot-inputs .inputs,.mc .settings,.mc .extras,.mc .extra-fields{column-gap:8px;row-gap:12px}.mc .field input:not([type="checkbox"]):not([type="radio"]),.mc .field select{font-size:14px;padding-left:9px}.mc .field select{padding-right:24px}}
-</style></head><body><main class="mc">
+<style id="pilot-compact-fields-v34">
+/* Tight, uniform vertical rhythm in all calculation forms; no changes to previews. */
+.mc .inputs,.mc .pilot-inputs .inputs,.mc .settings,.mc .extras,.mc .extra-fields{row-gap:10px!important;column-gap:12px!important;align-items:start}
+.mc .field,.mc .field.wide,.mc .inputs>.wide{margin-top:0!important;margin-bottom:0!important;padding-top:0;padding-bottom:0;align-self:start}
+.mc .field label{min-height:0!important;height:auto!important;line-height:1.25!important;margin:0 0 5px!important;align-items:end}
+.mc .field input:not([type="checkbox"]):not([type="radio"]),.mc .field select{height:48px;min-height:48px}
+.mc .field small,.mc .field .hint{margin-top:5px}
+@media(max-width:390px){.mc .inputs,.mc .pilot-inputs .inputs,.mc .settings,.mc .extras,.mc .extra-fields{row-gap:9px!important;column-gap:9px!important}}
+</style></style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
 <button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
