@@ -163,10 +163,10 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 /* PrintPilot format detail — separate from the real nesting preview */
 .pilot-format{background:#fff;border:1px solid #dce5e9;border-radius:9px;margin-top:10px;padding:12px}
 .pilot-format .title{font-size:15px;color:#1c303a}
-#pilotFormatSvg{width:100%;height:auto;display:block;background:white}
+#pilotFormatSvg{width:100%;height:auto;max-height:300px;display:block;background:white}
 .pilot-format .pilot-note{font:11px/1.5 Arial,sans-serif;color:#5d7180;margin-top:5px}
-.pilot-preview .nestlcd{background:white}
-@media(max-width:650px){.pilot-format{padding:9px}.pilot-format .title{font-size:13px}}
+.pilot-preview .nestlcd{background:white;padding:6px}.pilot-preview #nestpreview{max-height:205px;overflow:hidden}.pilot-preview .nestsvg{max-height:205px;width:100%;display:block}.pilot-preview .nesthead{margin-bottom:5px}.pilot-format .pilot-note{margin-top:2px}
+@media(max-width:650px){.pilot-format{padding:9px}.pilot-format .title{font-size:13px}#pilotFormatSvg{max-height:255px}.pilot-preview #nestpreview,.pilot-preview .nestsvg{max-height:170px}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">MIMAKI CALC</div><div class="model">CJV150-130 // COST COMPUTER</div></div><span class="badge">READY</span></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
@@ -397,8 +397,15 @@ renderEye();
   label(bx+bw/2,by+bh/2,fmt(w)+' × '+fmt(h)+' mm',ink,fontSize);
   if(b>0)label(320,375,'Beschnitt: '+fmt(b)+' mm je Seite',mg,12);
   if(document.querySelector('.key[data-key="eye"]')?.classList.contains('on')&&Array.isArray(window.pilotEyePositions)){
+   const mode=document.getElementById('eyePosition')?.value;
+   const inset=Number(document.getElementById('eyeInset')?.value);
+   const cornerInset=Number.isFinite(inset)&&inset>=0&&inset*2<Math.min(w,h)?inset:25;
    for(const p of window.pilotEyePositions){
-    add('circle',{cx:bx+p.x*bw,cy:by+p.y*bh,r:5.5,fill:'#00b9e8',stroke:'#102b37','stroke-width':2});
+    // Corner preset positions are symbolic (0 / 1); display them at the real mm inset.
+    // Automatically distributed positions already carry their actual normalized mm coordinates.
+    const px=mode==='corners'?(p.x<=0.001?cornerInset/w:p.x>=0.999?1-cornerInset/w:p.x):p.x;
+    const py=mode==='corners'?(p.y<=0.001?cornerInset/h:p.y>=0.999?1-cornerInset/h:p.y):p.y;
+    add('circle',{cx:bx+px*bw,cy:by+py*bh,r:5.5,fill:'#00b9e8',stroke:'#102b37','stroke-width':2});
    }
   }
  }
