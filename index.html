@@ -221,7 +221,7 @@ extra.addEventListener('click',e=>{if(e.target.id==='eyePosition')setTimeout(syn
 for(const id of ['w','h'])document.getElementById(id)?.addEventListener('input',syncEye);
 new MutationObserver(()=>{syncEye();renderEye()}).observe(extra,{childList:true});
 document.getElementById('qty')?.addEventListener('input',renderEye);
-extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){if(e.target.value==='corners')chosen=[0,3,6,9];if(e.target.value==='50cm')chosen=[0,3,6,9];renderEye()}});
+extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){if(e.target.value==='corners')chosen=[0,3,6,9];if(e.target.value==='50cm'){const w=Number(document.getElementById('w').value),h=Number(document.getElementById('h').value);const pts=[];for(const [a,b,n] of [[0,0,Math.ceil(w/500)],[1,0,Math.ceil(h/500)],[1,1,Math.ceil(w/500)],[0,1,Math.ceil(h/500)]]){for(let j=0;j<n;j++){const t=j/n;pts.push({x:a===0&&b===0?t:a===1&&b===1?1-t:a,y:a===1&&b===0?t:a===0&&b===1?1-t:b})}}positions.splice(0,positions.length,...pts);chosen=pts.map((_,i)=>i)}renderEye()}});
 renderEye();
 })();
 </script>
