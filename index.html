@@ -386,7 +386,7 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 #pilotDocumentPage .doc-sign{margin-top:70px;gap:35px}
 @media(max-width:440px){#pilotDocumentPage .doc-meta{gap:10px 12px}#pilotDocumentPage .doc-checks{gap:10px}}
 @media print{#pilotDocumentPage .doc-head,#pilotDocumentPage .doc-meta,#pilotDocumentPage .doc-positions,#pilotDocumentPage .doc-total,#pilotDocumentPage .doc-note,#pilotDocumentPage .doc-checks,#pilotDocumentPage .doc-sign{break-inside:avoid}}
-</style><style id="pilot-documents-v72">#workOrderPanel .pilot-doc-actions button{background:#06b5d4!important;border-color:#069cba!important;color:#103844!important}#productionPanel #productionSave{background:#edf5f7!important;color:#245665!important;border:1px solid #a9cbd4!important;box-shadow:none!important;min-height:42px!important;font:700 12px Arial,sans-serif!important;letter-spacing:.025em!important}</style></head><body><main class="mc">
+</style><style id="pilot-documents-v72">#workOrderPanel .pilot-doc-actions button{background:#06b5d4!important;border-color:#069cba!important;color:#103844!important}#productionPanel #productionSave{background:#edf5f7!important;color:#245665!important;border:1px solid #a9cbd4!important;box-shadow:none!important;min-height:42px!important;font:700 12px Arial,sans-serif!important;letter-spacing:.025em!important}</style><style id="pilot-documents-v73">#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye{border:1px solid #d3e2e7;padding:8px;background:#f8fbfc;max-height:56mm;overflow:hidden}#pilotDocumentPage .doc-nest svg,#pilotDocumentPage .doc-eye svg{display:block;width:100%;height:auto;max-height:52mm}#pilotDocumentPage .doc-eye{max-height:45mm}#pilotDocumentPage .doc-eye svg{max-height:41mm}#pilotDocumentPage .doc-task{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #e4ecef}#pilotDocumentPage .doc-task small{margin-left:auto;color:#5e7780;text-align:right;max-width:55%}#pilotDocumentPage .doc-box{display:inline-block;width:12px;height:12px;flex:0 0 12px;border:1px solid #49636c;margin-top:1px}@media print{#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye,#pilotDocumentPage .doc-task{break-inside:avoid}}</style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
 <button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
@@ -1118,7 +1118,7 @@ function create(kind){
 get('dtfOfferPdf').addEventListener('click',()=>create('offer'));
 get('dtfJobPdf').addEventListener('click',()=>create('job'));
 })();
-</script><script id="pilot-global-documents-v72">
+</script><script id="pilot-global-documents-v73">
 (function(){
 const $=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),val=id=>$(id)?.value?.trim()||'',num=id=>Number($(id)?.value)||0;
 const euro=n=>n.toLocaleString('de-DE',{style:'currency',currency:'EUR'});
@@ -1129,6 +1129,10 @@ function nextNumber(){let seq=0;try{seq=Math.max(0,Number(localStorage.getItem(s
 function ensureNumber(){const input=$('woNumber');if(input.value.trim())return input.value.trim();const next=nextNumber();input.value=next;return next}
 $('woNumber').value=nextNumber();
 $('woNumber').addEventListener('blur',()=>{if(!val('woNumber'))$('woNumber').value=nextNumber()});
+function enabled(key){const btn=document.querySelector('[data-key="'+key+'"]');return !!btn&&(btn.classList.contains('on')||btn.classList.contains('active')||btn.getAttribute('aria-pressed')==='true')}
+function nestSketch(){const svg=document.querySelector('#nestpreview svg');if(!svg)return '<p class="doc-muted">Keine Nutzenvorschau vorhanden.</p>';const copy=svg.cloneNode(true);copy.removeAttribute('width');copy.removeAttribute('height');copy.setAttribute('preserveAspectRatio','xMidYMid meet');return copy.outerHTML}
+function eyeSketch(){if(!enabled('eye'))return '';const points=typeof window.pilotEyeCandidates==='function'?window.pilotEyeCandidates().filter(p=>p.selected):[];const circles=points.map(p=>'<circle cx="'+(10+380*p.x).toFixed(2)+'" cy="'+(10+210*p.y).toFixed(2)+'" r="5" fill="#008eaa" stroke="#fff" stroke-width="1.5"/>').join('');return '<svg viewBox="0 0 400 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ösenpositionen"><rect x="10" y="10" width="380" height="210" fill="#e7f4f6" stroke="#416b76" stroke-width="2"/>'+circles+'</svg>'}
+function task(label,detail){return '<div class="doc-task"><span class="doc-box"></span><span>'+esc(label)+'</span><small>'+esc(detail||'')+'</small></div>'}
 function show(type){
  const qty=num('qty'),w=num('w'),h=num('h'),raw=$('price')?.textContent||'';
  const total=Number(raw.replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'));
@@ -1143,6 +1147,18 @@ function show(type){
  if(type==='offer'){
  content='<div class="doc-label">KUNDENDOKUMENT</div><h1>Angebot</h1>'+details+'<h2>Leistungsübersicht</h2><table class="doc-positions"><thead><tr><th>Beschreibung</th><th class="doc-right">Menge</th><th class="doc-right">Einzelpreis netto</th></tr></thead><tbody>'+line(title,qty+' Stück',euro(total/qty))+'</tbody></table><div class="doc-total"><span>Gesamtbetrag netto</span><strong>'+esc(euro(total))+'</strong></div><p class="doc-muted">Angebotsdatum: '+esc(format(date))+' · Gültig bis: '+esc(format(valid))+'</p><p class="doc-muted">Alle Beträge netto. Steuerliche Behandlung und Lieferbedingungen vor Versand ergänzen bzw. prüfen.</p>';
  }else{
+ const eyeCount=enabled('eye')?num('eyeq'):0;
+ const eyeMode=val('eyePosition'),eyeDesc=eyeMode==='corners'?'4 Ecken':eyeMode==='50cm'?'umlaufend · max. '+num('eyeSpacing')+' mm':'individuell';
+ const checks=[
+ task('Druckdaten geprüft',''),task('Druck abgeschlossen',''),
+ ...(enabled('lam')?[task('Laminieren',$('lamselect')?.selectedOptions?.[0]?.textContent||'')]:[]),
+ ...(enabled('contour')?[task('Konturschnitt',qty+' Stück')]:[]),
+ ...(enabled('eye')?[task('Ösen setzen',eyeCount+' je Stück · '+(eyeCount*qty)+' gesamt · '+eyeDesc)]:[]),
+ ...(enabled('trim')?[task('Handschnitt',num('trimq')+' Schnitte')]:[]),
+ ...(window.pilotFinishingCost?.(w,h,qty)?.description?[task('Konfektionierung',window.pilotFinishingCost(w,h,qty).description)]:[]),
+ ...(window.pilotRollupCost?.(qty)?.description?[task('Roll-up',window.pilotRollupCost(qty).description)]:[]),
+ task('Endkontrolle',''),task('Verpackung / Versand',window.pilotShippingCost?.().description||'')
+ ].join('');
  const note=val('woNotes');
  content='<div class="doc-label">INTERNES PRODUKTIONSDOKUMENT</div><h1>Auftragstasche</h1>'+details+'<h2>Produktionsvorgaben</h2><table>'+row('Druckmaterial',material)+row('Endformat',w+' × '+h+' mm')+row('Auflage',qty+' Stück')+row('Beschnitt je Seite',num('gap')+' mm')+row('Zwischenschnitt',num('cut')+' mm')+row('Rollenverbrauch',$('lfm')?.textContent||'—')+row('Liefertermin',val('woDue')||'Noch offen')+'</table><h2>Arbeitsanweisungen</h2><div class="doc-note">'+esc(note||'Keine besonderen Arbeitsanweisungen hinterlegt.')+'</div><h2>Produktionskontrolle</h2><div class="doc-checks"><div>□ Druckdaten / Freigabe geprüft</div><div>□ Material bereitgestellt</div><div>□ Druck abgeschlossen</div><div>□ Weiterverarbeitung abgeschlossen</div><div>□ Endkontrolle / Verpackung</div><div>□ Versand / Abholung</div></div><div class="doc-sign"><div>Produktion · Datum / Unterschrift</div><div>Kontrolle · Datum / Unterschrift</div></div>';
  }
