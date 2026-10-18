@@ -353,6 +353,39 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 #pilotDocumentPage .doc-sign{display:flex;gap:25px;margin-top:65px}
 #pilotDocumentPage .doc-sign div{flex:1;border-top:1px solid #7e9198;padding-top:8px}
 @media print{@page{size:A4 portrait;margin:0}html,body{height:auto!important;overflow:visible!important;margin:0!important;padding:0!important;background:#fff!important}body>main.mc{display:block!important;max-width:none!important;width:210mm!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:white!important}body>main.mc>*:not(#pilotDocumentOverlay){display:none!important}body>main.mc>#pilotDocumentOverlay{display:block!important;position:static!important;inset:auto!important;overflow:visible!important;margin:0!important;padding:0!important;background:white!important}#pilotDocumentOverlay .pilot-doc-toolbar{display:none!important}#pilotDocumentPage{width:210mm!important;max-width:none!important;min-height:297mm!important;margin:0!important;padding:14mm!important;box-shadow:none!important}#pilotDtfPrint{display:none!important}}
+</style><style id="pilot-documents-v71">
+/* Isolated mobile controls: reset legacy global field and date styling. */
+#workOrderPanel .pilot-doc-form{gap:10px 12px!important}
+#workOrderPanel .pd-field{display:block!important;position:relative!important;min-height:0!important;height:auto!important;overflow:hidden!important}
+#workOrderPanel .pd-field label{height:auto!important;min-height:0!important;margin:0 0 5px!important}
+#workOrderPanel .pd-field input,#workOrderPanel .pd-field select,#workOrderPanel .pd-field textarea{appearance:none;-webkit-appearance:none;box-sizing:border-box!important;display:block!important;width:100%!important;min-width:0!important;max-width:100%!important;position:relative!important;float:none!important;margin:0!important;padding:7px 10px!important;border:1px solid #cbd9df!important;border-radius:5px!important;background:#f7fafb!important;color:#203943!important;box-shadow:none!important;font:500 14px/1.3 Arial,sans-serif!important;letter-spacing:0!important}
+#workOrderPanel .pd-field input,#workOrderPanel .pd-field select{height:40px!important;min-height:40px!important;max-height:40px!important}
+#workOrderPanel .pd-field input[type=date]{-webkit-appearance:none!important;appearance:none!important;display:block!important;line-height:24px!important;overflow:hidden!important}
+#workOrderPanel .pd-field input[type=date]::-webkit-date-and-time-value{text-align:left;min-height:24px;line-height:24px}
+#workOrderPanel .pd-field input[type=date]::-webkit-datetime-edit{padding:0;line-height:24px}
+#workOrderPanel .pd-field input[type=date]::-webkit-calendar-picker-indicator{margin:0;padding:0;width:16px;height:18px}
+#workOrderPanel .pd-field textarea{height:56px!important;min-height:56px!important;max-height:100px!important}
+#workOrderPanel .pilot-doc-actions button{height:52px!important;min-height:52px!important;padding:7px 6px!important}
+#workOrderPanel .pilot-doc-status{margin-top:8px!important}
+#pilotDocumentPage{font-family:Arial,Helvetica,sans-serif!important;font-size:11.5px!important}
+#pilotDocumentPage .doc-head-right{text-align:right;font-size:10px;line-height:1.6;letter-spacing:.03em;color:#506b76}
+#pilotDocumentPage .doc-label{margin-top:25px;color:#008da8;font-size:10px;font-weight:800;letter-spacing:.15em}
+#pilotDocumentPage h1{font-size:27px;font-weight:800;margin:5px 0 24px;letter-spacing:-.02em}
+#pilotDocumentPage .doc-meta{display:grid;grid-template-columns:1fr 1fr;gap:14px 22px;padding:16px 0 20px;border-top:1px solid #d9e6eb;border-bottom:1px solid #d9e6eb}
+#pilotDocumentPage .doc-meta div{min-width:0}
+#pilotDocumentPage .doc-meta span{display:block;margin-bottom:6px;font-size:9px;letter-spacing:.09em;font-weight:700;color:#67818b}
+#pilotDocumentPage .doc-meta strong{display:block;font-size:12px;font-weight:700;overflow-wrap:anywhere}
+#pilotDocumentPage h2{font-size:13px;margin:26px 0 11px;color:#183845}
+#pilotDocumentPage .doc-positions th{font-size:10px;color:#4e6973;background:#f1f7f9;font-weight:700;width:auto}
+#pilotDocumentPage .doc-positions td{font-size:12px}
+#pilotDocumentPage .doc-right{text-align:right!important}
+#pilotDocumentPage .doc-total{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:14px 0;border-top:2px solid #143b49;border-bottom:1px solid #dce7eb;font-size:16px}
+#pilotDocumentPage .doc-total strong{font-size:19px;white-space:nowrap}
+#pilotDocumentPage .doc-note{padding:13px 14px;min-height:40px;background:#f5f9fa;border-left:3px solid #08aeca;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+#pilotDocumentPage .doc-checks{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;padding:10px 0;font-size:11px}
+#pilotDocumentPage .doc-sign{margin-top:70px;gap:35px}
+@media(max-width:440px){#pilotDocumentPage .doc-meta{gap:10px 12px}#pilotDocumentPage .doc-checks{gap:10px}}
+@media print{#pilotDocumentPage .doc-head,#pilotDocumentPage .doc-meta,#pilotDocumentPage .doc-positions,#pilotDocumentPage .doc-total,#pilotDocumentPage .doc-note,#pilotDocumentPage .doc-checks,#pilotDocumentPage .doc-sign{break-inside:avoid}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
@@ -1085,11 +1118,11 @@ function create(kind){
 get('dtfOfferPdf').addEventListener('click',()=>create('offer'));
 get('dtfJobPdf').addEventListener('click',()=>create('job'));
 })();
-</script><script id="pilot-global-documents-v68">
+</script><script id="pilot-global-documents-v71">
 (function(){
 const $=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),val=id=>$(id)?.value?.trim()||'',num=id=>Number($(id)?.value)||0;
 const euro=n=>n.toLocaleString('de-DE',{style:'currency',currency:'EUR'});
-const row=(a,b)=>'<tr><th>'+esc(a)+'</th><td>'+esc(b)+'</td></tr>';
+const row=(a,b)=>'<tr><th>'+esc(a)+'</th><td>'+esc(b)+'</td></tr>'; const line=(a,b,c)=>'<tr><td>'+esc(a)+'</td><td class="doc-right">'+esc(b)+'</td><td class="doc-right">'+esc(c)+'</td></tr>';
 const today=new Date(),prefix=String(today.getFullYear())+'-'+String(today.getMonth()+1).padStart(2,'0')+String(today.getDate()).padStart(2,'0');
 $('woNumber').placeholder='WP-'+prefix+'-01';
 function show(type){
@@ -1101,14 +1134,16 @@ function show(type){
  if(!val('woNumber'))$('woNumber').value=number;
  const product=$('pilotProductName')?.textContent?.trim()||'Großformatdruck',title=val('woTitle')||product,material=$('material')?.selectedOptions?.[0]?.textContent||'—';
  const date=new Date(),format=d=>d.toLocaleDateString('de-DE'),valid=new Date(date.getTime()+Math.max(1,num('pilotPdfValidity'))*86400000);
- const details='<table>'+row('Kunde',customer)+row('Vorgangsnummer',number)+row('Produkt',title)+row('Format',w+' × '+h+' mm')+row('Auflage',qty+' Stück')+'</table>';
+ const details='<div class="doc-meta"><div><span>KUNDE</span><strong>'+esc(customer)+'</strong></div><div><span>VORGANG</span><strong>'+esc(number)+'</strong></div><div><span>PRODUKT</span><strong>'+esc(title)+'</strong></div><div><span>FORMAT / AUFLAGE</span><strong>'+esc(w+' × '+h+' mm · '+qty+' Stück')+'</strong></div></div>'; 
  let content;
  if(type==='offer'){
- content='<h1>ANGEBOT</h1>'+details+'<h2>Leistungsübersicht</h2><table>'+row(title+' · '+qty+' Stück',euro(total))+row('Einzelpreis netto',euro(total/qty))+'</table><div class="doc-total">Gesamt netto: '+esc(euro(total))+'</div><p class="doc-muted">Dieses Angebot ist gültig bis '+esc(format(valid))+'. Alle Preise netto. Umsatzsteuer und Lieferbedingungen vor Versand prüfen.</p>';
+ content='<div class="doc-label">KUNDENDOKUMENT</div><h1>Angebot</h1>'+details+'<h2>Leistungsübersicht</h2><table class="doc-positions"><thead><tr><th>Beschreibung</th><th class="doc-right">Menge</th><th class="doc-right">Einzelpreis netto</th></tr></thead><tbody>'+line(title,qty+' Stück',euro(total/qty))+'</tbody></table><div class="doc-total"><span>Gesamtbetrag netto</span><strong>'+esc(euro(total))+'</strong></div><p class="doc-muted">Angebotsdatum: '+esc(format(date))+' · Gültig bis: '+esc(format(valid))+'</p><p class="doc-muted">Alle Beträge netto. Steuerliche Behandlung und Lieferbedingungen vor Versand ergänzen bzw. prüfen.</p>';
  }else{
- content='<h1>AUFTRAGSTASCHE</h1>'+details+'<h2>Produktionsdaten</h2><table>'+row('Material',material)+row('Beschnitt je Seite',num('gap')+' mm')+row('Zwischenschnitt',num('cut')+' mm')+row('Rollenverbrauch',$('lfm')?.textContent||'—')+row('Liefertermin',val('woDue')||'Offen')+row('Arbeitsanweisung',val('woNotes')||'—')+'</table><h2>Produktionskontrolle</h2><p>□ Druckdaten geprüft　□ Druck　□ Weiterverarbeitung　□ Endkontrolle</p><div class="doc-sign"><div>Produktion / Datum</div><div>Endkontrolle / Datum</div></div><h2>Interne Kalkulation</h2><table>'+row('Verkaufspreis netto',euro(total))+row('Einzelpreis netto',euro(total/qty))+'</table>';
+ const note=val('woNotes');
+ content='<div class="doc-label">INTERNES PRODUKTIONSDOKUMENT</div><h1>Auftragstasche</h1>'+details+'<h2>Produktionsvorgaben</h2><table>'+row('Druckmaterial',material)+row('Endformat',w+' × '+h+' mm')+row('Auflage',qty+' Stück')+row('Beschnitt je Seite',num('gap')+' mm')+row('Zwischenschnitt',num('cut')+' mm')+row('Rollenverbrauch',$('lfm')?.textContent||'—')+row('Liefertermin',val('woDue')||'Noch offen')+'</table><h2>Arbeitsanweisungen</h2><div class="doc-note">'+esc(note||'Keine besonderen Arbeitsanweisungen hinterlegt.')+'</div><h2>Produktionskontrolle</h2><div class="doc-checks"><div>□ Druckdaten / Freigabe geprüft</div><div>□ Material bereitgestellt</div><div>□ Druck abgeschlossen</div><div>□ Weiterverarbeitung abgeschlossen</div><div>□ Endkontrolle / Verpackung</div><div>□ Versand / Abholung</div></div><div class="doc-sign"><div>Produktion · Datum / Unterschrift</div><div>Kontrolle · Datum / Unterschrift</div></div>';
  }
- $('pilotDocumentPage').innerHTML='<div class="doc-head"><div class="doc-brand">Print<span>Pilot</span></div><div class="doc-muted">WEIMANN PRINT<br>'+esc(format(date))+'</div></div>'+content;
+
+ $('pilotDocumentPage').innerHTML='<div class="doc-head"><div class="doc-brand">Print<span>Pilot</span></div><div class="doc-head-right">WEIMANN PRINT<br>'+esc(format(date))+'</div></div>'+content;
  $('pilotDocPreviewTitle').textContent=type==='offer'?'Angebot · '+number:'Auftragstasche · '+number;
  $('pilotDocumentOverlay').hidden=false;document.body.style.overflow='hidden';$('woStatus').textContent='Dokumentvorschau geöffnet.';
 }
