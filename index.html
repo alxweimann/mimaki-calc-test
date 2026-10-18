@@ -439,6 +439,15 @@ extra.addEventListener('change',e=>{
    positions.splice(0,positions.length,...defaultEyePositions.map(p=>({...p})));
    chosen=[0,3,6,9];
  }else if(mode==='50cm'){autoEye();return}
+ else if(mode==='custom'){
+   // Automatic perimeter points must not replace the manual editing grid.
+   // Preserve manually selected points when already in the canonical grid.
+   const wasAutomatic=positions.length!==defaultEyePositions.length||positions.some((p,i)=>Math.abs(p.x-defaultEyePositions[i].x)>1e-8||Math.abs(p.y-defaultEyePositions[i].y)>1e-8);
+   if(wasAutomatic){
+     positions.splice(0,positions.length,...defaultEyePositions.map(p=>({...p})));
+     chosen=[0,3,6,9];
+   }
+ }
  syncEye();renderEye();
 });
 for(const id of ['w','h'])document.getElementById(id)?.addEventListener('change',()=>{
