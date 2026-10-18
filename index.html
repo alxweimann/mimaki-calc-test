@@ -246,6 +246,23 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 .pilot-head .pilot-module>.brand,.pilot-head .pilot-module>.model{display:block!important;position:static!important;float:none!important;transform:none!important;box-sizing:border-box!important;width:auto!important;margin:0!important;padding:0!important;border:0!important;text-indent:0!important;text-align:left!important;justify-self:start!important}
 .pilot-head .pilot-module>.model{line-height:1.3!important}
 @media(max-width:650px){.pilot-head .pilot-module{padding-left:9px!important}}
+
+/* PrintPilot v19 — production log and settings, visual only */
+#productionPanel,.service{background:#fff!important;border:1px solid #dbe5e9!important;border-radius:9px!important;box-shadow:0 1px 2px #1232!important;padding:14px!important}
+#productionPanel .title,.service>summary{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;font-size:14px!important;font-weight:700!important;letter-spacing:.035em!important;color:#223b49!important;line-height:1.4!important}
+#productionPanel>.hint{color:#687e88;font:12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+#productionPanel #productionTotals{background:#edf7fa;border:1px solid #d3e9ef;border-radius:6px;padding:9px 11px;color:#235164;font-weight:600}
+#productionPanel #productionRows{display:grid;gap:8px;margin-top:9px}
+#productionPanel #productionRows>*{border:1px solid #e0e9ed!important;border-radius:7px!important;background:#f8fbfc!important;padding:10px!important;color:#243c48!important;box-shadow:none!important;overflow-wrap:anywhere}
+#productionPanel button#productionSave.production-action{background:#00b9e8!important;border:1px solid #009dc7!important;color:#073847!important;border-radius:7px!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;letter-spacing:.025em!important;font-size:13px!important;min-height:43px!important}
+.service>summary{padding:2px 0 5px;list-style-position:inside}
+.service[open]>summary{padding-bottom:11px;border-bottom:1px solid #e3edf0;margin-bottom:11px}
+.service .settings{gap:11px!important;margin-top:10px}
+.service .field label{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:11px;font-weight:650;letter-spacing:.015em;color:#4b6470}
+.service .field input,.service .field select{width:100%;min-width:0;background:#f3f7f9;border:1px solid #cbdde4;border-radius:6px;color:#1c3946;box-shadow:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+.service .btn{border-radius:7px!important;box-shadow:none!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;letter-spacing:.01em!important}
+.service .btn.save{background:#d5f3fa!important;border-color:#81d7ea!important;color:#064b61!important}
+@media(max-width:650px){#productionPanel,.service{padding:12px!important}.service .settings{grid-template-columns:repeat(2,minmax(0,1fr))}.service .field input,.service .field select{font-size:13px}.service>summary,#productionPanel .title{font-size:13px!important}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
