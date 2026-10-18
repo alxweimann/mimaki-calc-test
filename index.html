@@ -266,8 +266,31 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 .pilot-tabs{grid-template-columns:repeat(6,minmax(0,1fr))}
 @media(max-width:650px){.pilot-tabs{display:flex;overflow-x:auto;scroll-snap-type:x proximity;gap:4px}.pilot-tabs .pilot-tab{flex:0 0 auto;min-width:82px;scroll-snap-align:start}}
 #rollupPanel{scroll-margin-top:12px}
+</style><style>
+.pilot-product-start{background:#f4f9fb;border:1px solid #d3e3ea;border-radius:12px;padding:20px;margin:12px 0 18px}
+.pilot-start-kicker{font-size:11px;letter-spacing:.12em;color:#078eae;font-weight:700}
+.pilot-start-head h2{font-size:22px;color:#152e3b;margin:9px 0 5px}.pilot-start-head p{font-size:13px;color:#607783;margin:0 0 17px}
+.pilot-product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pilot-product-grid button{border:1px solid #d4e2e8;border-radius:10px;background:#fff;display:flex;flex-direction:column;text-align:left;gap:8px;padding:16px;min-height:118px;color:#173442;cursor:pointer}
+.pilot-product-grid button:focus-visible,.pilot-product-grid button:hover{outline:2px solid #02b5d8}
+.pilot-product-grid button span{font-size:25px;color:#04a5c8}.pilot-product-grid button strong{font-size:14px}.pilot-product-grid button small{font-size:11px;color:#667e8a}
+.pilot-product-bar{background:#e7f7fa;border:1px solid #9fdce9;border-radius:9px;padding:10px 13px;margin:12px 0;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pilot-product-bar[hidden],.pilot-product-start[hidden]{display:none!important}
+.pilot-product-bar div{display:flex;flex-direction:column;gap:3px}.pilot-product-bar small{font-size:10px;color:#54737f}.pilot-product-bar strong{font-size:15px;color:#123442}
+#pilotChangeProduct{background:white;border:1px solid #7bcad8;border-radius:6px;padding:10px;color:#164453;font-weight:700;font-size:11px}
+main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none!important}
+#rollupPanel[hidden]{display:none!important}
+@media(max-width:420px){.pilot-product-start{padding:12px}.pilot-product-grid{gap:7px}.pilot-product-grid button{padding:12px;min-height:110px}.pilot-product-grid button strong{font-size:12px}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
+<section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
+<button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
+<button type="button" data-product="banner"><span>⚑</span><strong>Banner</strong><small>PVC · Ösen · Saum</small></button>
+<button type="button" data-product="rollup"><span>▤</span><strong>Roll-up</strong><small>Kassette · Montage</small></button>
+<button type="button" data-product="sticker"><span>▣</span><strong>Aufkleber &amp; Etiketten</strong><small>Konturschnitt · Nutzen</small></button>
+<button type="button" data-product="film"><span>▥</span><strong>Folien &amp; Beschriftung</strong><small>Klebefolie · Laminat</small></button>
+<button type="button" data-product="other"><span>⚙</span><strong>Sonstiges</strong><small>Freie Kalkulation</small></button>
+</div></section><div id="pilotProductBar" class="pilot-product-bar" hidden><div><small>PRODUKT</small><strong id="pilotProductName">—</strong></div><button type="button" id="pilotChangeProduct">PRODUKT WECHSELN</button></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button><button type="button" class="pilot-tab" data-jump="rollupPanel">Roll-up</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
 <div class="plate"><div class="title">JOB INPUT</div><div class="inputs"><div class="field"><label>BREITE (MM)</label><input id="w" type="number" min="1" value="500"></div><div class="field"><label>HÖHE (MM)</label><input id="h" type="number" min="1" value="300"></div><div class="field"><label>MENGE STK</label><input id="qty" type="number" min="1" value="10"></div></div><div class="field wide"><label>MATERIAL</label><select id="material"></select></div><div class="field wide"><label>AUSRICHTUNG</label><select id="orientation"><option value="auto">AUTO // MATERIAL SPAREN</option><option value="0">0° FIX // NICHT DREHEN</option><option value="90">90° FIX // DREHEN</option></select></div></div>
 <section class="pilot-format" id="pilotFormatPanel"><div class="title">FORMATVORSCHAU // ENDFORMAT · BESCHNITT · ÖSEN</div><svg id="pilotFormatSvg" viewBox="0 0 640 385" role="img" aria-label="Maßstäbliche Formatvorschau mit Beschnitt und Ösen"></svg><div class="pilot-note">Cyan: Endformat · Magenta: Beschnittzugabe · Ösen: aktuelle Auswahl. Die reale Nutzenaufteilung steht darunter.</div></section>
@@ -648,6 +671,51 @@ renderEye();
  window.pilotRollupBackup=()=>systems.map(x=>({...x}));
  window.pilotRollupRestore=data=>{if(Array.isArray(data)){systems=data;localStorage.setItem('mimakiRollupSystems',JSON.stringify(systems));drawDb();updateSelect();update()}};
  drawDb();updateSelect();update();
+})();
+</script>
+<script>
+(function(){
+ const main=document.querySelector('main.mc'),start=document.getElementById('pilotProductStart'),bar=document.getElementById('pilotProductBar'),material=document.getElementById('material'),roll=document.getElementById('rollupPanel');
+ const names={poster:'Poster & Plakate',banner:'Banner',rollup:'Roll-up',sticker:'Aufkleber & Etiketten',film:'Folien & Beschriftung',other:'Sonstiges'};
+ const patterns={poster:/poster|plakat|affichen|papier|photo|foto/i,banner:/banner|pvc|mesh/i,rollup:/roll.?up|display.?film|blockout|pet.?film/i,sticker:/ora|klebe|sticker|etikett|folie|vinyl/i,film:/ora|folie|vinyl|klebe/i};
+ let selected=null,originalOptions=[];
+ function syncOptions(product){
+  const value=material.value;
+  if(!originalOptions.length)originalOptions=[...material.options].map(o=>({value:o.value,label:o.textContent}));
+  const pat=patterns[product],preferred=pat?originalOptions.filter(o=>pat.test(o.label)):[];
+  // No category-specific material in database: preserve all materials instead of showing an empty dropdown.
+  const available=preferred.length?preferred:originalOptions;
+  material.replaceChildren(...available.map(o=>new Option(o.label,o.value)));
+  if(available.some(o=>o.value===value))material.value=value;
+  else if(product==='rollup'){const rollMaterial=document.getElementById('rollMaterial');if(available.some(o=>o.value===rollMaterial?.value))material.value=rollMaterial.value}
+  material.dispatchEvent(new Event('change',{bubbles:true}));
+ }
+ function setProduct(product){
+  if(!names[product])return;
+  selected=product;
+  main.classList.remove('pilot-awaiting-product');start.hidden=true;bar.hidden=false;
+  document.getElementById('pilotProductName').textContent=names[product];
+  roll.hidden=product!=='rollup';
+  const rollMode=document.getElementById('rollMode');
+  if(product==='rollup'){
+   // Keep the previously selected roll-up system/mode when switching back.
+   if(rollMode.value==='off')rollMode.value='complete';
+   rollMode.dispatchEvent(new Event('change',{bubbles:true}));
+  }else if(rollMode.value!=='off'){
+   rollMode.value='off';rollMode.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+  syncOptions(product);
+  // Product-specific optional production controls, without deleting any user-entered values.
+  const key=type=>document.querySelector('.key[data-key="'+type+'"]');
+  const enable=type=>{const el=key(type);if(el&&!el.classList.contains('on'))el.click()};
+  if(product==='banner')enable('eye');
+  if(product==='sticker')enable('contour');
+  document.getElementById('pilotInput')?.scrollIntoView({block:'start',behavior:'smooth'});
+ }
+ start.querySelectorAll('[data-product]').forEach(button=>button.addEventListener('click',()=>setProduct(button.dataset.product)));
+ document.getElementById('pilotChangeProduct').addEventListener('click',()=>{start.hidden=false;bar.hidden=true;main.classList.add('pilot-awaiting-product');window.scrollTo({top:0,behavior:'smooth'})});
+ main.classList.add('pilot-awaiting-product');
+ start.hidden=false;bar.hidden=true;roll.hidden=true;
 })();
 </script>
 </body></html>
