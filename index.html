@@ -813,7 +813,7 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v39">
+<script id="pilot-dtf-calculator-v40">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
  const ns='http://www.w3.org/2000/svg';
@@ -836,45 +836,63 @@ renderEye();
   if(!pieces.length)errors.push('Mindestens eine Motivposition auswählen.');
   if(pieces.length>4000)errors.push('Maximal 4.000 Motive pro Berechnung.');
   el('dtfWarning').textContent=errors.join(' ');if(errors.length)return;
-  // Shelf-based mixed packing: tall/large pieces first, then fill remaining horizontal gaps.
-  // A shelf retains a fixed height; rotations are permitted only if the rectangle fits that height.
-  pieces.sort((a,b)=>Math.max(b.w,b.h)-Math.max(a.w,a.h)||b.w*b.h-a.w*a.h);
-  const shelves=[];
-  for(const piece of pieces){
-   const orientations=[{w:piece.w,h:piece.h,rot:false}];
-   if(piece.w!==piece.h)orientations.push({w:piece.h,h:piece.w,rot:true});
-   let best=null;
-   for(let si=0;si<shelves.length;si++){
-    const sh=shelves[si];
-    for(const o of orientations){
-     if(o.h>sh.height+1e-7||sh.used+o.w>width+1e-7)continue;
-     const remaining=width-(sh.used+o.w),score=remaining+(sh.height-o.h)*.15;
-     if(!best||score<best.score)best={si,o,score};
+  // Free-rectangle 2D packing, with spacing reserved to the right and below each piece.
+  // Try both item orders; keep the shortest verified placement.
+  function pack(order){
+   const free=[{x:0,y:0,w:width,h:Math.max(10000,order.reduce((v,p)=>v+Math.max(p.w,p.h)+gap,0))}];
+   const placed=[];
+   const overlap=(a,b)=>a.x<b.x+b.w-1e-8&&a.x+a.w>b.x+1e-8&&a.y<b.y+b.h-1e-8&&a.y+a.h>b.y+1e-8;
+   for(const piece of order){
+    const opts=[{w:piece.w,h:piece.h,rot:false}];
+    if(piece.w!==piece.h)opts.push({w:piece.h,h:piece.w,rot:true});
+    let best=null;
+    for(const rect of free)for(const o of opts){
+     if(o.w>rect.w+1e-8||o.h>rect.h+1e-8)continue;
+     const score=Math.max(placed.reduce((m,p)=>Math.max(m,p.y+p.h),0),rect.y+o.h)*100000+rect.y*100+rect.x;
+     if(!best||score<best.score)best={x:rect.x,y:rect.y,w:o.w,h:o.h,rot:o.rot,score};
+    }
+    if(!best)return null;
+    const item={name:piece.name,x:best.x,y:best.y,w:best.w,h:best.h,rot:best.rot};
+    placed.push(item);
+    // Split every intersecting free region; virtual gap protects neighboring artwork.
+    const occupied={x:item.x,y:item.y,w:item.w+gap,h:item.h+gap};
+    for(let i=free.length-1;i>=0;i--){
+     const f=free[i];if(!overlap(f,occupied))continue;
+     free.splice(i,1);
+     const candidates=[
+      {x:f.x,y:f.y,w:occupied.x-f.x,h:f.h},
+      {x:occupied.x+occupied.w,y:f.y,w:f.x+f.w-occupied.x-occupied.w,h:f.h},
+      {x:f.x,y:f.y,w:f.w,h:occupied.y-f.y},
+      {x:f.x,y:occupied.y+occupied.h,w:f.w,h:f.y+f.h-occupied.y-occupied.h}
+     ];
+     for(const q of candidates)if(q.w>1e-7&&q.h>1e-7)free.push(q);
+    }
+    // Remove free rectangles fully contained by other free rectangles.
+    for(let i=free.length-1;i>=0;i--){
+     const f=free[i];
+     if(free.some((q,j)=>i!==j&&f.x>=q.x-1e-8&&f.y>=q.y-1e-8&&f.x+f.w<=q.x+q.w+1e-8&&f.y+f.h<=q.y+q.h+1e-8)){free.splice(i,1)}
     }
    }
-   if(best){
-    const sh=shelves[best.si],o=best.o;
-    sh.items.push({name:piece.name,x:sh.used,y:sh.y,w:o.w,h:o.h,rot:o.rot});
-    sh.used+=o.w+gap;
-   }else{
-    const valid=orientations.filter(o=>o.w<=width);
-    valid.sort((a,b)=>a.h-b.h||b.w-a.w);
-    const o=valid[0];
-    const y=shelves.length?shelves[shelves.length-1].y+shelves[shelves.length-1].height+gap:0;
-    shelves.push({y,height:o.h,used:o.w+gap,items:[{name:piece.name,x:0,y,w:o.w,h:o.h,rot:o.rot}]});
-   }
+   return {items:placed,length:placed.reduce((m,p)=>Math.max(m,p.y+p.h),0)};
   }
-  const length=shelves.length?shelves[shelves.length-1].y+shelves[shelves.length-1].height:0;
-  const count=pieces.length,meters=Math.ceil(length/10)/10;
+  const byArea=[...pieces].sort((a,b)=>b.w*b.h-a.w*a.h||Math.max(b.w,b.h)-Math.max(a.w,a.h));
+  const byLongSide=[...pieces].sort((a,b)=>Math.max(b.w,b.h)-Math.max(a.w,a.h)||b.w*b.h-a.w*a.h);
+  const candidates=[pack(byArea),pack(byLongSide)].filter(Boolean);
+  const solution=candidates.sort((a,b)=>a.length-b.length)[0];
+  if(!solution){el('dtfWarning').textContent='Keine gültige Platzierung gefunden.';return}
+  const placed=solution.items,length=solution.length,count=pieces.length,meters=Math.ceil(length/10)/10;
+  // Independent geometric verification: sheet bounds and minimum spacing between all artwork.
+  const invalid=placed.some((p,i)=>p.x<0||p.y<0||p.x+p.w>width+1e-7||placed.slice(i+1).some(q=>p.x<q.x+q.w+gap-1e-7&&p.x+p.w+gap>q.x+1e-7&&p.y<q.y+q.h+gap-1e-7&&p.y+p.h+gap>q.y+1e-7));
+  if(invalid){el('dtfWarning').textContent='Sicherheitsprüfung der Motivabstände fehlgeschlagen. Bitte nicht bestellen.';return}
   const info=document.createElement('div');info.className='dtf-legend';
-  info.textContent='Gemischte Anordnung · '+fmt(width)+' cm breit × '+fmt(length)+' cm belegt · '+count+' Motive · '+shelves.length+' Reihen';
+  info.textContent='Gemischte Anordnung · '+fmt(width)+' cm breit × '+fmt(length)+' cm belegt · '+count+' Motive · 2D-Flächenbelegung';
   preview.append(info);
   const legend=document.createElement('div');legend.className='dtf-legend';legend.textContent=types.filter(t=>t.per).map(t=>t.name+' '+fmt(t.w)+' × '+fmt(t.h)+' cm ('+(qty*t.per)+'×)').join(' · ');preview.append(legend);
   const scale=5,px=width*scale,py=Math.max(1,length*scale);
   const scroll=document.createElement('div');scroll.className='dtf-scroll';
   const svg=make('svg',{viewBox:'0 0 '+(px+20)+' '+(py+20),width:px+20,height:py+20,role:'img','aria-label':'Optimierte Gang-Sheet-Anordnung: '+count+' Motive auf '+fmt(length)+' Zentimetern'});
   svg.append(make('rect',{x:10,y:10,width:px,height:py,fill:'#fff',stroke:'#607f89','stroke-width':1.2}));
-  for(const sh of shelves)for(const p of sh.items){
+  for(const p of placed){
    const x=10+p.x*scale,y=10+p.y*scale,w=p.w*scale,h=p.h*scale;
    const rect=make('rect',{x,y,width:w,height:h,rx:1,fill:p.name==='Brust'?'#9be1e7':'#f6c48f',stroke:p.name==='Brust'?'#147b8c':'#b46d28','stroke-width':.7});svg.append(rect);
    if(w>=36&&h>=20)svg.append(make('text',{x:x+w/2,y:y+h/2,'text-anchor':'middle','dominant-baseline':'middle','font-size':Math.min(10,w/5,h/2.5),fill:'#27434b'},p.name));
@@ -883,7 +901,7 @@ renderEye();
   const material=meters*n('dtfSheetPrice'),textile=el('dtfTextileMode').value==='own'?qty*n('dtfTextilePrice'):0;
   const labor=(n('dtfSetup')/60+count*(n('dtfPressSeconds')+n('dtfCutSeconds'))/3600)*n('dtfHourly');
   const costs=material+textile+labor+n('dtfOther'),price=costs*Math.max(1,n('dtfFactor'));
-  const p=document.createElement('p');p.textContent='Benötigte Länge: '+fmt(length)+' cm · kalkulierte Bestelllänge: '+fmt(meters)+' lfm (auf 10 cm aufgerundet). Gemischte Reihenbelegung, keine Garantie für mathematisch optimale Ausnutzung.';box.append(p);
+  const p=document.createElement('p');p.textContent='Benötigte Länge: '+fmt(length)+' cm · kalkulierte Bestelllänge: '+fmt(meters)+' lfm (auf 10 cm aufgerundet). 2D-Freiflächenbelegung mit geprüftem Motivabstand; keine Garantie für mathematisch optimale Ausnutzung.';box.append(p);
   const table=document.createElement('table');
   for(const [a,b] of [['Gang Sheet ('+fmt(meters)+' lfm)',eur(material)],['Textilien',eur(textile)],['Rüsten / Pressen / Zuschneiden',eur(labor)],['Weitere Kosten',eur(n('dtfOther'))],['Selbstkosten',eur(costs)],['Verkaufspreis gesamt',eur(price)],['Verkaufspreis je Textil',eur(price/qty)]]){const tr=document.createElement('tr');for(const t of [a,b]){const td=document.createElement('td');td.textContent=t;tr.append(td)}table.append(tr)}box.append(table);
  }
