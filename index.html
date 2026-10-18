@@ -386,7 +386,7 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 #pilotDocumentPage .doc-sign{margin-top:70px;gap:35px}
 @media(max-width:440px){#pilotDocumentPage .doc-meta{gap:10px 12px}#pilotDocumentPage .doc-checks{gap:10px}}
 @media print{#pilotDocumentPage .doc-head,#pilotDocumentPage .doc-meta,#pilotDocumentPage .doc-positions,#pilotDocumentPage .doc-total,#pilotDocumentPage .doc-note,#pilotDocumentPage .doc-checks,#pilotDocumentPage .doc-sign{break-inside:avoid}}
-</style><style id="pilot-documents-v72">#workOrderPanel .pilot-doc-actions button{background:#06b5d4!important;border-color:#069cba!important;color:#103844!important}#productionPanel #productionSave{background:#edf5f7!important;color:#245665!important;border:1px solid #a9cbd4!important;box-shadow:none!important;min-height:42px!important;font:700 12px Arial,sans-serif!important;letter-spacing:.025em!important}</style><style id="pilot-documents-v73">#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye{border:1px solid #d3e2e7;padding:8px;background:#f8fbfc;max-height:56mm;overflow:hidden}#pilotDocumentPage .doc-nest svg,#pilotDocumentPage .doc-eye svg{display:block;width:100%;height:auto;max-height:52mm}#pilotDocumentPage .doc-eye{max-height:45mm}#pilotDocumentPage .doc-eye svg{max-height:41mm}#pilotDocumentPage .doc-task{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #e4ecef}#pilotDocumentPage .doc-task small{margin-left:auto;color:#5e7780;text-align:right;max-width:55%}#pilotDocumentPage .doc-box{display:inline-block;width:12px;height:12px;flex:0 0 12px;border:1px solid #49636c;margin-top:1px}@media print{#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye,#pilotDocumentPage .doc-task{break-inside:avoid}}</style></head><body><main class="mc">
+</style><style id="pilot-documents-v72">#workOrderPanel .pilot-doc-actions button{background:#06b5d4!important;border-color:#069cba!important;color:#103844!important}#productionPanel #productionSave{background:#edf5f7!important;color:#245665!important;border:1px solid #a9cbd4!important;box-shadow:none!important;min-height:42px!important;font:700 12px Arial,sans-serif!important;letter-spacing:.025em!important}</style><style id="pilot-documents-v73">#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye{border:1px solid #d3e2e7;padding:8px;background:#f8fbfc;max-height:56mm;overflow:hidden}#pilotDocumentPage .doc-nest svg,#pilotDocumentPage .doc-eye svg{display:block;width:100%;height:auto;max-height:52mm}#pilotDocumentPage .doc-eye{max-height:45mm}#pilotDocumentPage .doc-eye svg{max-height:41mm}#pilotDocumentPage .doc-task{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid #e4ecef}#pilotDocumentPage .doc-task small{margin-left:auto;color:#5e7780;text-align:right;max-width:55%}#pilotDocumentPage .doc-box{display:inline-block;width:12px;height:12px;flex:0 0 12px;border:1px solid #49636c;margin-top:1px}@media print{#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye,#pilotDocumentPage .doc-task{break-inside:avoid}}</style><style id="pilot-documents-v75">#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye{max-height:none!important;overflow:visible!important}#pilotDocumentPage .doc-nest svg{max-height:70mm!important;width:100%!important;height:auto!important}#pilotDocumentPage .doc-eye svg{max-height:55mm!important}@media print{#pilotDocumentPage{min-height:0!important}#pilotDocumentPage .doc-nest,#pilotDocumentPage .doc-eye,#pilotDocumentPage .doc-task{break-inside:avoid;page-break-inside:avoid}#pilotDocumentPage .doc-checks{break-inside:auto!important}}</style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
 <button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
@@ -1118,7 +1118,7 @@ function create(kind){
 get('dtfOfferPdf').addEventListener('click',()=>create('offer'));
 get('dtfJobPdf').addEventListener('click',()=>create('job'));
 })();
-</script><script id="pilot-global-documents-v74">
+</script><script id="pilot-global-documents-v75">
 (function(){
 const $=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),val=id=>$(id)?.value?.trim()||'',num=id=>Number($(id)?.value)||0;
 const euro=n=>n.toLocaleString('de-DE',{style:'currency',currency:'EUR'});
@@ -1130,7 +1130,7 @@ function ensureNumber(){const input=$('woNumber');if(input.value.trim())return i
 $('woNumber').value=nextNumber();
 $('woNumber').addEventListener('blur',()=>{if(!val('woNumber'))$('woNumber').value=nextNumber()});
 function enabled(key){const btn=document.querySelector('[data-key="'+key+'"]');return !!btn&&(btn.classList.contains('on')||btn.classList.contains('active')||btn.getAttribute('aria-pressed')==='true')}
-function nestSketch(){const svg=document.querySelector('#nestpreview svg');if(!svg)return '<p class="doc-muted">Keine Nutzenvorschau vorhanden.</p>';const copy=svg.cloneNode(true);copy.removeAttribute('width');copy.removeAttribute('height');copy.setAttribute('preserveAspectRatio','xMidYMid meet');return copy.outerHTML}
+function nestSketch(){const svg=document.querySelector('#nestpreview svg');if(!svg)return null;const copy=svg.cloneNode(true);copy.removeAttribute('width');copy.removeAttribute('height');copy.removeAttribute('style');copy.setAttribute('preserveAspectRatio','xMidYMid meet');return copy.outerHTML}
 function eyeSketch(){if(!enabled('eye'))return '';const points=typeof window.pilotEyeCandidates==='function'?window.pilotEyeCandidates().filter(p=>p.selected):[];const circles=points.map(p=>'<circle cx="'+(10+380*p.x).toFixed(2)+'" cy="'+(10+210*p.y).toFixed(2)+'" r="5" fill="#008eaa" stroke="#fff" stroke-width="1.5"/>').join('');return '<svg viewBox="0 0 400 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ösenpositionen"><rect x="10" y="10" width="380" height="210" fill="#e7f4f6" stroke="#416b76" stroke-width="2"/>'+circles+'</svg>'}
 function task(label,detail){return '<div class="doc-task"><span class="doc-box"></span><span>'+esc(label)+'</span><small>'+esc(detail||'')+'</small></div>'}
 function show(type){
@@ -1141,12 +1141,13 @@ function show(type){
  if(!customer){$('woStatus').textContent='Bitte zuerst den Kundennamen eintragen.';$('woCustomer').focus();return}
 
  const product=$('pilotProductName')?.textContent?.trim()||'Großformatdruck',title=val('woTitle')||product,material=$('material')?.selectedOptions?.[0]?.textContent||'—';
- const date=new Date(),format=d=>d.toLocaleDateString('de-DE'),valid=new Date(date.getTime()+Math.max(1,num('pilotPdfValidity'))*86400000);
+ const date=new Date(),format=d=>d.toLocaleDateString('de-DE'),valid=new Date(date.getTime()+Math.max(1,num('pilotPdfValidity'))*86400000),due=val('woDue'),dueFormatted=/^\d{4}-\d{2}-\d{2}$/.test(due)?due.slice(8,10)+'.'+due.slice(5,7)+'.'+due.slice(0,4):'Noch offen';
  const details='<div class="doc-meta"><div><span>KUNDE</span><strong>'+esc(customer)+'</strong></div><div><span>VORGANG</span><strong>'+esc(number)+'</strong></div><div><span>PRODUKT</span><strong>'+esc(title)+'</strong></div><div><span>FORMAT / AUFLAGE</span><strong>'+esc(w+' × '+h+' mm · '+qty+' Stück')+'</strong></div></div>'; 
  let content;
  if(type==='offer'){
  content='<div class="doc-label">KUNDENDOKUMENT</div><h1>Angebot</h1>'+details+'<h2>Leistungsübersicht</h2><table class="doc-positions"><thead><tr><th>Beschreibung</th><th class="doc-right">Menge</th><th class="doc-right">Einzelpreis netto</th></tr></thead><tbody>'+line(title,qty+' Stück',euro(total/qty))+'</tbody></table><div class="doc-total"><span>Gesamtbetrag netto</span><strong>'+esc(euro(total))+'</strong></div><p class="doc-muted">Angebotsdatum: '+esc(format(date))+' · Gültig bis: '+esc(format(valid))+'</p><p class="doc-muted">Alle Beträge netto. Steuerliche Behandlung und Lieferbedingungen vor Versand ergänzen bzw. prüfen.</p>';
  }else{
+ const nesting=nestSketch();if(!nesting){$('woStatus').textContent='Nutzenplan fehlt. Bitte Kalkulation aktualisieren.';return}
  const eyeCount=enabled('eye')?num('eyeq'):0;
  const eyeMode=val('eyePosition'),eyeDesc=eyeMode==='corners'?'4 Ecken':eyeMode==='50cm'?'umlaufend · max. '+num('eyeSpacing')+' mm':'individuell';
  const checks=[
@@ -1161,8 +1162,8 @@ function show(type){
  ].join('');
  const note=val('woNotes');
  content='<div class="doc-label">INTERNES PRODUKTIONSDOKUMENT</div><h1>Auftragstasche</h1>'+details+
- '<h2>Produktionsvorgaben</h2><table>'+row('Druckmaterial',material)+row('Endformat',w+' × '+h+' mm')+row('Auflage',qty+' Stück')+row('Beschnitt je Seite',num('gap')+' mm')+row('Zwischenschnitt',num('cut')+' mm')+row('Rollenverbrauch',$('lfm')?.textContent||'—')+row('Ausrichtung',$('nestorientation')?.textContent||'—')+row('Nutzen / Reihen',$('layout')?.textContent||'—')+row('Liefertermin',val('woDue')||'Noch offen')+'</table>'+
- '<h2>Nutzenplan / Bahnvorschau</h2><div class="doc-nest">'+nestSketch()+'</div>'+
+ '<h2>Produktionsvorgaben</h2><table>'+row('Druckmaterial',material)+row('Endformat',w+' × '+h+' mm')+row('Auflage',qty+' Stück')+row('Beschnitt je Seite',num('gap')+' mm')+row('Zwischenschnitt',num('cut')+' mm')+row('Rollenverbrauch',$('lfm')?.textContent||'—')+row('Ausrichtung',$('nestorientation')?.textContent||'—')+row('Nutzen / Reihen',$('layout')?.textContent||'—')+row('Liefertermin',dueFormatted)+'</table>'+
+ '<h2>Nutzenplan / Bahnvorschau</h2><div class="doc-nest">'+nesting+'</div>'+
  (enabled('eye')?'<h2>Ösenplan · '+eyeCount+' je Stück · '+(eyeCount*qty)+' gesamt</h2><div class="doc-eye">'+eyeSketch()+'</div>':'')+
  '<h2>Arbeitsanweisungen</h2><div class="doc-note">'+esc(note||'Keine besonderen Arbeitsanweisungen hinterlegt.')+'</div>'+
  '<h2>Produktionskontrolle</h2><div class="doc-checks">'+checks+'</div>'+
