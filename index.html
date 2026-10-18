@@ -813,7 +813,7 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v51">
+<script id="pilot-dtf-calculator-v52">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
  const ns='http://www.w3.org/2000/svg';
@@ -974,6 +974,12 @@ renderEye();
   const overview=document.createElement('div');overview.className='dtf-overview';
   const overviewTitle=document.createElement('div');overviewTitle.className='dtf-overview-title';overviewTitle.textContent='Gesamtübersicht · '+fmt(width)+' × '+fmt(length)+' cm';overview.append(overviewTitle);
   const mini=make('svg',{viewBox:'0 0 '+(width+2)+' '+(length+2),role:'img','aria-label':'Gesamtübersicht aller '+count+' Motive'});
+  // Set explicit proportional pixel dimensions: iOS Safari may ignore CSS max-height on intrinsic SVGs.
+  const miniHeight=Math.min(400,(length+2)*3);
+  const miniWidth=miniHeight*(width+2)/(length+2);
+  mini.style.setProperty('height',miniHeight+'px','important');
+  mini.style.setProperty('width',miniWidth+'px','important');
+  mini.style.setProperty('max-height','400px','important');
   mini.append(make('rect',{x:1,y:1,width,height:length,fill:'#fff',stroke:'#607f89','stroke-width':.35}));
   for(const p of placed)mini.append(make('rect',{x:1+p.x,y:1+p.y,width:p.w,height:p.h,fill:p.name==='Brust'?'#9be1e7':p.name==='Zusatz'?'#c9c5f2':'#f6c48f',stroke:p.name==='Brust'?'#147b8c':p.name==='Zusatz'?'#6d60a8':'#b46d28','stroke-width':.15}));
   overview.append(mini);preview.append(overview);
