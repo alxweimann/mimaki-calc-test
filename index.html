@@ -813,7 +813,7 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v48">
+<script id="pilot-dtf-calculator-v49">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
  const ns='http://www.w3.org/2000/svg';
@@ -921,9 +921,36 @@ renderEye();
    }
    return {items:placed,length:placed.reduce((m,p)=>Math.max(m,p.y+p.h),0),method:'Gemischte Restflächenbelegung'};
   }
+  // v49: enumerate orientations and row orders for all motif groups (up to three).
+  function packRowVariants(){
+   const groups=new Map();
+   for(const piece of pieces){const key=piece.name+'|'+piece.w+'|'+piece.h;if(!groups.has(key))groups.set(key,{piece,count:0});groups.get(key).count++}
+   const entries=[...groups.values()];if(entries.length>3)return null;
+   let best=null;
+   function explore(remaining,placed,y){
+    if(!remaining.length){
+     const length=placed.reduce((m,p)=>Math.max(m,p.y+p.h),0);
+     if(!best||length<best.length)best={items:placed,length,method:'Optimierte Motiv-Reihen'};
+     return;
+    }
+    for(let j=0;j<remaining.length;j++){
+     const {piece,count}=remaining[j],rest=remaining.filter((_,k)=>k!==j);
+     const opts=[{w:piece.w,h:piece.h,rot:false}];
+     if(piece.w!==piece.h)opts.push({w:piece.h,h:piece.w,rot:true});
+     for(const o of opts){
+      const across=Math.floor((width+gap)/(o.w+gap));if(across<1)continue;
+      const rows=Math.ceil(count/across),height=rows*o.h+(rows-1)*gap;
+      if(best&&y+height>best.length+1e-7)continue;
+      const added=Array.from({length:count},(_,i)=>({name:piece.name,x:(i%across)*(o.w+gap),y:y+Math.floor(i/across)*(o.h+gap),w:o.w,h:o.h,rot:o.rot}));
+      explore(rest,placed.concat(added),y+height+gap);
+     }
+    }
+   }
+   explore(entries,[],0);return best;
+  }
   const byArea=[...pieces].sort((a,b)=>b.w*b.h-a.w*a.h||Math.max(b.w,b.h)-Math.max(a.w,a.h));
   const byLongSide=[...pieces].sort((a,b)=>Math.max(b.w,b.h)-Math.max(a.w,a.h)||b.w*b.h-a.w*a.h);
-  const candidates=[pack(byArea),pack(byLongSide),packRows(),packMixed(byArea),packMixed(byLongSide)].filter(Boolean);
+  const candidates=[pack(byArea),pack(byLongSide),packRows(),packMixed(byArea),packMixed(byLongSide),packRowVariants()].filter(Boolean);
   const solution=candidates.sort((a,b)=>a.length-b.length)[0];
   if(!solution){el('dtfWarning').textContent='Keine gültige Platzierung gefunden.';return}
   const placed=solution.items,length=solution.length,count=pieces.length,meters=Math.ceil(length/10)/10;
