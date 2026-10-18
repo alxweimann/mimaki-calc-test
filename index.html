@@ -178,7 +178,7 @@ function applyCustom(){const mode=document.getElementById('eyePosition'),q=docum
 document.getElementById('eyeTopTwo').addEventListener('click',()=>{chosen=[1,2];applyCustom()});
 document.getElementById('eyeFour').addEventListener('click',()=>{chosen=[0,3,6,9];applyCustom()});
 document.getElementById('eyeClear').addEventListener('click',()=>{chosen=[];applyCustom()});
-window.getEyePlanSVG=()=>{const w=Number(document.getElementById('w')?.value)||500,h=Number(document.getElementById('h')?.value)||300;return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" style="width:100%;max-height:52mm"><rect x="26" y="26" width="268" height="148" fill="#e3e9e0" stroke="#52755a" stroke-width="2"/>'+chosen.map(i=>'<circle cx="'+(26+positions[i].x*268)+'" cy="'+(26+positions[i].y*148)+'" r="6" fill="#31594b" stroke="white" stroke-width="2"/>').join('')+'<text x="160" y="105" text-anchor="middle" font-size="12" fill="#607868">'+w+' × '+h+' mm</text></svg>'};
+window.getEyePlanSVG=()=>{const w=Number(document.getElementById('w')?.value)||500,h=Number(document.getElementById('h')?.value)||300;return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" style="width:100%;max-height:52mm"><rect x="26" y="26" width="268" height="148" fill="#e3e9e0" stroke="#52755a" stroke-width="2"/>'+chosen.map(i=>'<circle cx="'+(36+positions[i].x*248)+'" cy="'+(36+positions[i].y*128)+'" r="6" fill="#31594b" stroke="white" stroke-width="2"/>').join('')+'<text x="160" y="105" text-anchor="middle" font-size="12" fill="#607868">'+w+' × '+h+' mm</text></svg>'};
 const extra=document.getElementById('extras');
 function syncEye(){
  const mode=document.getElementById('eyePosition'),q=document.getElementById('eyeq');
