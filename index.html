@@ -186,6 +186,17 @@ body{background:#e9eef1;color:#1b2932;padding:10px}
 #workOrderPanel,#productionPanel{background:#fff;border:1px solid #dce6eb}
 #workOrderPanel .title,#productionPanel .title{color:#1b3542}
 @media(max-width:650px){.pilot-calc #costs{grid-template-columns:1fr}.pilot-calc #costs .costrow{padding:8px 3px}.pilot-calc #costs .costrow:last-child{margin-top:7px}.key{min-height:47px}}
+
+/* PrintPilot polish: distinct price summaries and paired job metadata */
+.pilot-calc #costs .costrow:nth-last-child(2){margin-top:13px;margin-bottom:8px;background:#edf8fb;border:1px solid #b9e8f3}
+.pilot-calc #costs .costrow:last-child{margin-top:13px;margin-bottom:0;background:#c8f1fa;border:1px solid #59cce7}
+#workOrderPanel>.inputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;align-items:start}
+#workOrderPanel>.inputs .field{min-width:0;margin:0}
+#workOrderPanel>.inputs input{width:100%;min-width:0;box-sizing:border-box}
+#workOrderPanel #woNotes{box-sizing:border-box;min-height:84px;background:#f8fafb;color:#1c3540;border:1px solid #cbdbe1;border-radius:7px;font:13px Arial,sans-serif}
+#workOrderPanel #woPrint{background:#00b9e8!important;border:1px solid #00a2ce!important;color:#073441!important;border-radius:7px!important;font-weight:800}
+@media(max-width:650px){#workOrderPanel>.inputs{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 10px}#workOrderPanel>.inputs .field label{font-size:9px;letter-spacing:0}#workOrderPanel>.inputs input{font-size:12px;padding:9px 7px}#workOrderPanel #woDue{font-size:11px}}
+@media(max-width:355px){#workOrderPanel>.inputs{grid-template-columns:1fr}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">MIMAKI CALC</div><div class="model">CJV150-130 // COST COMPUTER</div></div><span class="badge">READY</span></div>
 <nav class="pilot-tabs" aria-label="Kalkulator Bereiche"><button type="button" class="pilot-tab active" data-jump="pilotInput">Material &amp; Format</button><button type="button" class="pilot-tab" data-jump="pilotNest">Nutzenplan</button><button type="button" class="pilot-tab" data-jump="eyeVisualPanel" data-enable="eye">Ösenplan</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="lam">Laminat</button><button type="button" class="pilot-tab" data-jump="extras" data-enable="trim">Zuschnitt</button></nav><div class="lcd"><div style="font-size:11px;letter-spacing:.15em">VK NETTO</div><div id="price" class="price">0,00 EUR</div><div class="lcdsub"><span id="perpiece"></span><span id="lfm"></span></div></div>
