@@ -318,7 +318,7 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 .mc .field select{padding-right:28px!important}
 .mc .field textarea,.mc #woNotes{height:auto!important;min-height:72px!important}
 .mc .field .hint,.mc .field small{margin-top:4px!important}
-</style></style><style id="pilot-finish-dynamic-v36">#pilotFinishingPanel .field[hidden]{display:none!important}#pilotFinishingPanel .inputs{grid-auto-flow:row!important}#pilotFinishingPanel .field:not(.wide){grid-column:auto!important}</style><style id="pilot-dtf-v37">#pilotDtfPanel[hidden]{display:none!important}main.mc.pilot-dtf > :not(.top):not(#pilotProductStart):not(#pilotDtfPanel):not(#pilotProductBar):not(#pilotProductHint){display:none!important}#pilotDtfPanel .dtf-result{background:#edf7f9;border:1px solid #b7dce4;border-radius:8px;padding:12px;margin:12px 0}#pilotDtfPanel table{width:100%;border-collapse:collapse;font-size:13px}#pilotDtfPanel td{padding:7px 2px;border-bottom:1px solid #cbdde2}#pilotDtfPanel td:last-child{text-align:right}</style><style id="pilot-dtf-v38">#pilotDtfPanel .dtf-group{margin:13px 0 18px}#pilotDtfPanel .dtf-group-title{font-weight:800;font-size:12px;letter-spacing:.08em;color:#137b92;border-bottom:1px solid #b5cbd0;padding:0 0 7px;margin-bottom:10px}#pilotDtfPanel .dtf-preview{background:#f7fbfc;border:1px solid #b7dce4;border-radius:8px;padding:12px;margin:12px 0}#pilotDtfPanel .dtf-preview svg{display:block;width:100%;height:auto;max-height:660px}#pilotDtfPanel .dtf-preview .dtf-legend{font-size:12px;margin-bottom:9px;color:#365564}#pilotDtfPanel .dtf-group .inputs{grid-template-columns:repeat(2,minmax(0,1fr))!important}</style></head><body><main class="mc">
+</style></style><style id="pilot-finish-dynamic-v36">#pilotFinishingPanel .field[hidden]{display:none!important}#pilotFinishingPanel .inputs{grid-auto-flow:row!important}#pilotFinishingPanel .field:not(.wide){grid-column:auto!important}</style><style id="pilot-dtf-v37">#pilotDtfPanel[hidden]{display:none!important}main.mc.pilot-dtf > :not(.top):not(#pilotProductStart):not(#pilotDtfPanel):not(#pilotProductBar):not(#pilotProductHint){display:none!important}#pilotDtfPanel .dtf-result{background:#edf7f9;border:1px solid #b7dce4;border-radius:8px;padding:12px;margin:12px 0}#pilotDtfPanel table{width:100%;border-collapse:collapse;font-size:13px}#pilotDtfPanel td{padding:7px 2px;border-bottom:1px solid #cbdde2}#pilotDtfPanel td:last-child{text-align:right}</style><style id="pilot-dtf-v38">#pilotDtfPanel .dtf-group{margin:13px 0 18px}#pilotDtfPanel .dtf-group-title{font-weight:800;font-size:12px;letter-spacing:.08em;color:#137b92;border-bottom:1px solid #b5cbd0;padding:0 0 7px;margin-bottom:10px}#pilotDtfPanel .dtf-preview{background:#f7fbfc;border:1px solid #b7dce4;border-radius:8px;padding:12px;margin:12px 0}#pilotDtfPanel .dtf-preview svg{display:block;width:100%;height:auto;max-height:660px}#pilotDtfPanel .dtf-preview .dtf-legend{font-size:12px;margin-bottom:9px;color:#365564}#pilotDtfPanel .dtf-group .inputs{grid-template-columns:repeat(2,minmax(0,1fr))!important}</style><style id="pilot-dtf-v39">#pilotDtfPanel .dtf-scroll{max-height:420px;overflow:auto;overscroll-behavior:contain;border:1px solid #d0e0e4;border-radius:6px;background:#fff}#pilotDtfPanel .dtf-scroll svg{display:block;width:auto!important;max-height:none!important;height:auto!important;max-width:none!important}#pilotDtfPanel .dtf-legend{line-height:1.5}</style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
 <button type="button" data-product="poster"><span>▧</span><strong>Poster &amp; Plakate</strong><small>Papier · Affichen</small></button>
@@ -813,45 +813,79 @@ renderEye();
  });
 })();
 </script>
-<script id="pilot-dtf-calculator-v37">
+<script id="pilot-dtf-calculator-v39">
 (function(){
  const root=document.getElementById('pilotDtfPanel'),el=id=>document.getElementById(id),n=id=>Math.max(0,Number(el(id).value)||0),fmt=x=>x.toLocaleString('de-DE',{maximumFractionDigits:2}),eur=x=>x.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+ const ns='http://www.w3.org/2000/svg';
+ const make=(tag,attrs,txt)=>{const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs||{}))e.setAttribute(k,String(v));if(txt!==undefined)e.textContent=txt;return e};
  function update(){
- const qty=Math.floor(n('dtfQty')),width=n('dtfSheetWidth'),gap=n('dtfGap')/10;
- const types=[['Brust',n('dtfFrontW'),n('dtfFrontH'),Math.floor(n('dtfFrontCount'))],['Rücken',n('dtfBackW'),n('dtfBackH'),Math.floor(n('dtfBackCount'))]];
- let len=0,count=0,notes=[],errors=[],blocks=[];
- if(qty<1||width<=0)errors.push('Stückzahl und Gang-Sheet-Breite müssen größer als null sein.');
- for(const [name,w,h,per] of types){
- if(per===0)continue;
- if(!w||!h){errors.push(name+': Motivgröße fehlt.');continue}
- if(!((w<=40&&h<=50)||(h<=40&&w<=50)))errors.push(name+': Motiv passt nicht auf die 40 × 50 cm Transferpresse.');
- const a=Math.floor((width+gap)/(w+gap)),b=Math.floor((width+gap)/(h+gap)),total=qty*per;
- const la=a>0?Math.ceil(total/a)*h:Infinity,lb=b>0?Math.ceil(total/b)*w:Infinity,rot=lb<la,across=rot?b:a,depth=rot?w:h;
- if(across<1){errors.push(name+': Motiv passt nicht auf das Gang Sheet.');continue}
- const rows=Math.ceil(total/across),used=rows*depth+Math.max(0,rows-1)*gap;
- blocks.push({name,w:rot?h:w,h:depth,across,rows,total,start:len,used,rot});len+=used;count+=total;notes.push(name+': '+total+' Motive, '+across+' nebeneinander, '+rows+' Reihen, '+fmt(used)+' cm'+(rot?' (90°)':''));
- }
- if(!count)errors.push('Mindestens eine Motivposition auswählen.');
- el('dtfWarning').textContent=errors.join(' ');
- const box=el('dtfResult'),preview=el('dtfPreview');box.replaceChildren();preview.replaceChildren();if(errors.length)return;
- const ns='http://www.w3.org/2000/svg',make=(tag,attrs,txt)=>{const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs||{}))e.setAttribute(k,String(v));if(txt!==undefined)e.textContent=txt;return e};
- const info=document.createElement('div');info.className='dtf-legend';info.textContent='Gang Sheet '+fmt(width)+' cm breit × '+fmt(len)+' cm Motivlänge · Brust türkis / Rücken orange';preview.append(info);
- const scale=6,px=width*scale,py=Math.max(1,len*scale),svg=make('svg',{viewBox:'0 0 '+(px+24)+' '+(py+24),role:'img','aria-label':'Gang Sheet mit '+count+' Motiven; Breite '+fmt(width)+' cm; belegte Länge '+fmt(len)+' cm'});
- svg.append(make('rect',{x:12,y:12,width:px,height:py,fill:'#ffffff',stroke:'#607f89','stroke-width':1.5}));
- for(const block of blocks){
-  const xstep=(block.w+gap)*scale,ystep=(block.h+gap)*scale;
-  for(let i=0;i<block.total;i++){
-   const col=i%block.across,row=Math.floor(i/block.across);
-   svg.append(make('rect',{x:12+col*xstep,y:12+(block.start*scale)+row*ystep,width:block.w*scale,height:block.h*scale,rx:2,fill:block.name==='Brust'?'#9be1e7':'#f6c48f',stroke:block.name==='Brust'?'#147b8c':'#b46d28','stroke-width':.8}));
+  const qty=Math.floor(n('dtfQty')),width=n('dtfSheetWidth'),gap=n('dtfGap')/10;
+  const types=[{name:'Brust',w:n('dtfFrontW'),h:n('dtfFrontH'),per:Math.floor(n('dtfFrontCount'))},{name:'Rücken',w:n('dtfBackW'),h:n('dtfBackH'),per:Math.floor(n('dtfBackCount'))}];
+  const box=el('dtfResult'),preview=el('dtfPreview');box.replaceChildren();preview.replaceChildren();
+  const errors=[],pieces=[];
+  if(qty<1||width<=0)errors.push('Stückzahl und Gang-Sheet-Breite müssen größer als null sein.');
+  for(const t of types){
+   if(!t.per)continue;
+   if(!t.w||!t.h){errors.push(t.name+': Motivgröße fehlt.');continue}
+   if(!((t.w<=40&&t.h<=50)||(t.h<=40&&t.w<=50)))errors.push(t.name+': Motiv passt nicht auf die 40 × 50 cm Transferpresse.');
+   if(Math.min(t.w,t.h)>width)errors.push(t.name+': Motiv passt nicht auf die Gang-Sheet-Breite.');
+   const count=qty*t.per;
+   if(count>3000){errors.push('Für die Vorschau maximal 3.000 Motive je Position eingeben.');continue}
+   for(let i=0;i<count;i++)pieces.push({name:t.name,w:t.w,h:t.h});
   }
- }
- preview.append(svg);
- const meters=Math.ceil(len/10)/10,material=meters*n('dtfSheetPrice'),textile=el('dtfTextileMode').value==='own'?qty*n('dtfTextilePrice'):0;
- const labor=(n('dtfSetup')/60+count*(n('dtfPressSeconds')+n('dtfCutSeconds'))/3600)*n('dtfHourly');
- const costs=material+textile+labor+n('dtfOther'),price=costs*Math.max(1,n('dtfFactor'));
- const p=document.createElement('p');p.textContent=notes.join(' | ');box.append(p);
- const table=document.createElement('table');
- for(const [a,b] of [['Gang Sheet ('+fmt(meters)+' lfm)',eur(material)],['Textilien',eur(textile)],['Rüsten / Pressen / Zuschneiden',eur(labor)],['Weitere Kosten',eur(n('dtfOther'))],['Selbstkosten',eur(costs)],['Verkaufspreis gesamt',eur(price)],['Verkaufspreis je Textil',eur(price/qty)]]){const tr=document.createElement('tr');for(const t of [a,b]){const td=document.createElement('td');td.textContent=t;tr.append(td)}table.append(tr)}box.append(table);
+  if(!pieces.length)errors.push('Mindestens eine Motivposition auswählen.');
+  if(pieces.length>4000)errors.push('Maximal 4.000 Motive pro Berechnung.');
+  el('dtfWarning').textContent=errors.join(' ');if(errors.length)return;
+  // Shelf-based mixed packing: tall/large pieces first, then fill remaining horizontal gaps.
+  // A shelf retains a fixed height; rotations are permitted only if the rectangle fits that height.
+  pieces.sort((a,b)=>Math.max(b.w,b.h)-Math.max(a.w,a.h)||b.w*b.h-a.w*a.h);
+  const shelves=[];
+  for(const piece of pieces){
+   const orientations=[{w:piece.w,h:piece.h,rot:false}];
+   if(piece.w!==piece.h)orientations.push({w:piece.h,h:piece.w,rot:true});
+   let best=null;
+   for(let si=0;si<shelves.length;si++){
+    const sh=shelves[si];
+    for(const o of orientations){
+     if(o.h>sh.height+1e-7||sh.used+o.w>width+1e-7)continue;
+     const remaining=width-(sh.used+o.w),score=remaining+(sh.height-o.h)*.15;
+     if(!best||score<best.score)best={si,o,score};
+    }
+   }
+   if(best){
+    const sh=shelves[best.si],o=best.o;
+    sh.items.push({name:piece.name,x:sh.used,y:sh.y,w:o.w,h:o.h,rot:o.rot});
+    sh.used+=o.w+gap;
+   }else{
+    const valid=orientations.filter(o=>o.w<=width);
+    valid.sort((a,b)=>a.h-b.h||b.w-a.w);
+    const o=valid[0];
+    const y=shelves.length?shelves[shelves.length-1].y+shelves[shelves.length-1].height+gap:0;
+    shelves.push({y,height:o.h,used:o.w+gap,items:[{name:piece.name,x:0,y,w:o.w,h:o.h,rot:o.rot}]});
+   }
+  }
+  const length=shelves.length?shelves[shelves.length-1].y+shelves[shelves.length-1].height:0;
+  const count=pieces.length,meters=Math.ceil(length/10)/10;
+  const info=document.createElement('div');info.className='dtf-legend';
+  info.textContent='Gemischte Anordnung · '+fmt(width)+' cm breit × '+fmt(length)+' cm belegt · '+count+' Motive · '+shelves.length+' Reihen';
+  preview.append(info);
+  const legend=document.createElement('div');legend.className='dtf-legend';legend.textContent=types.filter(t=>t.per).map(t=>t.name+' '+fmt(t.w)+' × '+fmt(t.h)+' cm ('+(qty*t.per)+'×)').join(' · ');preview.append(legend);
+  const scale=5,px=width*scale,py=Math.max(1,length*scale);
+  const scroll=document.createElement('div');scroll.className='dtf-scroll';
+  const svg=make('svg',{viewBox:'0 0 '+(px+20)+' '+(py+20),width:px+20,height:py+20,role:'img','aria-label':'Optimierte Gang-Sheet-Anordnung: '+count+' Motive auf '+fmt(length)+' Zentimetern'});
+  svg.append(make('rect',{x:10,y:10,width:px,height:py,fill:'#fff',stroke:'#607f89','stroke-width':1.2}));
+  for(const sh of shelves)for(const p of sh.items){
+   const x=10+p.x*scale,y=10+p.y*scale,w=p.w*scale,h=p.h*scale;
+   const rect=make('rect',{x,y,width:w,height:h,rx:1,fill:p.name==='Brust'?'#9be1e7':'#f6c48f',stroke:p.name==='Brust'?'#147b8c':'#b46d28','stroke-width':.7});svg.append(rect);
+   if(w>=36&&h>=20)svg.append(make('text',{x:x+w/2,y:y+h/2,'text-anchor':'middle','dominant-baseline':'middle','font-size':Math.min(10,w/5,h/2.5),fill:'#27434b'},p.name));
+  }
+  scroll.append(svg);preview.append(scroll);
+  const material=meters*n('dtfSheetPrice'),textile=el('dtfTextileMode').value==='own'?qty*n('dtfTextilePrice'):0;
+  const labor=(n('dtfSetup')/60+count*(n('dtfPressSeconds')+n('dtfCutSeconds'))/3600)*n('dtfHourly');
+  const costs=material+textile+labor+n('dtfOther'),price=costs*Math.max(1,n('dtfFactor'));
+  const p=document.createElement('p');p.textContent='Benötigte Länge: '+fmt(length)+' cm · kalkulierte Bestelllänge: '+fmt(meters)+' lfm (auf 10 cm aufgerundet). Gemischte Reihenbelegung, keine Garantie für mathematisch optimale Ausnutzung.';box.append(p);
+  const table=document.createElement('table');
+  for(const [a,b] of [['Gang Sheet ('+fmt(meters)+' lfm)',eur(material)],['Textilien',eur(textile)],['Rüsten / Pressen / Zuschneiden',eur(labor)],['Weitere Kosten',eur(n('dtfOther'))],['Selbstkosten',eur(costs)],['Verkaufspreis gesamt',eur(price)],['Verkaufspreis je Textil',eur(price/qty)]]){const tr=document.createElement('tr');for(const t of [a,b]){const td=document.createElement('td');td.textContent=t;tr.append(td)}table.append(tr)}box.append(table);
  }
  root.addEventListener('input',update);root.addEventListener('change',()=>{el('dtfTextilePrice').closest('.field').hidden=el('dtfTextileMode').value==='customer';update()});update();
 })();
