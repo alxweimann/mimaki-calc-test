@@ -389,6 +389,8 @@ function eyeInsetPoint(p){
 }
 const defaultEyePositions=positions.map(p=>({...p}));
 let chosen=[0,3,6,9];
+window.pilotEyeToggle=(i)=>{if(!Number.isInteger(i)||i<0||i>=positions.length)return;chosen=chosen.includes(i)?chosen.filter(n=>n!==i):[...chosen,i];applyCustom()};
+window.pilotEyeCandidates=()=>positions.map((p,i)=>({i,...eyeInsetPoint(p),selected:chosen.includes(i)}));
 function refreshEyeCount(){const q=document.getElementById('eyeq');if(!q)return;const count=chosen.filter(i=>Number.isInteger(i)&&i>=0&&i<positions.length).length;q.readOnly=true;if(Number(q.value)!==count){q.value=String(count);q.dispatchEvent(new Event('input',{bubbles:true}))}}
 function renderEye(){
  refreshEyeCount();
@@ -517,16 +519,11 @@ renderEye();
   const fontSize=Math.min(19,Math.max(10,bw/13),Math.max(10,bh/3));
   label(bx+bw/2,by+bh/2,fmt(w)+' × '+fmt(h)+' mm',ink,fontSize);
   if(b>0)label(320,375,'Beschnitt: '+fmt(b)+' mm je Seite',mg,12);
-  if(document.querySelector('.key[data-key="eye"]')?.classList.contains('on')&&Array.isArray(window.pilotEyePositions)){
-   const mode=document.getElementById('eyePosition')?.value;
-   const inset=Number(document.getElementById('eyeInset')?.value);
-   const cornerInset=Number.isFinite(inset)&&inset>=0&&inset*2<Math.min(w,h)?inset:25;
-   for(const p of window.pilotEyePositions){
-    // Corner preset positions are symbolic (0 / 1); display them at the real mm inset.
-    // Automatically distributed positions already carry their actual normalized mm coordinates.
-    const px=mode==='corners'?(p.x<=0.001?cornerInset/w:p.x>=0.999?1-cornerInset/w:p.x):p.x;
-    const py=mode==='corners'?(p.y<=0.001?cornerInset/h:p.y>=0.999?1-cornerInset/h:p.y):p.y;
-    add('circle',{cx:bx+px*bw,cy:by+py*bh,r:5.5,fill:'#00b9e8',stroke:'#102b37','stroke-width':2});
+  if(document.querySelector('.key[data-key="eye"]')?.classList.contains('on')&&window.pilotEyeCandidates){
+   for(const p of window.pilotEyeCandidates()){
+    const circle=add('circle',{cx:bx+p.x*bw,cy:by+p.y*bh,r:p.selected?7:6,fill:p.selected?'#00b9e8':'#fff',stroke:p.selected?'#123d4e':'#00b9e8','stroke-width':2.2,role:'button',tabindex:0,'aria-label':'Öse Position '+(p.i+1)+(p.selected?' entfernen':' setzen'),style:'cursor:pointer;pointer-events:all'});
+    circle.addEventListener('click',()=>window.pilotEyeToggle?.(p.i));
+    circle.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.pilotEyeToggle?.(p.i)}});
    }
   }
  }
