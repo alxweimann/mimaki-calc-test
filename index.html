@@ -409,6 +409,15 @@ main.mc.pilot-awaiting-product > :not(.top):not(#pilotProductStart){display:none
 #pilotDocumentPage .doc-total{margin:12px 0!important;padding:9px 0!important}
 #pilotDocumentPage .doc-muted{font-size:10px!important}
 @media print{@page{size:A4 portrait;margin:0}#pilotDocumentPage{box-sizing:border-box!important;width:210mm!important;height:297mm!important;max-height:297mm!important;min-height:297mm!important;padding:11mm 12mm!important;overflow:hidden!important}#pilotDocFit{transform-origin:top left!important}#pilotDocumentOverlay{overflow:visible!important}}
+</style><style id="pilot-documents-v78">
+#pilotDocumentPage .doc-ticket .doc-ticket-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:6px;border-bottom:2px solid #1c5263;color:#264c5b;font-size:10px;letter-spacing:.04em}
+#pilotDocumentPage .doc-ticket .doc-ticket-head span{font-weight:400;color:#6b7d85}
+#pilotDocumentPage .doc-ticket .doc-ticket-title{font-size:23px!important;margin:12px 0 12px!important;color:#1c3440}
+#pilotDocumentPage .doc-ticket .doc-meta{padding:10px 0!important}
+#pilotDocumentPage .doc-ticket h2{border-bottom:1px solid #d6e4e9;padding-bottom:4px;margin:12px 0 7px!important}
+#pilotDocumentPage .doc-ticket .doc-nest{background:#fff!important}
+#pilotDocumentPage .doc-ticket .doc-checks{grid-template-columns:1fr 1fr!important}
+@media print{#pilotDocumentPage .doc-ticket .doc-ticket-head{break-inside:avoid}}
 </style></head><body><main class="mc">
 <div class="top"><div><div class="brand">Mimaki Calc</div><div class="model">CJV150-130 · Kalkulation</div></div><span class="badge">READY</span></div>
 <section id="pilotProductStart" class="pilot-product-start" aria-label="Produkt auswählen"><div class="pilot-start-head"><div class="pilot-start-kicker">PRINTPILOT / NEUE KALKULATION</div><h2>Was möchten wir produzieren?</h2><p>Produkt wählen – anschließend erscheinen die passenden Einstellungen.</p></div><div class="pilot-product-grid">
@@ -1141,7 +1150,7 @@ function create(kind){
 get('dtfOfferPdf').addEventListener('click',()=>create('offer'));
 get('dtfJobPdf').addEventListener('click',()=>create('job'));
 })();
-</script><script id="pilot-global-documents-v77">
+</script><script id="pilot-global-documents-v78">
 (function(){
 const $=id=>document.getElementById(id),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),val=id=>$(id)?.value?.trim()||'',num=id=>Number($(id)?.value)||0;
 const euro=n=>n.toLocaleString('de-DE',{style:'currency',currency:'EUR'});
@@ -1197,7 +1206,7 @@ function show(type){
  task('Endkontrolle',''),task('Verpackung / Versand',window.pilotShippingCost?.().description||'')
  ].join('');
  const note=val('woNotes');
- content='<div class="doc-label">INTERNES PRODUKTIONSDOKUMENT</div><h1>Auftragstasche</h1>'+details+
+ content='<h1 class="doc-ticket-title">Auftragstasche</h1>'+details+
  '<h2>Produktionsvorgaben</h2><table>'+row('Druckmaterial',material)+row('Endformat',w+' × '+h+' mm')+row('Auflage',qty+' Stück')+row('Beschnitt je Seite',num('gap')+' mm')+row('Zwischenschnitt',num('cut')+' mm')+row('Rollenverbrauch',$('lfm')?.textContent||'—')+row('Ausrichtung',$('nestorientation')?.textContent||'—')+row('Nutzen / Reihen',$('layout')?.textContent||'—')+row('Liefertermin',dueFormatted)+'</table>'+
  '<h2>Nutzenplan / Bahnvorschau</h2><div class="doc-nest">'+nesting+'</div>'+
  (enabled('eye')?'<h2>Ösenplan · '+eyeCount+' je Stück · '+(eyeCount*qty)+' gesamt</h2><div class="doc-eye">'+eyeSketch()+'</div>':'')+
@@ -1206,7 +1215,7 @@ function show(type){
  '<div class="doc-sign"><div>Produktion · Datum / Unterschrift</div><div>Kontrolle · Datum / Unterschrift</div></div>';
  }
 
- $('pilotDocumentPage').innerHTML='<div id="pilotDocFit"><div class="doc-head"><div class="doc-brand">Print<span>Pilot</span></div><div class="doc-head-right">WEIMANN PRINT<br>'+esc(format(date))+'</div></div>'+content+'</div>';
+ $('pilotDocumentPage').innerHTML='<div id="pilotDocFit" class="'+(type==='ticket'?'doc-ticket':'doc-offer')+'">'+(type==='ticket'?'<div class="doc-ticket-head"><strong>WEIMANN PRINT</strong><span>'+esc(format(date))+'</span></div>':'<div class="doc-head"><div class="doc-brand">Print<span>Pilot</span></div><div class="doc-head-right">WEIMANN PRINT<br>'+esc(format(date))+'</div></div>')+content+'</div>';
  $('pilotDocPreviewTitle').textContent=type==='offer'?'Angebot · '+number:'Auftragstasche · '+number;
  const match=number.match(/^WP-(\d{4})-(\d+)$/);
  if(match&&match[1]===String(today.getFullYear())){try{const current=Number(localStorage.getItem(seqKey))||0;const chosen=Number(match[2]);if(chosen>current)localStorage.setItem(seqKey,String(chosen))}catch(e){}}
