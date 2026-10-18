@@ -379,12 +379,13 @@ el('woPrint').addEventListener('click',makeOrder);
 
 const visualPanel=document.getElementById('eyeVisualPanel'),visual=document.getElementById('eyeVisual');
 const positions=[{x:0,y:0},{x:0.15,y:0},{x:0.85,y:0},{x:1,y:0},{x:0,y:0.5},{x:1,y:0.5},{x:0,y:1},{x:0.15,y:1},{x:0.85,y:1},{x:1,y:1},{x:0.5,y:0},{x:0.5,y:1}];
+const defaultEyePositions=positions.map(p=>({...p}));
 let chosen=[0,3,6,9];
 function refreshEyeCount(){const q=document.getElementById('eyeq');if(!q)return;const count=chosen.filter(i=>Number.isInteger(i)&&i>=0&&i<positions.length).length;q.readOnly=true;if(Number(q.value)!==count){q.value=String(count);q.dispatchEvent(new Event('input',{bubbles:true}))}}
 function renderEye(){
- const active=document.querySelector('.key[data-key="eye"]')?.classList.contains('on');
- visualPanel.style.display=active?'block':'none';if(!active)return;
  refreshEyeCount();
+ const active=document.querySelector('.key[data-key="eye"]')?.classList.contains('on');
+ visualPanel.style.display=active?'block':'none';if(!active){window.pilotEyePositions=[];window.pilotRefreshFormat?.();return;}
  visual.replaceChildren();
  const w=Number(document.getElementById('w')?.value)||500,h=Number(document.getElementById('h')?.value)||300;
  visual.style.aspectRatio=w+'/'+h;
@@ -394,7 +395,7 @@ function renderEye(){
 }
 function applyCustom(){const mode=document.getElementById('eyePosition'),q=document.getElementById('eyeq');if(mode)mode.value='custom';if(q){q.readOnly=true;q.value=String(chosen.length);q.dispatchEvent(new Event('input',{bubbles:true}))}renderEye()}
 document.getElementById('eyeTopTwo').addEventListener('click',()=>{chosen=[1,2];applyCustom()});
-document.getElementById('eyeFour').addEventListener('click',()=>{chosen=[0,3,6,9];applyCustom()});
+document.getElementById('eyeFour').addEventListener('click',()=>{positions.splice(0,positions.length,...defaultEyePositions.map(p=>({...p})));chosen=[0,3,6,9];const mode=document.getElementById('eyePosition');if(mode)mode.value='corners';syncEye();renderEye()});
 document.getElementById('eyeClear').addEventListener('click',()=>{chosen=[];applyCustom()});
 function autoEye(){
  const w=Number(document.getElementById('w')?.value),h=Number(document.getElementById('h')?.value);
@@ -419,15 +420,24 @@ function syncEye(){
  const count=chosen.filter(i=>Number.isInteger(i)&&i>=0&&i<positions.length).length;
  if(count!==null&&Number(q.value)!==count){q.value=String(count);q.dispatchEvent(new Event('input',{bubbles:true}));}
 }
-extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){syncEye();setTimeout(syncEye,100)}});
-extra.addEventListener('input',e=>{if(e.target.id==='eyePosition')syncEye()});
-extra.addEventListener('click',e=>{if(e.target.id==='eyePosition')setTimeout(syncEye,300)});
-for(const id of ['w','h'])document.getElementById(id)?.addEventListener('change',()=>{if(document.getElementById('eyePosition')?.value==='50cm')autoEye();else syncEye()});
+// One authoritative mode-change handler: update positions before the price is recalculated.
+extra.addEventListener('change',e=>{
+ if(e.target.id!=='eyePosition')return;
+ const mode=e.target.value;
+ if(mode==='corners'){
+   // Auto-distribution replaces the position list; restore the canonical editor points.
+   positions.splice(0,positions.length,...defaultEyePositions.map(p=>({...p})));
+   chosen=[0,3,6,9];
+ }else if(mode==='50cm'){autoEye();return}
+ syncEye();renderEye();
+});
+for(const id of ['w','h'])document.getElementById(id)?.addEventListener('change',()=>{
+ if(document.getElementById('eyePosition')?.value==='50cm')autoEye();
+ else {syncEye();renderEye()}
+});
 new MutationObserver(()=>{syncEye();renderEye()}).observe(extra,{childList:true});
-// Reconcile stale default counts after each extras rebuild and whenever eyelets are activated.
 document.querySelector('.key[data-key="eye"]')?.addEventListener('click',()=>queueMicrotask(()=>{syncEye();renderEye()}));
 document.getElementById('qty')?.addEventListener('input',renderEye);
-extra.addEventListener('change',e=>{if(e.target.id==='eyePosition'){if(e.target.value==='corners')chosen=[0,3,6,9];if(e.target.value==='50cm'){autoEye()}syncEye();renderEye()}});
 renderEye();
 })();
 </script>
