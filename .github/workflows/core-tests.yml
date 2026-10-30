@@ -1,0 +1,16 @@
+name: Mimaki Calc 2.0 Core Tests
+on:
+  push:
+    branches:
+      - feature/mimaki-calc-2
+  workflow_dispatch:
+jobs:
+  core-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run pure calculation regression tests
+        run: node --test tests/*.test.mjs
